@@ -87,9 +87,11 @@ class _PageDriverState extends State<PageDriver> {
                                 showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
-                                          title: Text("Create new folder"),
+                                          title:
+                                              const Text("Create new folder"),
                                           content: Container(
-                                              height: 100, child: TextField()),
+                                              height: 100,
+                                              child: const TextField()),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(15)),
