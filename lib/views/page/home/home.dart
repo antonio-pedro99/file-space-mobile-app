@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
@@ -79,40 +80,87 @@ class _MyHomePageState extends State<MyHomePage> {
                     Flexible(
                         child: ListView(
                       children: const [
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.document),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.folder),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.document),
                         SizedBox(height: 8),
-                        FileTile(name: "Preview.png", size: "30 KB")
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.other)
                       ],
                     ))
                   ],
                 ),
               ))),
-    
     );
   }
 }
