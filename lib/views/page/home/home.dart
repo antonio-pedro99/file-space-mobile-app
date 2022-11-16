@@ -13,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -74,14 +75,64 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Recent Files",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: 15),
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  elevation: 3,
+                                  constraints: BoxConstraints(
+                                      maxHeight: size.height * .25,
+                                      minWidth: size.width),
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(24),
+                                          topRight: Radius.circular(24))),
+                                  builder: (context) {
+                                    return Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            const Text("Sort by"),
+                                            const SizedBox(
+                                              height: 24,
+                                            ),
+                                            Flexible(
+                                                child: ListView(
+                                              children: const [
+                                                ListTile(
+                                                  title: Text("Modified"),
+                                                ),
+                                                ListTile(
+                                                  title: Text("Name"),
+                                                ),
+                                                ListTile(
+                                                  title: Text("Size"),
+                                                )
+                                              ],
+                                            ))
+                                          ],
+                                        ));
+                                  });
+                            },
+                            icon: const Icon(Icons.keyboard_arrow_down,
+                                color: lightGrey),
+                            label: Text(
+                              "Recent Files",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontSize: 15),
+                            ),
+                          ),
                         ),
-                        const Icon(Icons.list)
+                        const Icon(Icons.list),
                       ],
                     ),
                     Flexible(

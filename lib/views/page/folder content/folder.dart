@@ -38,14 +38,18 @@ class _MyHomePageState extends State<FolderContentPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Recent Files",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: 15),
+                        TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.arrow_downward_outlined),
+                          label: Text(
+                            "Recent Files",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 15),
+                          ),
                         ),
-                        const Icon(Icons.list)
+                        const Icon(Icons.list),
                       ],
                     ),
                     Flexible(
