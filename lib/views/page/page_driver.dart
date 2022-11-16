@@ -74,16 +74,29 @@ class _PageDriverState extends State<PageDriver> {
                         ),
                         Flexible(
                             child: ListView(
-                          children: const [
-                            ListTile(
+                          children: [
+                            const ListTile(
                               leading: Icon(Icons.note_add_outlined),
                               title: Text("Upload a File"),
                             ),
                             ListTile(
-                              leading: Icon(Icons.folder_open_outlined),
-                              title: Text("Create New Folder"),
+                              leading: const Icon(Icons.folder_open_outlined),
+                              title: const Text("Create New Folder"),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          title: Text("Create new folder"),
+                                          content: Container(
+                                              height: 100, child: TextField()),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                        ));
+                              },
                             ),
-                            ListTile(
+                            const ListTile(
                               leading: Icon(Icons.upload_file),
                               title: Text("Upload from Computer"),
                             )
