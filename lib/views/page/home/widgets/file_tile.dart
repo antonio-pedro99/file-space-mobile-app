@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
@@ -18,29 +19,37 @@ class FileTile extends StatelessWidget {
   final String size;
   final FileType type;
 
+  IconData _buildIcon(FileType type) {
+    switch (type) {
+      case FileType.music:
+        return Icons.music_note;
+      case FileType.image:
+        return Icons.image;
+      case FileType.video:
+        return Icons.play_arrow;
+      case FileType.document:
+        return Icons.note;
+      case FileType.other:
+        return Icons.insert_drive_file;
+      case FileType.folder:
+        return Icons.folder;
+    }
+  }
+
+  void _onOpen(FileType type, BuildContext context) {
+    if (type == FileType.folder) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => FolderContentPage(title: name)));
+    } else {}
+  }
+
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
-    IconData _buildIcon(FileType type) {
-      switch (type) {
-        case FileType.music:
-          return Icons.music_note;
-        case FileType.image:
-          return Icons.image;
-        case FileType.video:
-          return Icons.play_arrow;
-        case FileType.document:
-          return Icons.note;
-        case FileType.other:
-          return Icons.devices_other;
-        case FileType.folder:
-          return Icons.folder;
-      }
-    }
-
     var color = magicColors[math.Random().nextInt(magicColors.length)];
     return ListTile(
+        onTap: () => _onOpen(type, context),
         leading: Container(
           height: 45,
           width: 45,
@@ -153,6 +162,7 @@ class FileTile extends StatelessWidget {
                       leading: Icon(Icons.drive_file_move_outlined),
                       title: Text("Move"),
                     ),
+                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.delete, color: Colors.red),
                       title: Text(

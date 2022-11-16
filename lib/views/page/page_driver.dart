@@ -42,6 +42,7 @@ class _PageDriverState extends State<PageDriver> {
       appBar: AppBar(),
       body: PageView(
         controller: controller,
+        physics: const NeverScrollableScrollPhysics(),
         children: AppPages.pages,
         onPageChanged: (v) {
           setState(() => currentPage = v);
