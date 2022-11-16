@@ -1,6 +1,6 @@
 {
-    "name": "client_app",
-    "short_name": "client_app",
+    "name": "space_client_app",
+    "short_name": "space_client_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

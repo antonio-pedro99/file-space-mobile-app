@@ -1,4 +1,4 @@
-# client_app
+# space_client_app
 
 A new Flutter project.
 

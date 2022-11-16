@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.client_app">
+    package="com.example.space_client_app">
    <application
-        android:label="client_app"
+        android:label="SpaceFile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
