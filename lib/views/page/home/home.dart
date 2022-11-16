@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
-import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -15,7 +14,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -67,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: blueOcean),
                           CategoryTile(
                               category: "Shared",
-                              icon: Icons.share_rounded,
+                              icon: Icons.folder_shared,
                               color: purple),
                         ],
                       ),

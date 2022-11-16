@@ -45,15 +45,15 @@ class CustomDrawer extends StatelessWidget {
             )),
           ),
           const ListTile(
-            leading: Icon(Icons.notifications_outlined, color: grey),
+            leading: Icon(Icons.notifications, color: grey),
             title: Text("Notifications"),
           ),
           const ListTile(
-            leading: Icon(Icons.security_update_outlined, color: grey),
+            leading: Icon(Icons.security_update, color: grey),
             title: Text("Upgrade Account"),
           ),
           const ListTile(
-            leading: Icon(Icons.settings_outlined, color: grey),
+            leading: Icon(Icons.settings, color: grey),
             title: Text("Settings"),
           )
         ],

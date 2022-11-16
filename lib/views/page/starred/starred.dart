@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
-import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 
 class StarredPage extends StatefulWidget {
@@ -13,7 +12,6 @@ class _MyHomePageState extends State<StarredPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -49,6 +47,7 @@ class _MyHomePageState extends State<StarredPage> {
                             prefixIcon: const Icon(Icons.search_sharp),
                           ),
                         )),
+                    const SizedBox(height: 24),
                     Flexible(
                         child: ListView(
                       children: const [

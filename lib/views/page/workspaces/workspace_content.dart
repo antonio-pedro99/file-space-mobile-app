@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/workspaces/widgets/workspace_tile.dart';
 
-class WorkSpacePage extends StatefulWidget {
-  const WorkSpacePage({Key? key}) : super(key: key);
+class WorkSpaceContentPage extends StatefulWidget {
+  const WorkSpaceContentPage({Key? key}) : super(key: key);
   @override
-  State<WorkSpacePage> createState() => _MyHomePageState();
+  State<WorkSpaceContentPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<WorkSpacePage> {
+class _MyHomePageState extends State<WorkSpaceContentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -46,7 +48,6 @@ class _MyHomePageState extends State<WorkSpacePage> {
                             prefixIcon: const Icon(Icons.search_sharp),
                           ),
                         )),
-                    const SizedBox(height: 24),
                     Flexible(
                         child: ListView(
                       children: const [

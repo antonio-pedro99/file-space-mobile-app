@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/pages.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
@@ -37,6 +38,8 @@ class _PageDriverState extends State<PageDriver> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: const CustomDrawer(),
+      appBar: AppBar(),
       body: PageView(
         controller: controller,
         children: AppPages.pages,
@@ -50,7 +53,7 @@ class _PageDriverState extends State<PageDriver> {
               context: context,
               elevation: 3,
               constraints: BoxConstraints(
-                  maxHeight: size.height * .30, minWidth: size.width),
+                  maxHeight: size.height * .2, minWidth: size.width),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -60,11 +63,31 @@ class _PageDriverState extends State<PageDriver> {
                 return Padding(
                     padding: const EdgeInsets.all(12),
                     child: Column(
-                      children: const [
-                        SizedBox(
+                      children: [
+                        const SizedBox(
                           height: 10,
                         ),
-                        Text("Add to SpaceFile")
+                        const Text("Add to SpaceFile"),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Flexible(
+                            child: ListView(
+                          children: const [
+                            ListTile(
+                              leading: Icon(Icons.note_add_outlined),
+                              title: Text("Upload a File"),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.folder_open_outlined),
+                              title: Text("Create New Folder"),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.upload_file),
+                              title: Text("Upload from Computer"),
+                            )
+                          ],
+                        ))
                       ],
                     ));
               });

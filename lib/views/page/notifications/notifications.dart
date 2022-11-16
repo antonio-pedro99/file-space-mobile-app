@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/views/page/home/menu.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class NotificationsPage extends StatefulWidget {
+  const NotificationsPage({Key? key}) : super(key: key);
   @override
-  State<ProfilePage> createState() => _MyHomePageState();
+  State<NotificationsPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<ProfilePage> {
+class _MyHomePageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +16,7 @@ class _MyHomePageState extends State<ProfilePage> {
             return [
               SliverAppBar(
                 forceElevated: innerBoxIsScrolled,
-                title: const Text("My Profile"),
+                title: const Text("Notifications"),
                 floating: true,
               )
             ];
