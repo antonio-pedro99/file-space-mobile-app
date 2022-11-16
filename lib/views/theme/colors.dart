@@ -6,7 +6,9 @@ const Color grey = Colors.grey;
 const Color lightGrey = Color(0xFFBDBEC2);
 const Color white = Colors.white;
 const Color purple = Color(0xFF7264FF);
-
+const Color deepPurple = Colors.deepPurple;
+const Color green = Colors.greenAccent;
+const Color blueOcean = Color(0xFF42D0BD);
 
 MaterialColor getMaterialColor(Color color) {
   List strengths = <double>[.05];

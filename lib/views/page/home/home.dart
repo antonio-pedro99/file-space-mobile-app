@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
+import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
+import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
+import 'package:space_client_app/views/theme/colors.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -33,20 +36,79 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                         width: 350,
                         child: TextField(
                           decoration: InputDecoration(
-                            filled: true,
-                            contentPadding: const EdgeInsets.all(8),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(24)),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
                             labelText: "Search for anything",
-                            prefixIcon: const Icon(Icons.search_sharp),
+                            prefixIcon: Icon(Icons.search_sharp),
                           ),
                         )),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      height: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          CategoryTile(
+                            category: "All",
+                            icon: Icons.apps_sharp,
+                            color: deepPurple,
+                          ),
+                          CategoryTile(
+                              category: "Folders",
+                              icon: Icons.folder,
+                              color: green),
+                          CategoryTile(
+                              category: "Files",
+                              icon: Icons.file_open,
+                              color: blueOcean),
+                          CategoryTile(
+                              category: "Shared",
+                              icon: Icons.share_rounded,
+                              color: purple),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [Text("Recent Files"), Icon(Icons.list)],
+                    ),
+                    Flexible(
+                        child: ListView(
+                      children: const [
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB"),
+                        SizedBox(height: 8),
+                        FileTile(name: "Preview.png", size: "30 KB")
+                      ],
+                    ))
                   ],
                 ),
               ))),
