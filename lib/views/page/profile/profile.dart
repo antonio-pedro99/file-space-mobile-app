@@ -32,29 +32,9 @@ class _MyHomePageState extends State<ProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        width: 350,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            contentPadding: const EdgeInsets.all(8),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(24)),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            labelText: "Search for anything",
-                            prefixIcon: const Icon(Icons.search_sharp),
-                          ),
-                        )),
-                  ],
+                  children: [],
                 ),
               ))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
