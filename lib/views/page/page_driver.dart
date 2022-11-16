@@ -53,7 +53,7 @@ class _PageDriverState extends State<PageDriver> {
               context: context,
               elevation: 3,
               constraints: BoxConstraints(
-                  maxHeight: size.height * .2, minWidth: size.width),
+                  maxHeight: size.height * .25, minWidth: size.width),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(

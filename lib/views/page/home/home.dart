@@ -52,20 +52,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: const [
                           CategoryTile(
                             category: "All",
-                            icon: Icons.apps_sharp,
+                            icon: Icons.apps_rounded,
                             color: deepPurple,
                           ),
                           CategoryTile(
                               category: "Folders",
-                              icon: Icons.folder,
+                              icon: Icons.folder_rounded,
                               color: green),
                           CategoryTile(
                               category: "Files",
-                              icon: Icons.file_open,
+                              icon: Icons.insert_drive_file_rounded,
                               color: blueOcean),
                           CategoryTile(
                               category: "Shared",
-                              icon: Icons.folder_shared,
+                              icon: Icons.folder_shared_rounded,
                               color: purple),
                         ],
                       ),
@@ -88,9 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: ListView(
                       children: const [
                         FileTile(
-                            name: "Preview.png",
+                            name: "Preview.mp3",
                             size: "30 KB",
-                            type: FileType.image),
+                            type: FileType.music),
                         SizedBox(height: 8),
                         FileTile(
                             name: "Preview.png",
@@ -117,18 +117,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             type: FileType.image),
                         SizedBox(height: 8),
                         FileTile(
-                            name: "Preview.png",
+                            name: "Assignments",
                             size: "30 KB",
                             type: FileType.folder),
                         SizedBox(height: 8),
                         FileTile(
                             name: "Preview.png",
                             size: "30 KB",
-                            type: FileType.image),
+                            type: FileType.music),
                         FileTile(
-                            name: "Preview.png",
+                            name: "Videos",
                             size: "30 KB",
-                            type: FileType.image),
+                            type: FileType.folder),
                         SizedBox(height: 8),
                         FileTile(
                             name: "Preview.png",
