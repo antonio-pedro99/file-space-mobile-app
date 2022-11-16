@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/views/page/home/menu.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class storageOverviewPage extends StatefulWidget {
+  const storageOverviewPage({Key? key}) : super(key: key);
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<storageOverviewPage> createState() => _storageOverviewPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _storageOverviewPageState extends State<storageOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
+                centerTitle: true,
                 forceElevated: innerBoxIsScrolled,
-                title: const Text("Home"),
+                title: const Text("Overview"),
                 floating: true,
               )
             ];
