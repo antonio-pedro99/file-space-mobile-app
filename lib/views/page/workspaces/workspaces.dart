@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
+import 'package:space_client_app/views/page/workspaces/widgets/workspace_tile.dart';
+import 'package:space_client_app/views/theme/colors.dart';
 
 class WorkSpacePage extends StatefulWidget {
   const WorkSpacePage({Key? key}) : super(key: key);
@@ -47,6 +49,18 @@ class _MyHomePageState extends State<WorkSpacePage> {
                             prefixIcon: const Icon(Icons.search_sharp),
                           ),
                         )),
+                    Flexible(
+                        child: ListView(
+                      children: const [
+                        WorkSpaceTile(),
+                        SizedBox(height: 16),
+                        WorkSpaceTile(),
+                        SizedBox(height: 16),
+                        WorkSpaceTile(),
+                        SizedBox(height: 16),
+                        WorkSpaceTile()
+                      ],
+                    ))
                   ],
                 ),
               ))),

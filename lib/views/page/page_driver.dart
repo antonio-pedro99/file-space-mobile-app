@@ -18,19 +18,58 @@ class _PageDriverState extends State<PageDriver> {
     Icons.person
   ];
 
+  int currentPage = 0;
+  late PageController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: currentPage);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: PageView(
-        controller: AppPages.controller,
+        controller: controller,
         children: AppPages.pages,
         onPageChanged: (v) {
-          setState(() => AppPages.currentPage = v);
+          setState(() => currentPage = v);
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              elevation: 3,
+              constraints: BoxConstraints(
+                  maxHeight: size.height * .30, minWidth: size.width),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24))),
+              builder: (context) {
+                return Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: const [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("Add to SpaceFile")
+                      ],
+                    ));
+              });
+        },
+        tooltip: 'Open Add',
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -43,10 +82,10 @@ class _PageDriverState extends State<PageDriver> {
           inactiveColor: grey,
           activeColor: green,
           icons: icons,
-          activeIndex: AppPages.currentPage,
+          activeIndex: currentPage,
           onTap: (v) {
             setState(() {
-              AppPages.controller.animateToPage(v,
+              controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
                   curve: Curves.easeIn);
             });

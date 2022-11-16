@@ -11,6 +11,4 @@ class AppPages {
     WorkSpacePage(),
     ProfilePage(),
   ];
-  static int currentPage = 0;
-  static PageController controller = PageController(initialPage: currentPage);
 }

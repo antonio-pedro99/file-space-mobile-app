@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
+import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 
 class StarredPage extends StatefulWidget {
   const StarredPage({Key? key}) : super(key: key);
@@ -47,6 +49,87 @@ class _MyHomePageState extends State<StarredPage> {
                             prefixIcon: const Icon(Icons.search_sharp),
                           ),
                         )),
+                    Flexible(
+                        child: ListView(
+                      children: const [
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.document),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.folder),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.image),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.video),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.document),
+                        SizedBox(height: 8),
+                        FileTile(
+                            name: "Preview.png",
+                            size: "30 KB",
+                            type: FileType.other)
+                      ],
+                    ))
                   ],
                 ),
               ))),

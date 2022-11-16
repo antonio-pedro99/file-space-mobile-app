@@ -75,7 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 18),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [Text("Recent Files"), Icon(Icons.list)],
+                      children: [
+                        Text(
+                          "Recent Files",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontSize: 15),
+                        ),
+                        const Icon(Icons.list)
+                      ],
                     ),
                     Flexible(
                         child: ListView(
