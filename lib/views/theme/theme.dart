@@ -10,7 +10,6 @@ class MyAppTheme {
     appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        toolbarHeight: 100,
         color: Colors.transparent,
         titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
     dividerTheme: const DividerThemeData(thickness: 0.8),

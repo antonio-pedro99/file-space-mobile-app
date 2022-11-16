@@ -10,25 +10,53 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            ElevatedButton(onPressed: () {}, child: Text("Test"))
-          ],
-        ),
-      ),
+      body: NestedScrollView(
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                forceElevated: innerBoxIsScrolled,
+                title: const Text("Home"),
+                floating: true,
+              )
+            ];
+          },
+          body: SafeArea(
+              maintainBottomViewPadding: true,
+              top: false,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                        width: 350,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(8),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(24)),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            labelText: "Search for anything",
+                            prefixIcon: const Icon(Icons.search_sharp),
+                          ),
+                        )),
+                    const Text(
+                      'You have pushed the button this many times:',
+                    ),
+                    ElevatedButton(onPressed: () {}, child: Text("Test")),
+                  ],
+                ),
+              ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
