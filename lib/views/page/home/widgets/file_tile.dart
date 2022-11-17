@@ -5,7 +5,7 @@ import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
-const magicColors = [deepPurple, green, blueOcean, purple];
+const magicColors = [deepPurple, green, blueOcean, purple, pink];
 
 class FileTile extends StatelessWidget {
   const FileTile({

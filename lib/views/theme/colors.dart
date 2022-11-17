@@ -8,6 +8,7 @@ const Color white = Colors.white;
 const Color purple = Color(0xFF7264FF);
 const Color deepPurple = Colors.deepPurple;
 const Color green = Colors.greenAccent;
+const Color pink = Colors.pink;
 const Color blueOcean = Color(0xFF42D0BD);
 
 MaterialColor getMaterialColor(Color color) {
