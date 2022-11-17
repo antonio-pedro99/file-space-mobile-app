@@ -7,11 +7,13 @@ class CustomTextInput extends StatelessWidget {
       this.border = 24,
       this.hint,
       this.leading,
+      this.widget,
       this.trailing})
       : super(key: key);
 
   final String? hint;
   final double? border;
+  final double? widget;
   final IconData? leading;
   final IconData? trailing;
   final TextEditingController? controller;
@@ -19,7 +21,7 @@ class CustomTextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 350,
+        width: widget ?? 350,
         child: TextField(
           controller: controller,
           decoration: InputDecoration(
