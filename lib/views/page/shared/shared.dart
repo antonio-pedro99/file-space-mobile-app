@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
+import 'package:space_client_app/views/widgets/input_text.dart';
 
 class SharedPage extends StatefulWidget {
   const SharedPage({Key? key}) : super(key: key);
@@ -33,20 +34,10 @@ class _MyHomePageState extends State<SharedPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                        width: 350,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            contentPadding: const EdgeInsets.all(8),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(24)),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            labelText: "Search for anything",
-                            prefixIcon: const Icon(Icons.search_sharp),
-                          ),
-                        )),
+                    const CustomTextInput(
+                      hint: "Search for anything",
+                      leading: Icons.search,
+                    ),
                     const SizedBox(height: 24),
                     Flexible(
                         child: ListView(

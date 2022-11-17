@@ -5,6 +5,7 @@ import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/page/shared/shared.dart';
 import 'package:space_client_app/views/theme/colors.dart';
+import 'package:space_client_app/views/widgets/input_text.dart';
 import 'package:space_client_app/views/widgets/sort_navigator.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -39,14 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                        width: 350,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            labelText: "Search for anything",
-                            prefixIcon: Icon(Icons.search_sharp),
-                          ),
-                        )),
+                    const CustomTextInput(
+                      hint: "Search for anything",
+                      leading: Icons.search,
+                    ),
                     const SizedBox(height: 24),
                     SizedBox(
                       height: 100,
