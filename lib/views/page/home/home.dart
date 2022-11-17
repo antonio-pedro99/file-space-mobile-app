@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
+import 'package:space_client_app/views/widgets/sort_navigator.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -79,47 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           textDirection: TextDirection.rtl,
                           child: TextButton.icon(
                             onPressed: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  elevation: 3,
-                                  constraints: BoxConstraints(
-                                      maxHeight: size.height * .25,
-                                      minWidth: size.width),
-                                  backgroundColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(24),
-                                          topRight: Radius.circular(24))),
-                                  builder: (context) {
-                                    return Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Text("Sort by"),
-                                            const SizedBox(
-                                              height: 24,
-                                            ),
-                                            Flexible(
-                                                child: ListView(
-                                              children: const [
-                                                ListTile(
-                                                  title: Text("Modified"),
-                                                ),
-                                                ListTile(
-                                                  title: Text("Name"),
-                                                ),
-                                                ListTile(
-                                                  title: Text("Size"),
-                                                )
-                                              ],
-                                            ))
-                                          ],
-                                        ));
-                                  });
+                              openModalBottomSheet(
+                                  context,
+                                  const SortNavigator(
+                                    title: "Sort by",
+                                  ));
                             },
                             icon: const Icon(Icons.keyboard_arrow_down,
                                 color: lightGrey),
