@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 void openModalBottomSheet(BuildContext context, Widget content) {
   var size = MediaQuery.of(context).size;
 
-  int current = 0;
-
   showModalBottomSheet(
       context: context,
       elevation: 3,
@@ -20,12 +18,14 @@ void openModalBottomSheet(BuildContext context, Widget content) {
       });
 }
 
-Future<void> pickFileFromOs() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
+void pickFileFromOs(BuildContext context) {
+  FilePicker.platform.pickFiles().then((result) {
+    if (result != null) {
+      print(result.files);
+    } else {
+      print("Cant");
+    }
+  });
 
-  if (result != null) {
-    print(result.files);
-  } else {
-    print("Cant");
-  }
+  Navigator.of(context).pop();
 }

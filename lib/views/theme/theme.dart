@@ -28,6 +28,7 @@ class MyAppTheme {
         minVerticalPadding: 9,
         minLeadingWidth: 0,
         enableFeedback: true,
+        selectedColor: green,
         contentPadding: EdgeInsets.symmetric(horizontal: 25),
         visualDensity: VisualDensity.compact,
       ),

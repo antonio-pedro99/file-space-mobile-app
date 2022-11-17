@@ -83,10 +83,10 @@ class _PageDriverState extends State<PageDriver> {
                             Flexible(
                                 child: ListView(
                               children: [
-                                const ListTile(
-                                  leading: Icon(Icons.note_add_outlined),
-                                  title: Text("Upload a File"),
-                                  onTap: pickFileFromOs,
+                                ListTile(
+                                  leading: const Icon(Icons.note_add_outlined),
+                                  title: const Text("Upload a File"),
+                                  onTap: () => pickFileFromOs(context),
                                 ),
                                 ListTile(
                                   leading:
