@@ -7,7 +7,31 @@ import 'package:space_client_app/views/theme/colors.dart';
 
 const magicColors = [deepPurple, green, blueOcean, purple, pink];
 
-class FileTile extends StatelessWidget {
+abstract class FileTileType {}
+
+extension BuildIcon on FileTileType {
+  IconData getIcon(type) {
+    switch (type) {
+      case FileType.music:
+        return Icons.music_note;
+      case FileType.image:
+        return Icons.image;
+      case FileType.video:
+        return Icons.play_arrow;
+      case FileType.document:
+        return Icons.insert_drive_file;
+      case FileType.other:
+        return Icons.insert_drive_file;
+      case FileType.folder:
+        return Icons.folder;
+    }
+    return Icons.abc;
+  }
+
+  void openMenu(type, context) {}
+}
+
+class FileTile extends StatelessWidget with FileTileType {
   const FileTile({
     Key? key,
     required this.name,
@@ -18,23 +42,6 @@ class FileTile extends StatelessWidget {
   final String name;
   final String size;
   final FileType type;
-
-  IconData _buildIcon(FileType type) {
-    switch (type) {
-      case FileType.music:
-        return Icons.music_note;
-      case FileType.image:
-        return Icons.image;
-      case FileType.video:
-        return Icons.play_arrow;
-      case FileType.document:
-        return Icons.note;
-      case FileType.other:
-        return Icons.insert_drive_file;
-      case FileType.folder:
-        return Icons.folder;
-    }
-  }
 
   void _onOpen(FileType type, BuildContext context) {
     if (type == FileType.folder) {
@@ -55,7 +62,7 @@ class FileTile extends StatelessWidget {
           width: 45,
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(8)),
-          child: Icon(_buildIcon(type)),
+          child: Icon(getIcon(type)),
         ),
         title: Text(
           name,
@@ -66,7 +73,7 @@ class FileTile extends StatelessWidget {
             type != FileType.folder ? Text(size) : const Text("Last Modified"),
         trailing: IconButton(
           onPressed: () =>
-              showOptions(context, _buildIcon(type), name, color, type),
+              showOptions(context, getIcon(type), name, color, type),
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
