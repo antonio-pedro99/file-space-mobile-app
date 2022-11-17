@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 void openModalBottomSheet(BuildContext context, Widget content) {
@@ -17,4 +18,14 @@ void openModalBottomSheet(BuildContext context, Widget content) {
       builder: (context) {
         return content;
       });
+}
+
+Future<void> pickFileFromOs() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  if (result != null) {
+    print(result.files);
+  } else {
+    print("Cant");
+  }
 }

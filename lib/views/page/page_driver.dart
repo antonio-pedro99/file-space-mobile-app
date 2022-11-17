@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/pages.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -85,6 +86,7 @@ class _PageDriverState extends State<PageDriver> {
                                 const ListTile(
                                   leading: Icon(Icons.note_add_outlined),
                                   title: Text("Upload a File"),
+                                  onTap: pickFileFromOs,
                                 ),
                                 ListTile(
                                   leading:
