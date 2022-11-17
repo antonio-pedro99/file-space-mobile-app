@@ -71,17 +71,18 @@ class _SignupPageState extends State<SignupPage> {
                       CustomButton(
                         text: "Register",
                         textColor: white,
-                        color: deepPurple,
+                        color: purple,
                         widget: size.width * .5,
                       ),
                       const SizedBox(
                         height: 24,
                       ),
                       TextButton(
-                          onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
-                              ),
+                          onPressed: () => Navigator.of(context)
+                              .pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                  (route) => false),
                           child: const Text("already have an account? Login!"))
                     ],
                   ),

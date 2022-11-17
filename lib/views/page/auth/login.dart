@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
+import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
@@ -56,11 +57,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 24),
                       CustomButton(
-                        text: "Login",
-                        textColor: white,
-                        color: deepPurple,
-                        widget: size.width * .5,
-                      ),
+                          text: "Login",
+                          textColor: white,
+                          color: purple,
+                          widget: size.width * .5,
+                          onTap: () => Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const PageDriver()),
+                              (route) => false)),
                       const SizedBox(
                         height: 24,
                       ),
