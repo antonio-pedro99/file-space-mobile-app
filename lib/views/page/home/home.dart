@@ -3,6 +3,7 @@ import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
+import 'package:space_client_app/views/page/shared/shared.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/sort_navigator.dart';
 
@@ -52,24 +53,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          CategoryTile(
+                        children: [
+                          const CategoryTile(
                             category: "All",
                             icon: Icons.apps_rounded,
                             color: deepPurple,
                           ),
-                          CategoryTile(
+                          const CategoryTile(
                               category: "Folders",
                               icon: Icons.folder_rounded,
                               color: green),
-                          CategoryTile(
+                          const CategoryTile(
                               category: "Files",
                               icon: Icons.insert_drive_file_rounded,
                               color: blueOcean),
                           CategoryTile(
-                              category: "Shared",
-                              icon: Icons.folder_shared_rounded,
-                              color: purple),
+                            category: "Shared",
+                            icon: Icons.folder_shared_rounded,
+                            color: purple,
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const SharedPage()));
+                            },
+                          ),
                         ],
                       ),
                     ),
