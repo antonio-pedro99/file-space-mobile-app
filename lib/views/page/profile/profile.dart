@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/overview/storage_overview.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -96,10 +97,17 @@ class _MyHomePageState extends State<ProfilePage> {
                           style: textTheme.subtitle1!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w300),
                         ),
-                        Text(
-                          "0.0 GB of 2.0 GB used",
-                          style: textTheme.subtitle1!.copyWith(
-                              fontSize: 14, fontWeight: FontWeight.w300),
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const StorageOverviewPage()),
+                          ),
+                          child: Text(
+                            "0.0 GB of 2.0 GB used",
+                            style: textTheme.subtitle1!.copyWith(
+                                fontSize: 14, fontWeight: FontWeight.w300),
+                          ),
                         ),
                       ],
                     ),

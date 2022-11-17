@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/overview/storage_overview.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -35,9 +36,15 @@ class CustomDrawer extends StatelessWidget {
                 const SizedBox(height: 8),
                 const LinearProgressIndicator(),
                 const SizedBox(height: 2),
-                Text(
-                  "0.0% of 2.0 GB used",
-                  style: textTheme.subtitle1!.copyWith(fontSize: 14),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const StorageOverviewPage()),
+                  ),
+                  child: Text(
+                    "0.0% of 2.0 GB used",
+                    style: textTheme.subtitle1!.copyWith(fontSize: 14),
+                  ),
                 ),
                 ElevatedButton(
                     onPressed: () {}, child: const Text("Upgrade Storage"))
