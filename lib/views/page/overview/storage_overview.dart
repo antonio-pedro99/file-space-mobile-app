@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class storageOverviewPage extends StatefulWidget {
-  const storageOverviewPage({Key? key}) : super(key: key);
+class StorageOverviewPage extends StatefulWidget {
+  const StorageOverviewPage({Key? key}) : super(key: key);
   @override
-  State<storageOverviewPage> createState() => _storageOverviewPageState();
+  State<StorageOverviewPage> createState() => _StorageOverviewPageState();
 }
 
-class _storageOverviewPageState extends State<storageOverviewPage> {
+class _StorageOverviewPageState extends State<StorageOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
