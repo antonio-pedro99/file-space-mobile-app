@@ -47,11 +47,13 @@ class _LoginPageState extends State<LoginPage> {
                       const CustomTextInput(
                         hint: "Enter Email",
                         border: 16,
+                        leading: Icons.email,
                       ),
                       const SizedBox(
                         height: 16,
                       ),
                       const CustomTextInput(
+                        leading: Icons.lock,
                         hint: "Enter Password",
                         border: 16,
                       ),
