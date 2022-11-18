@@ -125,7 +125,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                 ),
                 Flexible(
                   child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: false,
                     children: const [
                       StatTile(

@@ -34,13 +34,14 @@ class _MyHomePageState extends State<StarredPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   const CustomTextInput(
+                    const CustomTextInput(
                       hint: "Search for anything",
                       leading: Icons.search,
                     ),
                     const SizedBox(height: 24),
                     Flexible(
                         child: ListView(
+                      physics: const BouncingScrollPhysics(),
                       children: const [
                         FileTile(
                             name: "Preview.png",

@@ -49,6 +49,7 @@ class _MyHomePageState extends State<WorkSpacePage> {
                     const SizedBox(height: 24),
                     Flexible(
                         child: ListView(
+                      physics: const BouncingScrollPhysics(),
                       children: const [
                         WorkSpaceTile(),
                         SizedBox(height: 16),

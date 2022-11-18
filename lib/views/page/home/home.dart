@@ -171,10 +171,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     Flexible(
                         child: !isList
                             ? GridView.extent(
+                                physics: const BouncingScrollPhysics(),
                                 maxCrossAxisExtent: 180,
                                 childAspectRatio: 3 / 4,
                                 children: selectFiles())
                             : ListView(
+                                physics: const BouncingScrollPhysics(),
                                 children: selectFiles(),
                               ))
                   ],

@@ -41,6 +41,7 @@ class _MyHomePageState extends State<SharedPage> {
                     const SizedBox(height: 24),
                     Flexible(
                         child: ListView(
+                      physics: const BouncingScrollPhysics(),
                       children: const [
                         FileTile(
                             name: "Preview.png",
