@@ -20,12 +20,12 @@ class StatTile extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
     return Container(
-        height: size.height * .08,
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration:
             BoxDecoration(color: blue, borderRadius: BorderRadius.circular(8)),
         child: ListTile(
+          minVerticalPadding: 0,
           onTap: () {},
           leading: Container(
             height: 45,
