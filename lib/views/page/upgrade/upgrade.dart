@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/models/subscription.dart';
+import 'package:space_client_app/views/page/upgrade/widgets/subscription_tile.dart';
 
 class UpgradeAccountPage extends StatefulWidget {
   const UpgradeAccountPage({Key? key}) : super(key: key);
@@ -7,6 +9,30 @@ class UpgradeAccountPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<UpgradeAccountPage> {
+  List<Subscription> subScriptions = [
+    Subscription(
+        features: [
+          "Store around3 300 photos",
+          "Backup photos automatically",
+          "Access any device"
+        ],
+        isCurrent: false,
+        price: 300,
+        storage: 100,
+        subScriptionName: "Space 100 GB"),
+    Subscription(
+        features: [
+          "Store around3 300 photos",
+          "Backup photos automatically",
+          "Access any device"
+        ],
+        isCurrent: false,
+        price: 300,
+        storage: 100,
+        subScriptionName: "Premium Max 2 TB"),
+  ];
+
+  int current = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +42,7 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
             return [
               SliverAppBar(
                 forceElevated: innerBoxIsScrolled,
-                title: const Text("Get Premium"),
+                title: const Text("Go Premium"),
                 floating: true,
               )
             ];
@@ -27,10 +53,16 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [],
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: subScriptions.length,
+                  itemBuilder: (context, index) {
+                    return SubscriptionTile(
+                      onTap: () => setState(() => current = index),
+                      subscription: subScriptions[index],
+                      isSelected: index == current,
+                    );
+                  },
                 ),
               ))),
     );
