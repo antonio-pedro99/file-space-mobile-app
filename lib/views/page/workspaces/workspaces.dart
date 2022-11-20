@@ -51,13 +51,29 @@ class _MyHomePageState extends State<WorkSpacePage> {
                         child: ListView(
                       physics: const BouncingScrollPhysics(),
                       children: const [
-                        WorkSpaceTile(),
+                        WorkSpaceTile(
+                          joiningDate: "Joined on 30th of March, 2022",
+                          space: "10 MB of 2GB",
+                          workSpaceName: "CSE569 Team",
+                        ),
                         SizedBox(height: 16),
-                        WorkSpaceTile(),
+                        WorkSpaceTile(
+                          joiningDate: "Joined on 30th of March, 2022",
+                          space: "10 MB of 2GB",
+                          workSpaceName: "CSE569 Team",
+                        ),
                         SizedBox(height: 16),
-                        WorkSpaceTile(),
+                        WorkSpaceTile(
+                          joiningDate: "Joined on 30th of March, 2022",
+                          space: "10 MB of 2GB",
+                          workSpaceName: "CSE569 Team",
+                        ),
                         SizedBox(height: 16),
-                        WorkSpaceTile()
+                        WorkSpaceTile(
+                          joiningDate: "Joined on 30th of March, 2022",
+                          space: "10 MB of 2GB",
+                          workSpaceName: "CSE569 Team",
+                        )
                       ],
                     ))
                   ],

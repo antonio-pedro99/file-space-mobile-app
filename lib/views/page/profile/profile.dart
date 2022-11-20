@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
+import 'package:space_client_app/views/page/upgrade/upgrade.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -61,7 +62,11 @@ class _MyHomePageState extends State<ProfilePage> {
                         ),
                         const Spacer(),
                         ElevatedButton(
-                            onPressed: () {}, child: const Text("Upgrade"))
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UpgradeAccountPage())),
+                            child: const Text("Upgrade"))
                       ],
                     ),
                     const SizedBox(height: 24),

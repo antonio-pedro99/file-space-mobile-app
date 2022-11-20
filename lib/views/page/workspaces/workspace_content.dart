@@ -50,15 +50,7 @@ class _MyHomePageState extends State<WorkSpaceContentPage> {
                         )),
                     Flexible(
                         child: ListView(
-                      children: const [
-                        WorkSpaceTile(),
-                        SizedBox(height: 16),
-                        WorkSpaceTile(),
-                        SizedBox(height: 16),
-                        WorkSpaceTile(),
-                        SizedBox(height: 16),
-                        WorkSpaceTile()
-                      ],
+                      children: const [],
                     ))
                   ],
                 ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/views/page/notifications/notifications.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
+import 'package:space_client_app/views/page/settings/settings.dart';
+import 'package:space_client_app/views/page/upgrade/upgrade.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -51,18 +54,22 @@ class CustomDrawer extends StatelessWidget {
               ],
             )),
           ),
-          const ListTile(
-            leading: Icon(Icons.notifications, color: grey),
-            title: Text("Notifications"),
+          ListTile(
+              leading: const Icon(Icons.notifications, color: grey),
+              title: const Text("Notifications"),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const NotificationsPage()))),
+          ListTile(
+            leading: const Icon(Icons.security_update, color: grey),
+            title: const Text("Upgrade Account"),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const UpgradeAccountPage())),
           ),
-          const ListTile(
-            leading: Icon(Icons.security_update, color: grey),
-            title: Text("Upgrade Account"),
-          ),
-          const ListTile(
-            leading: Icon(Icons.settings, color: grey),
-            title: Text("Settings"),
-          )
+          ListTile(
+              leading: const Icon(Icons.settings, color: grey),
+              title: const Text("Settings"),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SettingsPage())))
         ],
       ),
     );

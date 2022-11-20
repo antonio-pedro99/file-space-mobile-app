@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/views/page/home/menu.dart';
 
-import 'package:space_client_app/views/widgets/input_text.dart';
-
-class CategoryContentPage extends StatefulWidget {
-  const CategoryContentPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class UpgradeAccountPage extends StatefulWidget {
+  const UpgradeAccountPage({Key? key}) : super(key: key);
   @override
-  State<CategoryContentPage> createState() => _MyHomePageState();
+  State<UpgradeAccountPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<CategoryContentPage> {
+class _MyHomePageState extends State<UpgradeAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
                 forceElevated: innerBoxIsScrolled,
-                title: Text(widget.title),
+                title: const Text("Get Premium"),
                 floating: true,
               )
             ];
@@ -36,16 +30,7 @@ class _MyHomePageState extends State<CategoryContentPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CustomTextInput(
-                      hint: "Search for anything",
-                      leading: Icons.search,
-                    ),
-                    Flexible(
-                        child: ListView(
-                      children: const [],
-                    ))
-                  ],
+                  children: [],
                 ),
               ))),
     );
