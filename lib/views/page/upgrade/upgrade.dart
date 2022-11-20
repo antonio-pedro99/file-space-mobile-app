@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/data/models/subscription.dart';
 import 'package:space_client_app/views/page/upgrade/widgets/subscription_tile.dart';
+import 'package:space_client_app/views/theme/colors.dart';
+import 'package:space_client_app/views/widgets/button_text.dart';
 
 class UpgradeAccountPage extends StatefulWidget {
   const UpgradeAccountPage({Key? key}) : super(key: key);
@@ -65,6 +67,14 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
                   },
                 ),
               ))),
+      bottomNavigationBar: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: CustomButton(
+          text: "Upgrade now",
+          textColor: white,
+          color: deepPurple,
+        ),
+      ),
     );
   }
 }
