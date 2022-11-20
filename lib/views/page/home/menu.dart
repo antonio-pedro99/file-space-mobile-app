@@ -50,7 +50,12 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {}, child: const Text("Upgrade Storage"))
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const UpgradeAccountPage()));
+                    },
+                    child: const Text("Upgrade Storage"))
               ],
             )),
           ),
