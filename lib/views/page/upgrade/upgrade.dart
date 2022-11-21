@@ -21,7 +21,7 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
         isCurrent: false,
         price: 300,
         storage: 100,
-        subScriptionName: "Space 100 GB"),
+        subScriptionName: "Basic Plan Space 100 GB"),
     Subscription(
         features: [
           "Store around3 300 photos",

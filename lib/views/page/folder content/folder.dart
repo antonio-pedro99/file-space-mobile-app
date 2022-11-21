@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/functions.dart';
-import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/sort_navigator.dart';
@@ -67,85 +67,13 @@ class _MyHomePageState extends State<FolderContentPage> {
                       ],
                     ),
                     Flexible(
-                        child: ListView(
-                      children: const [
-                        FileTile(
-                            name: "Preview.mp3",
-                            size: "30 KB",
-                            type: FileType.music),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.document),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Assignments",
-                            size: "30 KB",
-                            type: FileType.folder),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.music),
-                        FileTile(
-                            name: "Videos",
-                            size: "30 KB",
-                            type: FileType.folder),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.document),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.other)
-                      ],
+                        child: ListView.builder(
+                      itemCount: MockRepository.getAllFiles().length,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return FileTile(
+                            object: MockRepository.getAllFiles()[index]);
+                      },
                     ))
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
@@ -40,86 +41,13 @@ class _MyHomePageState extends State<StarredPage> {
                     ),
                     const SizedBox(height: 24),
                     Flexible(
-                        child: ListView(
+                        child: ListView.builder(
+                      itemCount: MockRepository.getAllFiles().length,
                       physics: const BouncingScrollPhysics(),
-                      children: const [
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.document),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.folder),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.image),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.video),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.document),
-                        SizedBox(height: 8),
-                        FileTile(
-                            name: "Preview.png",
-                            size: "30 KB",
-                            type: FileType.other)
-                      ],
+                      itemBuilder: (context, index) {
+                        return FileTile(
+                            object: MockRepository.getAllFiles()[index]);
+                      },
                     ))
                   ],
                 ),

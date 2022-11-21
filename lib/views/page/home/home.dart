@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
@@ -18,37 +20,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isList = true;
 
-  List<Widget> selectFiles() {
+  /* List<Widget> selectFiles() {
     if (isList) {
-      return const [
-        FileTile(name: "Preview.mp3", size: "30 KB", type: FileType.music),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.document),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        SizedBox(height: 8),
-        FileTile(name: "Assignments", size: "30 KB", type: FileType.folder),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.music),
-        FileTile(name: "Videos", size: "30 KB", type: FileType.folder),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.document),
-        SizedBox(height: 8),
-        FileTile(name: "Preview.png", size: "30 KB", type: FileType.other)
+      return [
+        FileTile(
+          object: PathObject(
+              fileName: "TRX Vou bazar",
+              fileSize: 30,
+              fileExtension: "folder",
+              modified: "11:30 AM",
+              filePath: "",
+              isFolder: true),
+        ),
+        const SizedBox(height: 8),
+       
       ];
     } else {
       return const [
@@ -71,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
             name: "Preview.png", size: "30 KB", type: FileType.document),
         GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.other)
       ];
-    }
-  }
+    } 
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -170,14 +155,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Flexible(
                         child: !isList
-                            ? GridView.extent(
+                            ? GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 180,
+                                  childAspectRatio: 3 / 4,
+                                ),
+                                itemCount: MockRepository.getAllFiles().length,
+                                itemBuilder: (context, index) {
+                                  return GridFileTile(
+                                      object:
+                                          MockRepository.getAllFiles()[index]);
+                                })
+                            : ListView.builder(
+                                itemCount: MockRepository.getAllFiles().length,
                                 physics: const BouncingScrollPhysics(),
-                                maxCrossAxisExtent: 180,
-                                childAspectRatio: 3 / 4,
-                                children: selectFiles())
-                            : ListView(
-                                physics: const BouncingScrollPhysics(),
-                                children: selectFiles(),
+                                itemBuilder: (context, index) {
+                                  return FileTile(
+                                      object:
+                                          MockRepository.getAllFiles()[index]);
+                                },
                               ))
                   ],
                 ),

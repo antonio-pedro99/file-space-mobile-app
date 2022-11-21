@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -32,22 +33,15 @@ extension BuildIcon on FileTileType {
 }
 
 class FileTile extends StatelessWidget with FileTileType {
-  const FileTile({
-    Key? key,
-    required this.name,
-    required this.size,
-    required this.type,
-  }) : super(key: key);
+  const FileTile({Key? key, required this.object}) : super(key: key);
 
-  final String name;
-  final String size;
-  final FileType type;
+  final PathObject object;
 
   void _onOpen(FileType type, BuildContext context) {
     if (type == FileType.folder) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FolderContentPage(title: name)));
-    } else {}
+          builder: (context) => FolderContentPage(title: object.fileName!)));
+    }
   }
 
   @override
@@ -56,24 +50,25 @@ class FileTile extends StatelessWidget with FileTileType {
 
     var color = magicColors[math.Random().nextInt(magicColors.length)];
     return ListTile(
-        onTap: () => _onOpen(type, context),
+        onTap: () => _onOpen(object.getType(), context),
         leading: Container(
           height: 45,
           width: 45,
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(8)),
-          child: Icon(getIcon(type)),
+          child: Icon(getIcon(object.getType())),
         ),
         title: Text(
-          name,
+          object.fileName!,
           style: textTheme.titleMedium!
               .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
         ),
-        subtitle:
-            type != FileType.folder ? Text(size) : const Text("Last Modified"),
+        subtitle: object.getType() != FileType.folder
+            ? Text("${object.fileSize! / 1024} MB")
+            : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
-          onPressed: () =>
-              showOptions(context, getIcon(type), name, color, type),
+          onPressed: () => showOptions(context, getIcon(object.getType()),
+              object.fileName!, color, object.getType()),
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
