@@ -14,6 +14,15 @@
     "categories": {
       "auth": {
         "filespace7f18b24e": {}
+      },
+      "function": {
+        "S3Triggerd8805ad9": {
+          "deploymentBucketName": "amplify-filespace-dev-122511-deployment",
+          "s3Key": "amplify-builds/S3Triggerd8805ad9-7765655950426552734f-build.zip"
+        }
+      },
+      "storage": {
+        "fileStorage": {}
       }
     }
   }

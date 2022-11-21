@@ -27,5 +27,13 @@
         ]
       }
     }
+  },
+  "storage": {
+    "filespaceca74ff15": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
