@@ -72,7 +72,7 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
         child: CustomButton(
           text: "Upgrade now",
           textColor: white,
-          color: deepPurple,
+          color: purple,
         ),
       ),
     );

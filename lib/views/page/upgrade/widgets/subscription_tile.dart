@@ -23,15 +23,14 @@ class SubscriptionTile extends StatelessWidget {
         decoration: BoxDecoration(
             color: blue,
             borderRadius: BorderRadius.circular(16),
-            border:
-                isSelected! ? Border.all(color: deepPurple, width: 2) : null),
+            border: isSelected! ? Border.all(color: purple, width: 2) : null),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               subscription.subScriptionName!,
               style: textTheme.titleMedium!.copyWith(
-                  fontSize: 18, fontWeight: FontWeight.w500, color: deepPurple),
+                  fontSize: 18, fontWeight: FontWeight.w500, color: purple),
             ),
             const Divider(),
             Text(

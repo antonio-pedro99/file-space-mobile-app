@@ -48,7 +48,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           fillColor: (pieData, index) {
                             switch (pieData["domain"]) {
                               case 'used':
-                                return deepPurple;
+                                return purple;
                               case 'not_used':
                                 return blue;
                             }
@@ -101,8 +101,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 16),
                     decoration: BoxDecoration(
-                        color: deepPurple,
-                        borderRadius: BorderRadius.circular(16)),
+                        color: purple, borderRadius: BorderRadius.circular(16)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
