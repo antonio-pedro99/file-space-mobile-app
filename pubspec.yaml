@@ -37,6 +37,9 @@ dependencies:
   animated_bottom_navigation_bar: ^1.1.0
   file_picker: ^5.2.2
   d_chart: ^0.1.0
+  amplify_flutter: ^0.6.10
+  amplify_datastore: ^0.6.10
+  amplify_auth_cognito: ^0.6.10
 
 dev_dependencies:
   flutter_test:

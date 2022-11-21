@@ -1,4 +1,7 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:space_client_app/amplifyconfiguration.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -13,6 +16,26 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var keyForm = GlobalKey<FormState>();
+  final amplify = Amplify;
+  bool _amplifyConfigured = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _configureAmplify();
+  }
+
+  Future<void> _configureAmplify() async {
+    final auth = AmplifyAuthCognito();
+
+    try {
+      await amplify.addPlugin(auth);
+      await amplify.configure(amplifyconfig);
+      setState(() => _amplifyConfigured = true);
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -29,7 +29,12 @@ extension BuildIcon on FileTileType {
     return Icons.abc;
   }
 
-  void openMenu(type, context) {}
+  void openMenu(type, context, name) {
+    if (type == FileType.folder) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => FolderContentPage(title: name)));
+    }
+  }
 }
 
 class FileTile extends StatelessWidget with FileTileType {
@@ -37,20 +42,13 @@ class FileTile extends StatelessWidget with FileTileType {
 
   final PathObject object;
 
-  void _onOpen(FileType type, BuildContext context) {
-    if (type == FileType.folder) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FolderContentPage(title: object.fileName!)));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
     var color = magicColors[math.Random().nextInt(magicColors.length)];
     return ListTile(
-        onTap: () => _onOpen(object.getType(), context),
+        onTap: () => openMenu(object.getType(), context, object.fileName),
         leading: Container(
           height: 45,
           width: 45,
@@ -75,7 +73,6 @@ class FileTile extends StatelessWidget with FileTileType {
 
   void showOptions(BuildContext context, IconData iconData, String fileName,
       color, FileType type) {
-    var size = MediaQuery.of(context).size;
     showModalBottomSheet(
         context: context,
         enableDrag: true,
