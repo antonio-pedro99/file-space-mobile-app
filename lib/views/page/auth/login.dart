@@ -1,7 +1,8 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:space_client_app/amplifyconfiguration.dart';
+import 'package:space_client_app/data/models/auth/user_login.dart';
+import 'package:space_client_app/data/viewmodels/auth.dart';
 
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
@@ -11,22 +12,23 @@ import 'package:space_client_app/views/widgets/input_text.dart';
 import 'package:space_client_app/app.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key, this.email}) : super(key: key);
+  final String? email;
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   var keyForm = GlobalKey<FormState>();
- 
+
+  final textEmailController = TextEditingController();
+  final textPasswordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-   
+    textEmailController.text = widget.email ?? "";
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +60,11 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Image.asset("assets/cloud.png"),
                       const SizedBox(height: 34),
-                      const CustomTextInput(
+                      CustomTextInput(
                         hint: "Enter Email",
                         border: 16,
                         leading: Icons.email,
+                        controller: textEmailController,
                       ),
                       const SizedBox(
                         height: 16,
@@ -71,12 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                         hint: "Enter Password",
                         border: 16,
                         isPassword: true,
-                        validator: (password) {
-                          if (!password!.isPasswordStrong()) {
-                            return "Week Password";
-                          }
-                          return "";
-                        },
+                        controller: textPasswordController,
                       ),
                       const SizedBox(height: 24),
                       CustomButton(
@@ -84,12 +82,30 @@ class _LoginPageState extends State<LoginPage> {
                           textColor: white,
                           color: purple,
                           widget: size.width * .5,
-                          onTap: () {
+                          onTap: () async {
                             if (keyForm.currentState!.validate()) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const PageDriver()),
-                                  (route) => false);
+                              var userDetails = UserLoginModel(
+                                  password: textPasswordController.text,
+                                  email: textEmailController.text);
+
+                              var result =
+                                  await AuthenticationUser.signIn(userDetails);
+                              if (!result["status"]) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text(
+                                          result["message"],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        )));
+                              } else {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PageDriver()),
+                                    (route) => false);
+                              }
                             }
                           }),
                       const SizedBox(

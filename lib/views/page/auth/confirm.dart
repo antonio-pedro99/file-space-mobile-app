@@ -87,7 +87,9 @@ class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
                             } else {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) => const LoginPage()),
+                                      builder: (context) => LoginPage(
+                                            email: widget.email,
+                                          )),
                                   (route) => false);
                             }
                           }

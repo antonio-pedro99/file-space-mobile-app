@@ -7,7 +7,15 @@ class AuthenticationUser {
   bool isSignedIn = false;
   bool isSignedUp = false;
 
-  Future<void> signIn(UserLoginModel userDetails) async {}
+  static Future<Map<String, dynamic>> signIn(UserLoginModel userDetails) async {
+    try {
+      await Amplify.Auth.signIn(
+          username: userDetails.email, password: userDetails.password);
+    } on AuthException catch (e) {
+      return {"status": false, "message": e.message};
+    }
+    return {"status": true, "message": "Success!"};
+  }
 
   static Future<Map<String, dynamic>> signUp(
       UserSignUpModel userDetails) async {
@@ -28,7 +36,7 @@ class AuthenticationUser {
     return {"status": true, "message": "Success!"};
   }
 
-  Future<void> signOut() async {}
+  static Future<void> signOut() async {}
 
   static Future<Map<String, dynamic>> confirm(String email, String code) async {
     try {
