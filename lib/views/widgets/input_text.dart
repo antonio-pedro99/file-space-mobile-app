@@ -8,6 +8,9 @@ class CustomTextInput extends StatelessWidget {
       this.hint,
       this.leading,
       this.widget,
+      this.isPassword = false,
+      this.type,
+      this.validator,
       this.trailing})
       : super(key: key);
 
@@ -16,14 +19,26 @@ class CustomTextInput extends StatelessWidget {
   final double? widget;
   final IconData? leading;
   final IconData? trailing;
+  final bool? isPassword;
   final TextEditingController? controller;
+  final TextInputType? type;
+  final String Function(String? str)? validator;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: widget ?? 350,
-        child: TextField(
+        child: TextFormField(
           controller: controller,
+          validator: validator ??
+              (str) {
+                if (str!.isEmpty) {
+                  return "Invalid entry";
+                }
+                return null;
+              },
+          obscureText: isPassword!,
+          keyboardType: type,
           decoration: InputDecoration(
             filled: true,
             contentPadding: const EdgeInsets.all(8),

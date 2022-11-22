@@ -7,6 +7,7 @@ import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
+import 'package:space_client_app/app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -75,10 +76,17 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 16,
                       ),
-                      const CustomTextInput(
+                      CustomTextInput(
                         leading: Icons.lock,
                         hint: "Enter Password",
                         border: 16,
+                        isPassword: true,
+                        validator: (password) {
+                          if (!password!.isPasswordStrong()) {
+                            return "Week Password";
+                          }
+                          return "";
+                        },
                       ),
                       const SizedBox(height: 24),
                       CustomButton(
@@ -86,10 +94,14 @@ class _LoginPageState extends State<LoginPage> {
                           textColor: white,
                           color: purple,
                           widget: size.width * .5,
-                          onTap: () => Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => const PageDriver()),
-                              (route) => false)),
+                          onTap: () {
+                            if (keyForm.currentState!.validate()) {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => const PageDriver()),
+                                  (route) => false);
+                            }
+                          }),
                       const SizedBox(
                         height: 24,
                       ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:space_client_app/data/models/auth/user_register.dart';
+import 'package:space_client_app/data/viewmodels/auth.dart';
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
+import 'package:space_client_app/app.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -12,6 +15,11 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   var keyForm = GlobalKey<FormState>();
+
+  final textNameController = TextEditingController();
+  final textEmailController = TextEditingController();
+  final textPhoneController = TextEditingController();
+  final textPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +43,7 @@ class _SignupPageState extends State<SignupPage> {
             child: Form(
                 key: keyForm,
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   padding:
                       const EdgeInsets.all(20).copyWith(top: size.height * .1),
                   child: Column(
@@ -45,25 +54,37 @@ class _SignupPageState extends State<SignupPage> {
                       const CustomTextInput(
                         hint: "Complete Name",
                         border: 16,
+                        leading: Icons.person,
                       ),
                       const SizedBox(
                         height: 16,
                       ),
-                      const CustomTextInput(
+                      CustomTextInput(
                         hint: "Enter Email",
                         border: 16,
+                        leading: Icons.email,
+                        /*  validator: (email) {
+                          if (!email!.isEmail()) {
+                            return "Invalid email. Valid email should look like dev@gmail.com";
+                          }
+                          return "";
+                        }, */
                       ),
                       const SizedBox(
                         height: 16,
                       ),
                       const CustomTextInput(
-                        hint: "New Password",
+                        hint: "Phone",
                         border: 16,
+                        leading: Icons.phone,
+                        type: TextInputType.phone,
                       ),
                       const SizedBox(height: 16),
                       const CustomTextInput(
-                        hint: "Confirm Password",
+                        hint: "Password",
                         border: 16,
+                        leading: Icons.lock,
+                        isPassword: true,
                       ),
                       const SizedBox(
                         height: 34,
@@ -73,6 +94,17 @@ class _SignupPageState extends State<SignupPage> {
                         textColor: white,
                         color: purple,
                         widget: size.width * .5,
+                        onTap: () async {
+                          if (keyForm.currentState!.validate()) {
+                            var userRegister = UserSignUpModel(
+                                password: textPasswordController.text,
+                                phoneNumber: textPhoneController.text,
+                                email: textEmailController.text,
+                                name: textNameController.text);
+                            final result =
+                                await AuthenticationUser.signUp(userRegister);
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 24,
