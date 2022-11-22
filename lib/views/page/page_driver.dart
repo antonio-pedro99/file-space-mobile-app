@@ -137,8 +137,8 @@ class _PageDriverState extends State<PageDriver> {
                                   },
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.upload_file),
-                                  title: Text("Upload from Computer"),
+                                  leading: const Icon(Icons.upload_file),
+                                  title: const Text("Upload from Computer"),
                                   onTap: () async {
                                     try {
                                       final result = await Amplify.Storage.list(
