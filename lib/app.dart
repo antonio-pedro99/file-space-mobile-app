@@ -20,8 +20,8 @@ extension PasswordChecker on String {
   bool isPasswordStrong() {
     var strongPattern = RegExp(
         r'(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$');
-
-    return strongPattern.hasMatch(this);
+    var awsPattern = RegExp(r'^[\S]+.*[\S]+$');
+    return strongPattern.hasMatch(this) && awsPattern.hasMatch(this);
   }
 }
 

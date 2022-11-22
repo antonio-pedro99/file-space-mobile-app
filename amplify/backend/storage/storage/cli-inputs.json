@@ -1,0 +1,18 @@
+{
+  "resourceName": "storage",
+  "policyUUID": "c360ffe1",
+  "bucketName": "file-storage-global",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger0796e2c3",
+  "groupAccess": {}
+}

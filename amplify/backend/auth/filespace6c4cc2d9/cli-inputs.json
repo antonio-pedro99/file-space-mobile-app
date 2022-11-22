@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "filespace7f18b24e_identitypool_7f18b24e",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "filesp7f18b24e",
-    "userPoolName": "filespace7f18b24e_userpool_7f18b24e",
+    "identityPoolName": "filespace6c4cc2d9_identitypool_6c4cc2d9",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "filesp6c4cc2d9",
+    "userPoolName": "filespace6c4cc2d9_userpool_6c4cc2d9",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,18 +31,32 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "filesp7f18b24e_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "filesp6c4cc2d9_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "7f18b24e",
-    "resourceName": "filespace7f18b24e",
+    "sharedId": "6c4cc2d9",
+    "resourceName": "filespace6c4cc2d9",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "usernameAttributes": [
-      "email, phone_number"
+      "email"
     ],
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true
+    "useEnabledMfas": true,
+    "authRoleArn": {
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
+    },
+    "unauthRoleArn": {
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
+    },
+    "breakCircularDependency": true,
+    "dependsOn": []
   }
 } 

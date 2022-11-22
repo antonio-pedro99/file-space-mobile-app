@@ -1,6 +1,6 @@
 {
   "auth": {
-    "filespace7f18b24e": {
+    "filespace6c4cc2d9": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -8,8 +8,7 @@
       "frontendAuthConfig": {
         "socialProviders": [],
         "usernameAttributes": [
-          "EMAIL",
-          "PHONE_NUMBER"
+          "EMAIL"
         ],
         "signupAttributes": [
           "EMAIL"
@@ -28,12 +27,28 @@
       }
     }
   },
-  "storage": {
-    "filespaceca74ff15": {
-      "service": "S3",
-      "serviceType": "imported",
+  "function": {
+    "S3Trigger0796e2c3": {
+      "service": "Lambda",
       "providerPlugin": "awscloudformation",
-      "dependsOn": []
+      "build": true
+    }
+  },
+  "storage": {
+    "storage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger0796e2c3",
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
+        }
+      ]
     }
   }
 }

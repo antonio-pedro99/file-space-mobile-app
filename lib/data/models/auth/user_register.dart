@@ -9,6 +9,7 @@ class UserSignUpModel {
       required this.phoneNumber,
       required this.email,
       required this.name});
+      
   toMap() {
     return {"email": email, "password": password, "phoneNumber": phoneNumber};
   }

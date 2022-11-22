@@ -51,10 +51,11 @@ class _SignupPageState extends State<SignupPage> {
                     children: [
                       Image.asset("assets/cloud.png"),
                       const SizedBox(height: 34),
-                      const CustomTextInput(
+                      CustomTextInput(
                         hint: "Complete Name",
                         border: 16,
                         leading: Icons.person,
+                        controller: textNameController,
                       ),
                       const SizedBox(
                         height: 16,
@@ -62,6 +63,7 @@ class _SignupPageState extends State<SignupPage> {
                       CustomTextInput(
                         hint: "Enter Email",
                         border: 16,
+                        controller: textEmailController,
                         leading: Icons.email,
                         /*  validator: (email) {
                           if (!email!.isEmail()) {
@@ -73,17 +75,18 @@ class _SignupPageState extends State<SignupPage> {
                       const SizedBox(
                         height: 16,
                       ),
-                      const CustomTextInput(
+                      /*  const CustomTextInput(
                         hint: "Phone",
                         border: 16,
                         leading: Icons.phone,
                         type: TextInputType.phone,
                       ),
-                      const SizedBox(height: 16),
-                      const CustomTextInput(
+                      const SizedBox(height: 16), */
+                      CustomTextInput(
                         hint: "Password",
                         border: 16,
                         leading: Icons.lock,
+                        controller: textPasswordController,
                         isPassword: true,
                       ),
                       const SizedBox(
@@ -101,8 +104,10 @@ class _SignupPageState extends State<SignupPage> {
                                 phoneNumber: textPhoneController.text,
                                 email: textEmailController.text,
                                 name: textNameController.text);
-                            final result =
-                                await AuthenticationUser.signUp(userRegister);
+
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(await AuthenticationUser.signUp(
+                                    userRegister))));
                           }
                         },
                       ),
