@@ -1,8 +1,10 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
+import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 
@@ -26,9 +28,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   Future<void> _configureAmplify() async {
     final auth = AmplifyAuthCognito();
-
+    final storage = AmplifyStorageS3();
     try {
-      await amplify.addPlugin(auth);
+      await amplify.addPlugins([auth, storage]);
       await amplify.configure(amplifyconfig);
       setState(() => _amplifyConfigured = true);
     } catch (e) {
@@ -77,7 +79,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           widget: MediaQuery.of(context).size.width * .6,
                           onTap: () => Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => const LoginPage()),
+                                  builder: (context) => const PageDriver()),
                               (route) => false),
                         ),
                         CustomButton(
