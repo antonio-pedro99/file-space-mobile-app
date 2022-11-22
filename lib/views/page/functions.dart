@@ -31,7 +31,7 @@ void pickFileFromOs(BuildContext context) {
       try {
         await Amplify.Storage.uploadFile(
             local: file,
-            key: key,
+            key: "files/$key",
             options: UploadFileOptions(
                 accessLevel: StorageAccessLevel.private, metadata: {}),
             onProgress: (progress) {
