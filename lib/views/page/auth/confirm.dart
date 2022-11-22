@@ -3,26 +3,26 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
 import 'package:space_client_app/data/viewmodels/auth.dart';
-import 'package:space_client_app/views/page/auth/confirm.dart';
 import 'package:space_client_app/views/page/auth/login.dart';
+import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 import 'package:space_client_app/app.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+class ConfirmRegistrationPage extends StatefulWidget {
+  const ConfirmRegistrationPage({Key? key, required this.email})
+      : super(key: key);
+  final String email;
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<ConfirmRegistrationPage> createState() =>
+      _ConfirmRegistrationPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
   var keyForm = GlobalKey<FormState>();
 
-  final textNameController = TextEditingController();
-  final textEmailController = TextEditingController();
-  final textPhoneController = TextEditingController();
-  final textPasswordController = TextEditingController();
+  final textCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,53 +55,26 @@ class _SignupPageState extends State<SignupPage> {
                       Image.asset("assets/cloud.png"),
                       const SizedBox(height: 34),
                       CustomTextInput(
-                        hint: "Complete Name",
+                        hint: "Confirm Code",
                         border: 16,
-                        leading: Icons.person,
-                        controller: textNameController,
+                        leading: Icons.security,
+                        controller: textCodeController,
                       ),
                       const SizedBox(
                         height: 16,
                       ),
-                      CustomTextInput(
-                        hint: "Enter Email",
-                        border: 16,
-                        controller: textEmailController,
-                        leading: Icons.email,
-                        /*  validator: (email) {
-                          if (!email!.isEmail()) {
-                            return "Invalid email. Valid email should look like dev@gmail.com";
-                          }
-                          return "";
-                        }, */
-                      ),
                       const SizedBox(
                         height: 16,
-                      ),
-                      CustomTextInput(
-                        hint: "Password",
-                        border: 16,
-                        leading: Icons.lock,
-                        controller: textPasswordController,
-                        isPassword: true,
-                      ),
-                      const SizedBox(
-                        height: 34,
                       ),
                       CustomButton(
-                        text: "Register",
+                        text: "Confirm",
                         textColor: white,
                         color: purple,
                         widget: size.width * .5,
                         onTap: () async {
                           if (keyForm.currentState!.validate()) {
-                            var userRegister = UserSignUpModel(
-                                password: textPasswordController.text,
-                                phoneNumber: textPhoneController.text,
-                                email: textEmailController.text,
-                                name: textNameController.text);
-                            var result =
-                                await AuthenticationUser.signUp(userRegister);
+                            var result = await AuthenticationUser.confirm(
+                                widget.email, textCodeController.text);
                             if (!result["status"]) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
@@ -114,23 +87,12 @@ class _SignupPageState extends State<SignupPage> {
                             } else {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                            ConfirmRegistrationPage(email: userRegister.email,)),
+                                      builder: (context) => const LoginPage()),
                                   (route) => false);
                             }
                           }
                         },
                       ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextButton(
-                          onPressed: () => Navigator.of(context)
-                              .pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()),
-                                  (route) => false),
-                          child: const Text("already have an account? Login!"))
                     ],
                   ),
                 )),

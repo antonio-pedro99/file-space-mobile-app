@@ -18,26 +18,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var keyForm = GlobalKey<FormState>();
-  final amplify = Amplify;
-  bool _amplifyConfigured = false;
+ 
 
   @override
   void initState() {
     super.initState();
-    _configureAmplify();
+   
   }
 
-  Future<void> _configureAmplify() async {
-    final auth = AmplifyAuthCognito();
-
-    try {
-      await amplify.addPlugin(auth);
-      await amplify.configure(amplifyconfig);
-      setState(() => _amplifyConfigured = true);
-    } catch (e) {
-      print(e);
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

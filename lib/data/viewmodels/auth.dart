@@ -9,9 +9,8 @@ class AuthenticationUser {
 
   Future<void> signIn(UserLoginModel userDetails) async {}
 
-  static Future<String> signUp(UserSignUpModel userDetails) async {
-    late SignUpResult result;
-
+  static Future<Map<String, dynamic>> signUp(
+      UserSignUpModel userDetails) async {
     try {
       final attr = <CognitoUserAttributeKey, String>{
         CognitoUserAttributeKey.email: userDetails.email,
@@ -23,11 +22,20 @@ class AuthenticationUser {
           password: userDetails.password,
           options: CognitoSignUpOptions(userAttributes: attr));
     } on AuthException catch (e) {
-      return e.message;
+      return {"status": false, "message": e.message};
     }
 
-    return "Success!";
+    return {"status": true, "message": "Success!"};
   }
 
   Future<void> signOut() async {}
+
+  static Future<Map<String, dynamic>> confirm(String email, String code) async {
+    try {
+      await Amplify.Auth.confirmSignUp(username: email, confirmationCode: code);
+    } on AuthException catch (e) {
+      return {"status": false, "message": e.message};
+    }
+    return {"status": true, "message": "Confirmed"};
+  }
 }
