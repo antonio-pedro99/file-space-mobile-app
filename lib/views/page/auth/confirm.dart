@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
-import 'package:space_client_app/data/viewmodels/auth.dart';
+import 'package:space_client_app/data/repository/auth.dart';
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';

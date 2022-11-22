@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/auth/auth_bloc.dart';
+
+import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
 import 'package:space_client_app/views/page/upgrade/upgrade.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -183,7 +187,13 @@ class _MyHomePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 16),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<AuthBloc>().authRepository.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                            (route) => false);
+                      },
                       child: Text(
                         "Sign out of SpaceFile",
                         style: textTheme.subtitle1!.copyWith(
