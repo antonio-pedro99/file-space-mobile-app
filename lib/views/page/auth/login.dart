@@ -1,18 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
-
 import 'package:space_client_app/data/models/auth/user_login.dart';
-import 'package:space_client_app/data/repository/auth.dart';
-
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
-import 'package:space_client_app/app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.email}) : super(key: key);

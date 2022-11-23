@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/functions.dart';
-import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/grid_file_tile.dart';
@@ -19,45 +17,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isList = true;
-
-  /* List<Widget> selectFiles() {
-    if (isList) {
-      return [
-        FileTile(
-          object: PathObject(
-              fileName: "TRX Vou bazar",
-              fileSize: 30,
-              fileExtension: "folder",
-              modified: "11:30 AM",
-              filePath: "",
-              isFolder: true),
-        ),
-        const SizedBox(height: 8),
-       
-      ];
-    } else {
-      return const [
-        GridFileTile(name: "Preview.mp3", size: "30 KB", type: FileType.music),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        GridFileTile(
-            name: "Preview.png", size: "30 KB", type: FileType.document),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Assignments", size: "30 KB", type: FileType.folder),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.music),
-        GridFileTile(name: "Videos", size: "30 KB", type: FileType.folder),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.image),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.video),
-        GridFileTile(
-            name: "Preview.png", size: "30 KB", type: FileType.document),
-        GridFileTile(name: "Preview.png", size: "30 KB", type: FileType.other)
-      ];
-    } 
-  } */
 
   @override
   Widget build(BuildContext context) {

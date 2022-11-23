@@ -1,4 +1,3 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/functions.dart';
@@ -137,11 +136,9 @@ class _PageDriverState extends State<PageDriver> {
                                   },
                                 ),
                                 ListTile(
-                                  leading: const Icon(Icons.upload_file),
-                                  title: const Text("Upload from Computer"),
-                                  onTap:(){}
-                                    
-                                )
+                                    leading: const Icon(Icons.upload_file),
+                                    title: const Text("Upload from Computer"),
+                                    onTap: () {})
                               ],
                             ))
                           ],
