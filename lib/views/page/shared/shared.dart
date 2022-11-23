@@ -1,7 +1,5 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:space_client_app/data/repository/mock_data.dart';
-import 'package:space_client_app/views/page/home/enums.dart';
-import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
 class SharedPage extends StatefulWidget {
@@ -11,6 +9,24 @@ class SharedPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<SharedPage> {
+  late final Future<ListResult> files;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<List<StorageItem>> _loadFiles() async {
+    try {
+      final result = await Amplify.Storage.list(
+          options: ListOptions(accessLevel: StorageAccessLevel.private));
+
+      return result.items;
+    } on StorageException catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +57,39 @@ class _MyHomePageState extends State<SharedPage> {
                     ),
                     const SizedBox(height: 24),
                     Flexible(
-                        child: ListView.builder(
-                      itemCount: MockRepository.getAllFiles().length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FileTile(
-                            object: MockRepository.getAllFiles()[index]);
-                      },
-                    ))
+                        child: FutureBuilder<List<StorageItem>>(
+                            future: _loadFiles(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                    child: Text(snapshot.error.toString()));
+                              }
+                              var files = snapshot.data;
+                              return ListView.builder(
+                                itemCount: files!.length,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  bool isFolder =
+                                      files[index].key.contains("/");
+                                  return ListTile(
+                                    title: isFolder
+                                        ? Text(
+                                            files[index].key.split("/").first)
+                                        : Text(files[index].key),
+                                    subtitle: !isFolder
+                                        ? Text(
+                                            "${(files[index].size! / 1024).toStringAsFixed(2)} KB")
+                                        : Text(files[index]
+                                            .lastModified!
+                                            .day
+                                            .toString()),
+                                  );
+                                },
+                              );
+                            }))
                   ],
                 ),
               ))),

@@ -1,15 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/auth/auth_bloc.dart';
 import 'package:space_client_app/data/models/auth/user_login.dart';
-import 'package:space_client_app/data/viewmodels/auth.dart';
-
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
-import 'package:space_client_app/app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.email}) : super(key: key);
@@ -46,80 +43,90 @@ class _LoginPageState extends State<LoginPage> {
               )
             ];
           },
-          body: SafeArea(
-            maintainBottomViewPadding: true,
-            top: false,
-            child: Form(
-                key: keyForm,
-                child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+          body: BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      state.message,
+                      style: const TextStyle(color: Colors.white),
+                    )));
+              } else if (state is AuthLoading) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                  "Logging in",
+                  style: TextStyle(),
+                )));
+              } else if (state is AuthLoaded) {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const PageDriver()),
+                    (route) => false);
+              }
+            },
+            builder: (context, state) {
+              return SafeArea(
+                maintainBottomViewPadding: true,
+                top: false,
+                child: Form(
+                    key: keyForm,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8)
                           .copyWith(top: size.height * .1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/cloud.png"),
-                      const SizedBox(height: 34),
-                      CustomTextInput(
-                        hint: "Enter Email",
-                        border: 16,
-                        leading: Icons.email,
-                        controller: textEmailController,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      CustomTextInput(
-                        leading: Icons.lock,
-                        hint: "Enter Password",
-                        border: 16,
-                        isPassword: true,
-                        controller: textPasswordController,
-                      ),
-                      const SizedBox(height: 24),
-                      CustomButton(
-                          text: "Login",
-                          textColor: white,
-                          color: purple,
-                          widget: size.width * .5,
-                          onTap: () async {
-                            if (keyForm.currentState!.validate()) {
-                              var userDetails = UserLoginModel(
-                                  password: textPasswordController.text,
-                                  email: textEmailController.text);
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/cloud.png"),
+                          const SizedBox(height: 34),
+                          CustomTextInput(
+                            hint: "Enter Email",
+                            border: 16,
+                            leading: Icons.email,
+                            controller: textEmailController,
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          CustomTextInput(
+                            leading: Icons.lock,
+                            hint: "Enter Password",
+                            border: 16,
+                            isPassword: true,
+                            controller: textPasswordController,
+                          ),
+                          const SizedBox(height: 24),
+                          CustomButton(
+                              text: "Login",
+                              textColor: white,
+                              color: purple,
+                              widget: size.width * .5,
+                              onTap: () async {
+                                if (keyForm.currentState!.validate()) {
+                                  var userDetails = UserLoginModel(
+                                      password: textPasswordController.text,
+                                      email: textEmailController.text);
 
-                              var result =
-                                  await AuthenticationUser.signIn(userDetails);
-                              if (!result["status"]) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text(
-                                          result["message"],
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        )));
-                              } else {
-                                Navigator.of(context).pushAndRemoveUntil(
+                                  BlocProvider.of<AuthBloc>(context).add(Login(
+                                      userDetails.email, userDetails.password));
+                                }
+                              }),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          TextButton(
+                              onPressed: () => Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const PageDriver()),
-                                    (route) => false);
-                              }
-                            }
-                          }),
-                      const SizedBox(
-                        height: 24,
+                                            const SignupPage()),
+                                  ),
+                              child:
+                                  const Text("Do not have an account? Signup!"))
+                        ],
                       ),
-                      TextButton(
-                          onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => const SignupPage()),
-                              ),
-                          child: const Text("Do not have an account? Signup!"))
-                    ],
-                  ),
-                )),
+                    )),
+              );
+            },
           )),
     );
   }

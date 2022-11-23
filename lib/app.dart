@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/auth/auth_bloc.dart';
+
+import 'package:space_client_app/data/repository/auth.dart';
 import 'package:space_client_app/views/page/auth/onboarding.dart';
 import 'package:space_client_app/views/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SpaceFile',
-      debugShowCheckedModeBanner: false,
-      theme: MyAppTheme.dark,
-      home: const OnBoardingPage(),
+    return BlocProvider(
+      create: (_) => AuthBloc(authRepository: AuthenticationUser()),
+      child: MaterialApp(
+        title: 'SpaceFile',
+        debugShowCheckedModeBanner: false,
+        theme: MyAppTheme.dark,
+        home: const OnBoardingPage(),
+      ),
     );
   }
 }
