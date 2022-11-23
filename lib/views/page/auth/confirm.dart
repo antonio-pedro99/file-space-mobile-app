@@ -26,6 +26,14 @@ class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
 
   final textCodeController = TextEditingController();
 
+  String hashEmail(String email) {
+    int end = email.indexOf("@") - 1;
+    int start = 1;
+    String hashed = email.replaceRange(1, end, "*" * 5);
+
+    return hashed;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -81,8 +89,11 @@ class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
                         children: [
                           Image.asset("assets/cloud.png"),
                           const SizedBox(height: 34),
+                          Text(
+                              "We sent a confirmation code to ${hashEmail(widget.email)}"),
+                          const SizedBox(height: 24),
                           CustomTextInput(
-                            hint: "Confirm Code",
+                            hint: "Enter the confirmation code",
                             border: 16,
                             leading: Icons.security,
                             controller: textCodeController,
