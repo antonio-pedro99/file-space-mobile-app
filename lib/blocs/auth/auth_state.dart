@@ -14,7 +14,7 @@ class AuthLoaded extends AuthState {
   AuthLoaded(this.email);
 }
 
-class AuthErro extends AuthState {
+class AuthError extends AuthState {
   final String message;
-  AuthErro(this.message);
+  AuthError(this.message);
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:space_client_app/app.dart';
@@ -17,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) async {
       if (event is Login) {
         if (!event.email.isEmail()) {
-          emit(AuthErro("Invalid email"));
+          emit(AuthError("Invalid email"));
         } else {
           emit(AuthLoading());
           var result = await authRepository.signIn(
@@ -25,14 +23,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (result["status"]) {
             emit(AuthLoaded(event.email));
           } else {
-            emit(AuthErro(result["message"]));
+            emit(AuthError(result["message"]));
           }
         }
       } else if (event is Signup) {
         if (!event.email.isEmail()) {
-          emit(AuthErro("Provide a valid email"));
+          emit(AuthError("Provide a valid email"));
         } else if (!event.password.isPasswordStrong()) {
-          emit(AuthErro("Provide a Strong password"));
+          emit(AuthError("Provide a Strong password"));
         } else {
           emit(AuthLoading());
           var result = await authRepository.signUp(UserSignUpModel(
