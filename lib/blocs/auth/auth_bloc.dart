@@ -35,6 +35,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthLoading());
           var result = await authRepository.signUp(UserSignUpModel(
               password: event.password, email: event.email, name: event.name));
+          if (result["status"]) {
+            emit(AuthLoaded(event.email));
+          } else {
+            emit(AuthError(result["message"]));
+          }
+        }
+      } else if (event is ConfirmSignup) {
+        emit(AuthLoading());
+        var result = await authRepository.confirm(event.email, event.code);
+
+        if (!result["status"]) {
+          emit(AuthError(result["message"]));
+        } else {
+          emit(AuthLoaded(event.email));
         }
       }
     });

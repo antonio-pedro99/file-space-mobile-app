@@ -54,7 +54,7 @@ class _SignupPageState extends State<SignupPage> {
               } else if (state is AuthLoading) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text(
-                  "Logging in",
+                  "Signing up",
                   style: TextStyle(),
                 )));
               } else if (state is AuthLoaded) {
@@ -132,26 +132,6 @@ class _SignupPageState extends State<SignupPage> {
                                     email: userRegister.email,
                                     name: userRegister.name,
                                     password: userRegister.password));
-                                /* var result = await AuthenticationUser.signUp(
-                                    userRegister); */
-                                /* if (!result["status"]) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                          backgroundColor: Colors.red,
-                                          content: Text(
-                                            result["message"],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          )));
-                                } else {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ConfirmRegistrationPage(
-                                                email: userRegister.email,
-                                              )),
-                                      (route) => false);
-                                } */
                               }
                             },
                           ),

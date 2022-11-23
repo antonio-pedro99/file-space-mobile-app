@@ -17,8 +17,7 @@ class AuthenticationUser {
     return {"status": true, "message": "Success!"};
   }
 
-  Future<Map<String, dynamic>> signUp(
-      UserSignUpModel userDetails) async {
+  Future<Map<String, dynamic>> signUp(UserSignUpModel userDetails) async {
     try {
       final attr = <CognitoUserAttributeKey, String>{
         CognitoUserAttributeKey.email: userDetails.email,
@@ -45,7 +44,7 @@ class AuthenticationUser {
     return {"status": true, "message": "logged out"};
   }
 
-  static Future<Map<String, dynamic>> confirm(String email, String code) async {
+  Future<Map<String, dynamic>> confirm(String email, String code) async {
     try {
       await Amplify.Auth.confirmSignUp(username: email, confirmationCode: code);
     } on AuthException catch (e) {

@@ -18,6 +18,7 @@ class Signup extends AuthEvent {
 
 class ConfirmSignup extends AuthEvent {
   final String code;
+  final String email;
 
-  ConfirmSignup(this.code);
+  ConfirmSignup(this.code, this.email);
 }
