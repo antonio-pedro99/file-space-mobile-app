@@ -5,12 +5,8 @@ abstract class UserState {}
 
 class UserInitial extends UserState {}
 
-class UserLogged extends UserState {}
+class UserLoaded extends UserState {}
 
-class UserNotLogged extends UserState {}
+class UserLoading extends UserState {}
 
-class UserSignedOut extends UserState {}
-
-class UserSessionExpired extends UserState {}
-
-class UserDeleted extends UserState {}
+class UserLoadingError extends UserState {}

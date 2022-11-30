@@ -1,5 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/pages.dart';
@@ -30,6 +32,8 @@ class _PageDriverState extends State<PageDriver> {
     super.initState();
     controller = PageController(initialPage: currentPage);
     folderNameTextController.text = "New Folder";
+    //load user data!
+    BlocProvider.of<UserBloc>(context).add(LoadUserSession(true));
   }
 
   @override

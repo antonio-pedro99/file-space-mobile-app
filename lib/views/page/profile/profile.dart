@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
@@ -18,6 +19,8 @@ class _MyHomePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
+    var userDetails = context.read<UserBloc>().user;
+
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -78,7 +81,7 @@ class _MyHomePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Antonio Pedro",
+                                Text("${userDetails.name}",
                                     style: textTheme.headline5),
                                 Text(
                                   "Basic Plan",
@@ -116,7 +119,7 @@ class _MyHomePageState extends State<ProfilePage> {
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              "antonio20028@iiitd.ac.in",
+                              "${userDetails.email}",
                               style: textTheme.subtitle1!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
