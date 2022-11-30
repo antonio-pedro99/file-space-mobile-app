@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:space_client_app/app.dart';
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
@@ -13,6 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({required this.authRepository}) : super(LoginInitial()) {
     on<AuthEvent>((event, emit) async {
+      var prefs = await SharedPreferences.getInstance();
+
       if (event is Login) {
         if (!event.email.isEmail()) {
           emit(AuthError("Invalid email"));
@@ -21,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           var result = await authRepository.signIn(
               UserLoginModel(password: event.password, email: event.email));
           if (result["status"]) {
+            prefs.setBool("status", result["status"]);
             emit(AuthLoaded(event.email));
           } else {
             emit(AuthError(result["message"]));
@@ -49,6 +53,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthError(result["message"]));
         } else {
           emit(AuthLoaded(event.email));
+        }
+      } else if (event is Logout) {
+        emit(AuthLoading());
+        var result = await authRepository.signOut();
+        if (!result["status"]) {
+          emit(AuthError(result["message"]));
+        } else {
+          prefs.setBool("status", false);
+          emit(AuthLoaded(""));
         }
       }
     });

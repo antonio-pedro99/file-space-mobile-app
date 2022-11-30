@@ -7,6 +7,7 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
+import 'package:space_client_app/services/aws.dart';
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
@@ -22,38 +23,13 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  final amplify = Amplify;
-  late StreamSubscription subscription;
-  late bool isLoggedIn;
-
-  String session = '';
   @override
   void initState() {
     super.initState();
-    _configureAmplify();
-  }
-
-  Future<void> _configureAmplify() async {
-    final auth = AmplifyAuthCognito();
-    final storage = AmplifyStorageS3();
-
-    try {
-      await amplify.addPlugins([auth, storage]);
-      await amplify.configure(amplifyconfig);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<bool> _isSignedIn() async {
-    final _s = await Amplify.Auth.fetchAuthSession();
-
-    return _s.isSignedIn;
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: deepPurple,
@@ -70,52 +46,50 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ];
           },
           body: Builder(builder: (context) {
-            return isLoggedIn
-                ? Container()
-                : SafeArea(
-                    top: false,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8)
+            return SafeArea(
+                top: false,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
                           .copyWith(top: 55),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/cover.png"),
+                      const SizedBox(height: 34),
+                      Text(
+                        "Save and share your files on the cloud.",
+                        style: textTheme.displaySmall,
+                      ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset("assets/cover.png"),
-                          const SizedBox(height: 34),
-                          Text(
-                            "Save and share your files on the cloud.",
-                            style: textTheme.displaySmall,
+                          CustomButton(
+                            text: "Login",
+                            widget: MediaQuery.of(context).size.width * .6,
+                            onTap: () => Navigator.of(context)
+                                .pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()),
+                                    (route) => false),
                           ),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomButton(
-                                text: "Login",
-                                widget: MediaQuery.of(context).size.width * .6,
-                                onTap: () => Navigator.of(context)
-                                    .pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginPage()),
-                                        (route) => false),
-                              ),
-                              CustomButton(
-                                text: "Signup",
-                                isOutlined: true,
-                                onTap: () => Navigator.of(context)
-                                    .pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignupPage()),
-                                        (route) => false),
-                              )
-                            ],
+                          CustomButton(
+                            text: "Signup",
+                            isOutlined: true,
+                            onTap: () => Navigator.of(context)
+                                .pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignupPage()),
+                                    (route) => false),
                           )
                         ],
-                      ),
-                    ));
+                      )
+                    ],
+                  ),
+                ));
           })),
     );
   }
