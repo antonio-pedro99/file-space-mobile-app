@@ -25,7 +25,7 @@ class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
   String hashEmail(String email) {
     int end = email.indexOf("@") - 1;
     int start = 1;
-    String hashed = email.replaceRange(1, end, "*" * 5);
+    String hashed = email.replaceRange(start, end, "*" * 5);
 
     return hashed;
   }
