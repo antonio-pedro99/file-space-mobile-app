@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
@@ -59,6 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(),
                 )));
               } else if (state is AuthLoaded) {
+             
+
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const PageDriver()),
                     (route) => false);
