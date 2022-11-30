@@ -10,23 +10,13 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
     on<UserEvent>((event, emit) {
-      StreamSubscription<HubEvent> userEvent =
-          Amplify.Hub.listen([HubChannel.Auth], (e) {
-        switch (e.eventName) {
-          case 'SIGNED_IN':
-            emit(UserLogged());
-            break;
-          case 'SIGNED_OUT':
-            emit(UserNotLogged());
-            break;
-          case 'SESSION_EXPIRED':
-            emit(UserSessionExpired());
-            break;
-          case 'USER_DELETED':
-            emit(UserDeleted());
-            break;
+      if (event is LoadUserSession) {
+        if (event.isSigned) {
+          emit(UserLogged());
+        } else {
+          emit(UserNotLogged());
         }
-      });
+      }
     });
   }
 }
