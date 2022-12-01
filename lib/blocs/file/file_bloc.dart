@@ -15,9 +15,15 @@ class FileBloc extends Bloc<FileEvent, FileState> {
       if (event is FileUpload) {
         emit(FileIsUploading());
 
-        await fileOperations.uploadFile(
+        var result = await fileOperations.uploadFile(
             file: event.file, path: event.path, key: event.key);
-        emit(FileUploaded());
+
+        print(result["result"]);
+        if (result["status"]) {
+          emit(FileUploaded());
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
       }
     });
   }

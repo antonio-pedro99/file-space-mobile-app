@@ -73,6 +73,13 @@ class _PageDriverState extends State<PageDriver> {
                         borderRadius: BorderRadius.circular(15))));
           } else if (state is FileUploaded) {
             Navigator.of(context).pop();
+          } else if (state is FileDownUploadError) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(
+                  state.message!,
+                  style: const TextStyle(color: Colors.white),
+                )));
           }
         },
         builder: (context, state) {
@@ -118,10 +125,7 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => uploadTest(
-                                    context,
-                                    _path,
-                                  ),
+                                  onTap: () => uploadTest(context, _path),
                                 ),
                                 ListTile(
                                   leading:
@@ -164,8 +168,8 @@ class _PageDriverState extends State<PageDriver> {
                                                                 color:
                                                                     lightGrey))),
                                                 TextButton(
-                                                    onPressed: () async {
-                                                      await createFolder(
+                                                    onPressed: () {
+                                                      createFolder(
                                                           context,
                                                           _path,
                                                           folderNameTextController

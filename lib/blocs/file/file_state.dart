@@ -13,4 +13,8 @@ class FileDownloaded extends FileState {}
 
 class FileUploaded extends FileState {}
 
-class FileDownUploadError extends FileState {}
+class FileDownUploadError extends FileState {
+  final String? message;
+
+  FileDownUploadError({this.message});
+}

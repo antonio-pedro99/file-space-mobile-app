@@ -75,37 +75,9 @@ void pickFileFromOs(BuildContext context, String path) {
 
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
-  var user = context.read<UserBloc>();
-  try {
-    await Amplify.Storage.uploadFile(
-        local: File(""),
-        key: "$path/$folderName/",
-        options: UploadFileOptions(
-            accessLevel: StorageAccessLevel.private, metadata: {}),
-        onProgress: (progress) {
-          print("LOading");
-          showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                  content: SizedBox(
-                    height: 100,
-                    child: Column(
-                      children: [
-                        LinearProgressIndicator(
-                          value: progress.getFractionCompleted(),
-                        ),
-                        Text(progress.currentBytes.toString())
-                      ],
-                    ),
-                  ),
-                  title: const Text("Creating Folder"),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15))));
-        });
-    print("Folder create");
-  } on StorageException catch (e) {
-    print("Error $e");
-  }
+  print("Creating Folder");
+  BlocProvider.of<FileBloc>(context)
+      .add(FileUpload(file: File(""), path: path, key: folderName));
 }
 
 void uploadTest(BuildContext context, String path) {
@@ -118,21 +90,15 @@ void uploadTest(BuildContext context, String path) {
       final key = platformFile.name;
       final file = File(_path);
 
-      try {
-        if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
-            user.user.quotaLimit!) {
-          BlocProvider.of<FileBloc>(context)
-              .add(FileUpload(file: file, path: path, key: key));
-        }
-        await user.user.updateQuotaUsed(platformFile.size.toDouble().toMB());
-      } on StorageException catch (e) {
-        print("Error $e");
+      if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
+          user.user.quotaLimit!) {
+        BlocProvider.of<FileBloc>(context)
+            .add(FileUpload(file: file, path: path, key: key));
       }
+      await user.user.updateQuotaUsed(platformFile.size.toDouble().toMB());
     } else {
       print("Cant");
     }
   });
 }
-
-  /* Navigator.of(context).pop(); */
 
