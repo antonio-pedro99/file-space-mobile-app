@@ -16,9 +16,7 @@ class Signup extends AuthEvent {
   Signup({required this.email, required this.name, required this.password});
 }
 
-class Logout extends AuthEvent {
-
-}
+class Logout extends AuthEvent {}
 
 class ConfirmSignup extends AuthEvent {
   final String code;

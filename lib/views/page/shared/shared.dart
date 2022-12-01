@@ -74,21 +74,23 @@ class _MyHomePageState extends State<SharedPage> {
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   bool isFolder =
-                                      files[index].key.contains("/");
+                                      files[index].key.endsWith("/");
                                   return ListTile(
-                                    title: isFolder
-                                        ? Text(
-                                            files[index].key.split("/").first)
-                                        : Text(files[index].key),
-                                    subtitle: !isFolder
-                                        ? Text(
-                                            "${(files[index].size! / 1024).toStringAsFixed(2)} KB")
-                                        : Text(files[index]
-                                            .size!
-                                            .toDouble()
-                                            .getSizeFormat()
-                                            .toStringAsFixed(2)),
-                                  );
+                                      title: isFolder
+                                          ? Text(files[index].key)
+                                          : Text(files[index]
+                                              .key
+                                              .split("/")
+                                              .lastWhere((element) =>
+                                                  element.isNotEmpty)),
+                                      subtitle: isFolder
+                                          ? Text(files[index]
+                                              .size!
+                                              .toDouble()
+                                              .getSizeFormat()
+                                              .toStringAsFixed(1))
+                                          : Text(
+                                              "${(files[index].size! / 1024).toStringAsFixed(2)} KB"));
                                 },
                               );
                             }))

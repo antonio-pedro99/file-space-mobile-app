@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
@@ -53,18 +54,42 @@ class _PageDriverState extends State<PageDriver> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(),
-      body: PageView(
-        controller: controller,
-        physics: const NeverScrollableScrollPhysics(),
-        children: AppPages.pages,
-        onPageChanged: (v) {
-          setState(() => currentPage = v);
+      body: BlocConsumer<FileBloc, FileState>(
+        listener: (context, state) {
+          if (state is FileIsUploading) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    content: SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: const [
+                          LinearProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    title: const Text("Uploading your file"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))));
+          } else if (state is FileUploaded) {
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context, state) {
+          return PageView(
+            controller: controller,
+            physics: const NeverScrollableScrollPhysics(),
+            children: AppPages.pages,
+            onPageChanged: (v) {
+              setState(() => currentPage = v);
+            },
+          );
         },
       ),
       floatingActionButton: Visibility(
           visible: currentPage != 3 && !showFloatingActionButton,
           child: FloatingActionButton(
-            onPressed: () {
+            onPressed: () async {
               showModalBottomSheet(
                   context: context,
                   elevation: 3,
@@ -93,7 +118,7 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => pickFileFromOs(
+                                  onTap: () => uploadTest(
                                     context,
                                     _path,
                                   ),
@@ -139,7 +164,13 @@ class _PageDriverState extends State<PageDriver> {
                                                                 color:
                                                                     lightGrey))),
                                                 TextButton(
-                                                    onPressed: () {},
+                                                    onPressed: () async {
+                                                      await createFolder(
+                                                          context,
+                                                          _path,
+                                                          folderNameTextController
+                                                              .text);
+                                                    },
                                                     child: const Text("Create"))
                                               ],
                                             ));

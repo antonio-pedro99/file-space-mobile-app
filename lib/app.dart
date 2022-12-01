@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
+import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'dart:math' as math;
 import 'package:space_client_app/data/repository/auth.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<AuthBloc>(
               create: (_) => AuthBloc(authRepository: AuthenticationUser())),
-          BlocProvider<UserBloc>(create: (_) => UserBloc())
+          BlocProvider<UserBloc>(create: (_) => UserBloc()),
+          BlocProvider<FileBloc>(create: (_) => FileBloc())
         ],
         child: MaterialApp(
             title: 'SpaceFile',
