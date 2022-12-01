@@ -71,7 +71,7 @@ extension MBConverter on double {
   }
 
   double toGB() {
-    return this / 1e9;
+    return this / 1e+9;
   }
 
   double toKB() {

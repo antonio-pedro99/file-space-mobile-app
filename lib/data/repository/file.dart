@@ -15,7 +15,6 @@ class FileRepository {
           onProgress: (progress) {
             result = progress;
           });
-      print("Uploaded\n");
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }

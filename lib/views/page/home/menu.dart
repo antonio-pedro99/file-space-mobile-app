@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/app.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/notifications/notifications.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
@@ -55,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                             builder: (context) => const StorageOverviewPage()),
                       ),
                       child: Text(
-                        "0.0% of 2.0 GB used",
+                        "${userDetails.getTotalSpacePercentage()} % of ${userDetails.quotaLimit!.toDouble() / 1024} GB used",
                         style: textTheme.subtitle1!.copyWith(fontSize: 14),
                       ),
                     ),
