@@ -48,7 +48,9 @@ class CustomDrawer extends StatelessWidget {
                           .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(height: 8),
-                    const LinearProgressIndicator(),
+                    LinearProgressIndicator(
+                        value: userDetails.quotaUsed!.toDouble() /
+                            userDetails.quotaLimit!.toDouble()),
                     const SizedBox(height: 2),
                     InkWell(
                       onTap: () => Navigator.of(context).push(

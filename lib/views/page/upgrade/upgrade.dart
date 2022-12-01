@@ -76,6 +76,7 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
                     content: Text(
                   "Upgraded successfully",
                 )));
+                Navigator.of(context).pop();
               } else if (state is UserLoadingError) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     backgroundColor: Colors.red,
