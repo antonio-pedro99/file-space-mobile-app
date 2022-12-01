@@ -23,6 +23,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         } else {
           emit(UserLoadingError());
         }
+      } else if (event is UpgradeQuotaUser) {
+        emit(UserLoading());
+
+        await user.upgradeQuota(event.quota!);
+        emit(UserLoaded());
       }
     });
   }

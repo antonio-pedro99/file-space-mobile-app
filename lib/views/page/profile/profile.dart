@@ -141,7 +141,7 @@ class _MyHomePageState extends State<ProfilePage> {
                                         const StorageOverviewPage()),
                               ),
                               child: Text(
-                                "${userDetails.getTotalSpacePercentage()} % of ${userDetails.quotaLimit!.toDouble() / 1024} GB used",
+                                "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
                                 style:
                                     textTheme.subtitle1!.copyWith(fontSize: 14),
                               ),
