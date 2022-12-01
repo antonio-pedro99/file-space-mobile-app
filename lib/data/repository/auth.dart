@@ -17,11 +17,14 @@ class AuthenticationUser {
     return {"status": true, "message": "Success!"};
   }
 
+  //aws signup and save UserDetails on Metadata DB
   Future<Map<String, dynamic>> signUp(UserSignUpModel userDetails) async {
     try {
       final attr = <CognitoUserAttributeKey, String>{
         CognitoUserAttributeKey.email: userDetails.email,
-        CognitoUserAttributeKey.name: userDetails.name
+        CognitoUserAttributeKey.name: userDetails.name,
+        const CognitoUserAttributeKey.custom('limit_quota'): "1024",
+        const CognitoUserAttributeKey.custom('quota_used'): "0",
       };
 
       await Amplify.Auth.signUp(

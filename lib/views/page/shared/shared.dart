@@ -1,5 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:space_client_app/app.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
 class SharedPage extends StatefulWidget {
@@ -73,20 +74,23 @@ class _MyHomePageState extends State<SharedPage> {
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   bool isFolder =
-                                      files[index].key.contains("/");
+                                      files[index].key.endsWith("/");
                                   return ListTile(
-                                    title: isFolder
-                                        ? Text(
-                                            files[index].key.split("/").first)
-                                        : Text(files[index].key),
-                                    subtitle: !isFolder
-                                        ? Text(
-                                            "${(files[index].size! / 1024).toStringAsFixed(2)} KB")
-                                        : Text(files[index]
-                                            .lastModified!
-                                            .day
-                                            .toString()),
-                                  );
+                                      title: isFolder
+                                          ? Text(files[index].key)
+                                          : Text(files[index]
+                                              .key
+                                              .split("/")
+                                              .lastWhere((element) =>
+                                                  element.isNotEmpty)),
+                                      subtitle: isFolder
+                                          ? Text(files[index]
+                                              .size!
+                                              .toDouble()
+                                              .getSizeFormat()
+                                              .toStringAsFixed(1))
+                                          : Text(
+                                              "${(files[index].size! / 1024).toStringAsFixed(2)} KB"));
                                 },
                               );
                             }))
