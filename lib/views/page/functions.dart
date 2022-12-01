@@ -62,6 +62,7 @@ void pickFileFromOs(BuildContext context, String path) {
                             borderRadius: BorderRadius.circular(15))));
               });
         }
+        await user.user.updateQuotaUsed(platformFile.size.toDouble().toMB());
       } on StorageException catch (e) {
         print("Error $e");
       }
