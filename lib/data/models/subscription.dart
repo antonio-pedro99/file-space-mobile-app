@@ -3,6 +3,7 @@ class Subscription {
   final List<String>? features;
   final double? price;
   final double? storage;
+  final int? quotaLimit;
   final bool? isCurrent;
 
   Subscription(
@@ -10,5 +11,6 @@ class Subscription {
       this.isCurrent,
       this.price,
       this.storage,
+      this.quotaLimit,
       this.subScriptionName});
 }

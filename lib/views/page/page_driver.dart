@@ -27,6 +27,8 @@ class _PageDriverState extends State<PageDriver> {
 
   var folderNameTextController = TextEditingController();
 
+  static const String _path = "files";
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +49,7 @@ class _PageDriverState extends State<PageDriver> {
     var size = MediaQuery.of(context).size;
     var showFloatingActionButton =
         MediaQuery.of(context).viewInsets.bottom != 0;
+    var user = context.read<UserBloc>();
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(),
@@ -90,7 +93,10 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => pickFileFromOs(context),
+                                  onTap: () => pickFileFromOs(
+                                    context,
+                                    _path,
+                                  ),
                                 ),
                                 ListTile(
                                   leading:

@@ -1,20 +1,12 @@
-import 'dart:async';
 
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_auth_cognito/method_channel_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_client_app/blocs/user/user_bloc.dart';
-import 'package:space_client_app/services/aws.dart';
+
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/auth/signup.dart';
-import 'package:space_client_app/views/page/page_driver.dart';
+
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/button_text.dart';
 
-import '../../../amplifyconfiguration.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);

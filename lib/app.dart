@@ -1,8 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
-
+import 'dart:math' as math;
 import 'package:space_client_app/data/repository/auth.dart';
 import 'package:space_client_app/views/page/auth/onboarding.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
@@ -58,5 +60,33 @@ extension EmailChecker on String {
     var emailPattern = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     return emailPattern.hasMatch(this);
+  }
+}
+
+extension MBConverter on double {
+  double toMB() {
+    return this / 1e+6;
+  }
+
+  double toGB() {
+    return this / 1e9;
+  }
+
+  double toKB() {
+    return this / 1024;
+  }
+
+  double getSizeFormat() {
+    if (this > 0 && this <= math.pow(10, 6)) {
+      print("Is KB");
+      return toKB();
+    } else if (this > math.pow(10, 6) && this <= math.pow(10, 9)) {
+      print("is MB");
+      return toMB();
+    } else if (this > math.pow(10, 9) && this < math.pow(10, 12)) {
+      print("is GB");
+      return toGB();
+    }
+    return 0;
   }
 }

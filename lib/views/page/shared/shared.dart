@@ -1,5 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:space_client_app/app.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
 class SharedPage extends StatefulWidget {
@@ -83,9 +84,10 @@ class _MyHomePageState extends State<SharedPage> {
                                         ? Text(
                                             "${(files[index].size! / 1024).toStringAsFixed(2)} KB")
                                         : Text(files[index]
-                                            .lastModified!
-                                            .day
-                                            .toString()),
+                                            .size!
+                                            .toDouble()
+                                            .getSizeFormat()
+                                            .toStringAsFixed(2)),
                                   );
                                 },
                               );
