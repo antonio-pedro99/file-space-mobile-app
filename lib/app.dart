@@ -92,3 +92,13 @@ extension MBConverter on double {
     return 0;
   }
 }
+
+extension FileDynamicType on String {
+  bool isFolder() {
+    return contains("/");
+  }
+
+  String getFolderName() {
+    return split('/').lastWhere((element) => element.isNotEmpty);
+  }
+}

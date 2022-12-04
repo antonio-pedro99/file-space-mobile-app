@@ -18,7 +18,16 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         var result = await fileOperations.uploadFile(
             file: event.file, path: event.path, key: event.key);
 
-        print(result["result"]);
+        if (result["status"]) {
+          emit(FileUploaded());
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
+      } else if (event is CreateFolder) {
+        emit(FileIsUploading());
+        var result = await fileOperations.createFolder(
+            folderName: event.folderName!, path: event.path);
+
         if (result["status"]) {
           emit(FileUploaded());
         } else {
