@@ -132,7 +132,6 @@ class _PageDriverState extends State<PageDriver> {
                                       const Icon(Icons.folder_open_outlined),
                                   title: const Text("Create New Folder"),
                                   onTap: () {
-                                    Navigator.of(context).pop();
                                     showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
