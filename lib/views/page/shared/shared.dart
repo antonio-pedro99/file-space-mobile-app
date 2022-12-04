@@ -73,16 +73,12 @@ class _MyHomePageState extends State<SharedPage> {
                                 itemCount: files!.length,
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  bool isFolder =
-                                      files[index].key.endsWith("/");
+                                  bool isFolder = files[index].key.isFolder();
                                   return ListTile(
                                       title: isFolder
-                                          ? Text(files[index].key)
-                                          : Text(files[index]
-                                              .key
-                                              .split("/")
-                                              .lastWhere((element) =>
-                                                  element.isNotEmpty)),
+                                          ? Text(
+                                              files[index].key.getFolderName())
+                                          : Text(files[index].key),
                                       subtitle: isFolder
                                           ? Text(files[index]
                                               .size!
