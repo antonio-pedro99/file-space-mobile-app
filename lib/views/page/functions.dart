@@ -4,7 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_client_app/app.dart';
+import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 
 import '../../blocs/user/user_bloc.dart';
@@ -75,11 +75,9 @@ void pickFileFromOs(BuildContext context, String path) {
 
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
-  print("Creating Folder");
- 
- 
   BlocProvider.of<FileBloc>(context)
       .add(CreateFolder(path: path, folderName: folderName));
+  Navigator.of(context).pop();
 }
 
 void uploadTest(BuildContext context, String path) {
