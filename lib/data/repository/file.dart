@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FileRepository {
   Future<Map<String, dynamic>> uploadFile(
@@ -23,5 +23,24 @@ class FileRepository {
       "total": result.totalBytes,
       "status": true
     };
+  }
+
+  Future<Map<String, dynamic>> createFolder(
+      {String? folderName, String? path}) async {
+    var result = UploadFileResult(key: "");
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final tmpFile = File("${tempDir.path}/$folderName")..createSync();
+
+      result = await Amplify.Storage.uploadFile(
+          local: tmpFile,
+          key: "$path/$folderName/",
+          options: UploadFileOptions(
+              accessLevel: StorageAccessLevel.private, metadata: {}));
+      print("${result.key} Created!");
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return {"key": result.key, "status": true};
   }
 }

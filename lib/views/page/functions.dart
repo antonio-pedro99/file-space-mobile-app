@@ -76,8 +76,10 @@ void pickFileFromOs(BuildContext context, String path) {
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
   print("Creating Folder");
+ 
+ 
   BlocProvider.of<FileBloc>(context)
-      .add(FileUpload(file: File(""), path: path, key: folderName));
+      .add(CreateFolder(path: path, folderName: folderName));
 }
 
 void uploadTest(BuildContext context, String path) {

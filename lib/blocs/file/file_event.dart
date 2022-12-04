@@ -15,3 +15,9 @@ class FileDownload extends FileEvent {
   final String? key;
   FileDownload({this.key});
 }
+
+class CreateFolder extends FileEvent {
+  final String? folderName;
+  final String? path;
+  CreateFolder({this.folderName, this.path});
+}
