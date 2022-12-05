@@ -1,7 +1,11 @@
 import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/overview/widgets/static_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
+
+import '../../../blocs/user/user_bloc.dart';
 
 class StorageOverviewPage extends StatefulWidget {
   const StorageOverviewPage({Key? key}) : super(key: key);
@@ -14,6 +18,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
+    var userDetails = context.read<UserBloc>().user;
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -40,9 +45,16 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                       children: [
                         DChartPie(
                           showLabelLine: false,
-                          data: const [
-                            {'domain': 'not_used', 'measure': 27},
-                            {'domain': 'used', 'measure': 53},
+                          data: [
+                            {
+                              'domain': 'not_used',
+                              'measure': userDetails.quotaLimit! -
+                                  userDetails.quotaUsed!
+                            },
+                            {
+                              'domain': 'used',
+                              'measure': userDetails.quotaUsed!
+                            },
                           ],
                           strokeWidth: 0,
                           fillColor: (pieData, index) {
@@ -59,7 +71,8 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                         ),
                         Align(
                           alignment: Alignment.center,
-                          child: Text("0%",
+                          child: Text(
+                              "${userDetails.getTotalSpacePercentage()} %",
                               style: textTheme.headline5!.copyWith(
                                   fontSize: 28, fontWeight: FontWeight.w400)),
                         )
@@ -75,7 +88,8 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           style: textTheme.subtitle2!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        Text("2.0 GB",
+                        Text(
+                            "${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB",
                             style: textTheme.headline5!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],
@@ -87,7 +101,8 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           style: textTheme.subtitle2!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        Text("0.0 GB",
+                        Text(
+                            "${(userDetails.quotaUsed!.toDouble() / 1024).toStringAsFixed(2)} GB",
                             style: textTheme.headline5!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],
