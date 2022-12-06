@@ -18,3 +18,10 @@ class FileDownUploadError extends FileState {
 
   FileDownUploadError({this.message});
 }
+
+class FileIsLoading extends FileState {}
+
+class FileLoaded extends FileState {
+  final List<StorageItem> items;
+  FileLoaded(this.items);
+}

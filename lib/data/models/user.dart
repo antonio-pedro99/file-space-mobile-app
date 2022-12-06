@@ -33,6 +33,15 @@ class UserAuthDetails {
     var used = quotaUsed! / quotaLimit! * 100;
     return used.toStringAsFixed(2);
   }
+
+  toMap() {
+    return {
+      "email": email,
+      "name": name,
+      "quota_used": quotaUsed,
+      "limit_quota": quotaLimit,
+    };
+  }
 }
 
 class UserDetails {

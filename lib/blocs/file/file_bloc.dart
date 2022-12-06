@@ -1,7 +1,9 @@
 import 'dart:io';
-
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
 part 'file_event.dart';
@@ -16,7 +18,10 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         emit(FileIsUploading());
 
         var result = await fileOperations.uploadFile(
-            file: event.file, path: event.path, key: event.key);
+            file: event.file,
+            path: event.path,
+            key: event.key,
+            user: event.user);
 
         if (result["status"]) {
           emit(FileUploaded());
@@ -33,6 +38,10 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
+      } else if (event is LoadFile) {
+        emit(FileIsLoading());
+        var result = await fileOperations.loadFiles();
+        emit(FileLoaded(result));
       }
     });
   }

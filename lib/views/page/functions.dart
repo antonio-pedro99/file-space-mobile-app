@@ -44,7 +44,7 @@ void uploadFile(BuildContext context, String path) {
       if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
           user.user.quotaLimit!) {
         BlocProvider.of<FileBloc>(context)
-            .add(FileUpload(file: file, path: path, key: key));
+            .add(FileUpload(file: file, path: path, key: key, user: user.user));
       }
       await user.userAttr
           .updateQuotaUsed(user.user, platformFile.size.toDouble().toMB());
