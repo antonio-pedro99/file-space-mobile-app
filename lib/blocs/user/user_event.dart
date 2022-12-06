@@ -13,3 +13,8 @@ class UpgradeQuotaUser extends UserEvent {
 
   UpgradeQuotaUser({this.quota});
 }
+
+class UpdateProfilePhoto extends UserEvent {
+  final String? photoUrl;
+  UpdateProfilePhoto({this.photoUrl});
+}

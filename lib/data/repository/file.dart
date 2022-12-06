@@ -37,7 +37,6 @@ class FileRepository {
           key: "$path/$folderName/",
           options: UploadFileOptions(
               accessLevel: StorageAccessLevel.private, metadata: {}));
-      print("${result.key} Created!");
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }

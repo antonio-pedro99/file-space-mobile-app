@@ -45,6 +45,7 @@ dependencies:
   bloc: ^8.1.0
   shared_preferences: ^2.0.15
   path_provider: ^2.0.11
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

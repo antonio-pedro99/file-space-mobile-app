@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
-import 'package:space_client_app/views/page/workspaces/widgets/workspace_tile.dart';
 
 class WorkSpaceContentPage extends StatefulWidget {
   const WorkSpaceContentPage({Key? key}) : super(key: key);

@@ -29,41 +29,6 @@ class UserAuthDetails {
       }
     }
   }
-
-  Future<void> updateQuotaUsed(double val) async {
-    try {
-      quotaUsed = quotaUsed! + val;
-      final result = await Amplify.Auth.updateUserAttribute(
-        userAttributeKey: const CognitoUserAttributeKey.custom('quota_used'),
-        value: quotaUsed.toString(),
-      );
-      if (result.isUpdated) {
-        print("Updated\n");
-      } else {
-        print('Update completed');
-      }
-    } on AmplifyException catch (e) {
-      print(e.message);
-    }
-  }
-
-  Future<void> upgradeQuota(double quota) async {
-    try {
-      quotaLimit = quotaLimit! + quota;
-      final result = await Amplify.Auth.updateUserAttribute(
-        userAttributeKey: const CognitoUserAttributeKey.custom('limit_quota'),
-        value: quotaLimit.toString(),
-      );
-      if (result.isUpdated) {
-        print("Updated\n");
-      } else {
-        print('Update completed');
-      }
-    } on AmplifyException catch (e) {
-      print(e.message);
-    }
-  }
-
   String getTotalSpacePercentage() {
     var used = quotaUsed! / quotaLimit! * 100;
     return used.toStringAsFixed(2);

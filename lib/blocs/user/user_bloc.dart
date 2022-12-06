@@ -10,15 +10,15 @@ part 'user_event.dart';
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  final UserRepository _userAttr = UserRepository();
+  final UserRepository userAttr = UserRepository();
   UserAuthDetails user = UserAuthDetails();
   UserBloc() : super(UserInitial()) {
     on<UserEvent>((event, emit) async {
       if (event is LoadUserSession) {
         if (event.isSigned) {
           emit(UserLoading());
-          await _userAttr.fetchCurrentUserAttributes();
-          user = UserAuthDetails.fromAttr(_userAttr.user);
+          await userAttr.fetchCurrentUserAttributes();
+          user = UserAuthDetails.fromAttr(userAttr.user);
           emit(UserLoaded());
         } else {
           emit(UserLoadingError());
@@ -26,7 +26,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } else if (event is UpgradeQuotaUser) {
         emit(UserLoading());
 
-        await user.upgradeQuota(event.quota!);
+        await userAttr.upgradeQuota(user, event.quota!);
+        emit(UserLoaded());
+      } else if (event is UpdateProfilePhoto) {
+        emit(UserLoading());
+
+        await userAttr.updateProfilePhoto(user, event.photoUrl!);
         emit(UserLoaded());
       }
     });
