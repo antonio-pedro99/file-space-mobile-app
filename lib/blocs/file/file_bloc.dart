@@ -37,7 +37,7 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         }
       } else if (event is LoadFiles) {
         emit(FileIsLoading());
-        var result = await fileOperations.loadUserFiles();
+        var result = await fileOperations.loadUserFiles(event.userEmail);
     
         emit(FileLoaded(result));
       }

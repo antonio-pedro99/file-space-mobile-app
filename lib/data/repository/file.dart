@@ -49,8 +49,8 @@ class FileRepository {
     return {"key": result.key, "status": true};
   }
 
-  Future<List<PathObject>> loadUserFiles() async {
-    String loadUrl = "http://192.168.150.17:8000/user/files";
+  Future<List<PathObject>> loadUserFiles(String userEmail) async {
+    String loadUrl = "http://192.168.150.17:8000/user/$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);

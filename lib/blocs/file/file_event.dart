@@ -23,6 +23,6 @@ class CreateFolder extends FileEvent {
 }
 
 class LoadFiles extends FileEvent {
-  final UserAuthDetails? user;
-  LoadFiles({this.user});
+  final String userEmail;
+  LoadFiles(this.userEmail);
 }

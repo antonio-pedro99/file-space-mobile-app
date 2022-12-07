@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
@@ -24,15 +25,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    BlocProvider.of<FileBloc>(context).add(LoadFiles());
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var userDetails = context.read<UserBloc>().user;
+
+    BlocProvider.of<FileBloc>(context)
+        .add(LoadFiles(context.read<UserBloc>().user.email!));
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -134,25 +136,29 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         Flexible(
-                            child: !isList
-                                ? GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 180,
-                                      childAspectRatio: 3 / 4,
-                                    ),
-                                    itemCount: _files.length,
-                                    itemBuilder: (context, index) {
-                                      return GridFileTile(
-                                          object: _files[index]);
-                                    })
-                                : ListView.builder(
-                                    itemCount: _files.length,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return FileTile(object: _files[index]);
-                                    },
-                                  ))
+                            child: state is FileIsLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : !isList
+                                    ? GridView.builder(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 180,
+                                          childAspectRatio: 3 / 4,
+                                        ),
+                                        itemCount: _files.length,
+                                        itemBuilder: (context, index) {
+                                          return GridFileTile(
+                                              object: _files[index]);
+                                        })
+                                    : ListView.builder(
+                                        itemCount: _files.length,
+                                        physics: const BouncingScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return FileTile(
+                                              object: _files[index]);
+                                        },
+                                      ))
                       ],
                     ),
                   ));

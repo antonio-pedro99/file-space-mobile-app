@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
@@ -19,14 +20,16 @@ class _MyHomePageState extends State<FolderContentPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FileBloc>(context).add(LoadFiles());
   }
+
+  List<PathObject> _files = [];
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    List<PathObject> _files = [];
+    BlocProvider.of<FileBloc>(context)
+        .add(LoadFiles(context.read<UserBloc>().user.email!));
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
