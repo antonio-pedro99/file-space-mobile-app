@@ -75,8 +75,9 @@ void pickFileFromOs(BuildContext context, String path) {
 
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
-  BlocProvider.of<FileBloc>(context)
-      .add(CreateFolder(path: path, folderName: folderName));
+  var user = context.read<UserBloc>();
+  BlocProvider.of<FileBloc>(context).add(CreateFolder(
+      path: path, folderName: folderName, userEmail: user.user.email));
   Navigator.of(context).pop();
 }
 
@@ -92,8 +93,12 @@ void uploadTest(BuildContext context, String path) {
 
       if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
           user.user.quotaLimit!) {
-        BlocProvider.of<FileBloc>(context)
-            .add(FileUpload(file: file, path: path, key: key));
+        BlocProvider.of<FileBloc>(context).add(FileUpload(
+            file: file,
+            path: path,
+            key: key,
+            size: platformFile.size,
+            userEmail: user.user.email));
       }
       await user.user.updateQuotaUsed(platformFile.size.toDouble().toMB());
     } else {
@@ -101,3 +106,6 @@ void uploadTest(BuildContext context, String path) {
     }
   });
 }
+
+String getParentPath(String path) =>
+    path.split("/").firstWhere((element) => element.isNotEmpty);

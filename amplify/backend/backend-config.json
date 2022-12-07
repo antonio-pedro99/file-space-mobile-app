@@ -30,8 +30,7 @@
   "function": {
     "S3Trigger0796e2c3": {
       "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
+      "providerPlugin": "awscloudformation"
     }
   },
   "storage": {

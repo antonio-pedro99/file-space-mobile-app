@@ -1,8 +1,12 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/folder%20content/folder.dart';
+import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
@@ -29,10 +33,14 @@ extension BuildIcon on FileTileType {
     return Icons.abc;
   }
 
-  void openMenu(type, context, name) {
+  void openMenu(type, context, name, parent, userEmail) {
     if (type == FileType.folder) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FolderContentPage(title: name)));
+          builder: (context) => FolderContentPage(
+                title: name,
+                parent: parent,
+                userEmail: userEmail,
+              )));
     }
   }
 }
@@ -47,8 +55,10 @@ class FileTile extends StatelessWidget with FileTileType {
     var textTheme = Theme.of(context).textTheme;
 
     var color = magicColors[math.Random().nextInt(magicColors.length)];
+    var user = context.read<UserBloc>().user;
     return ListTile(
-        onTap: () => openMenu(object.getType(), context, object.fileName),
+        onTap: () => openMenu(object.getType(), context, object.fileName,
+            getParentPath(object.filePath!), user.email),
         leading: Container(
           height: 45,
           width: 45,
@@ -62,7 +72,8 @@ class FileTile extends StatelessWidget with FileTileType {
               .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         subtitle: object.getType() != FileType.folder
-            ? Text("${object.fileSize! / 1024} MB")
+            ? Text(
+                "${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}")
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
           onPressed: () => showOptions(context, getIcon(object.getType()),
