@@ -64,7 +64,7 @@ class FileTile extends StatelessWidget with FileTileType {
         ),
         subtitle: object.getType() != FileType.folder
             ? Text(
-                "${object.fileSize!.toDouble().getSizeFormat().toStringAsFixed(2)} MB")
+                "${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}")
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
           onPressed: () => showOptions(context, getIcon(object.getType()),
