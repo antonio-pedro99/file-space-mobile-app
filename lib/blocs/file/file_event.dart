@@ -21,3 +21,8 @@ class CreateFolder extends FileEvent {
   final String? path;
   CreateFolder({this.folderName, this.path});
 }
+
+class LoadFiles extends FileEvent {
+  final UserAuthDetails? user;
+  LoadFiles({this.user});
+}

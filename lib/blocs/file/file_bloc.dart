@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
 part 'file_event.dart';
@@ -33,6 +35,11 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
+      } else if (event is LoadFiles) {
+        emit(FileIsLoading());
+        var result = await fileOperations.loadUserFiles();
+    
+        emit(FileLoaded(result));
       }
     });
   }

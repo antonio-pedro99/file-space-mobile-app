@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/data/repository/mock_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -15,8 +17,16 @@ class FolderContentPage extends StatefulWidget {
 
 class _MyHomePageState extends State<FolderContentPage> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<FileBloc>(context).add(LoadFiles());
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
+    List<PathObject> _files = [];
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -67,12 +77,27 @@ class _MyHomePageState extends State<FolderContentPage> {
                       ],
                     ),
                     Flexible(
-                        child: ListView.builder(
-                      itemCount: MockRepository.getAllFiles().length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FileTile(
-                            object: MockRepository.getAllFiles()[index]);
+                        child: BlocConsumer<FileBloc, FileState>(
+                      listener: (context, state) {
+                        if (state is FileLoaded) {
+                          print("files = ${state.files}");
+                          _files = state.files;
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is FileDownUploadError) {
+                          return Container(color: Colors.red);
+                        } else if (state is FileIsLoading) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+                          itemCount: _files.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return FileTile(object: _files[index]);
+                          },
+                        );
                       },
                     ))
                   ],

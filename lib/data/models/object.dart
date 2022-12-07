@@ -1,7 +1,7 @@
 import 'package:space_client_app/views/page/home/enums.dart';
 
 class PathObject {
-  int? objectId;
+  String? objectId;
   bool? isFolder;
   String? modified;
   String? fileName;
