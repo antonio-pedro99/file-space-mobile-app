@@ -106,3 +106,6 @@ void uploadTest(BuildContext context, String path) {
     }
   });
 }
+
+String getParentPath(String path) =>
+    path.split("/").firstWhere((element) => element.isNotEmpty);
