@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/mock_data.dart';
+import 'package:space_client_app/views/page/category%20content/content.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
@@ -80,14 +82,32 @@ class _MyHomePageState extends State<MyHomePage> {
                                 icon: Icons.apps_rounded,
                                 color: deepPurple,
                               ),
-                              const CategoryTile(
+                              CategoryTile(
                                   category: "Folders",
                                   icon: Icons.folder_rounded,
-                                  color: green),
-                              const CategoryTile(
+                                  color: green,
+                                  onTap: (() => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CategoryContentPage(
+                                                title: "Folders",
+                                                userEmail: userDetails.email,
+                                                test: (PathObject o) =>
+                                                    o.isFolder!,
+                                              ))))),
+                              CategoryTile(
                                   category: "Files",
                                   icon: Icons.insert_drive_file_rounded,
-                                  color: blueOcean),
+                                  color: blueOcean,
+                                  onTap: (() => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CategoryContentPage(
+                                                title: "Files",
+                                                userEmail: userDetails.email,
+                                                test: (PathObject o) =>
+                                                    !o.isFolder!,
+                                              ))))),
                               CategoryTile(
                                 category: "Shared",
                                 icon: Icons.folder_shared_rounded,
