@@ -18,7 +18,11 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         emit(FileIsUploading());
 
         var result = await fileOperations.uploadFile(
-            file: event.file, path: event.path, key: event.key);
+            file: event.file,
+            path: event.path,
+            key: event.key,
+            size: event.size,
+            userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
@@ -28,7 +32,7 @@ class FileBloc extends Bloc<FileEvent, FileState> {
       } else if (event is CreateFolder) {
         emit(FileIsUploading());
         var result = await fileOperations.createFolder(
-            folderName: event.folderName!, path: event.path);
+            key: event.folderName!, path: event.path, userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
@@ -38,7 +42,7 @@ class FileBloc extends Bloc<FileEvent, FileState> {
       } else if (event is LoadFiles) {
         emit(FileIsLoading());
         var result = await fileOperations.loadUserFiles(event.userEmail);
-    
+
         emit(FileLoaded(result));
       }
     });

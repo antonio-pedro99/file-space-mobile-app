@@ -7,8 +7,9 @@ class FileUpload extends FileEvent {
   final File? file;
   final String? key;
   final String? path;
-
-  FileUpload({this.path, this.file, this.key});
+  final int? size;
+  final String? userEmail;
+  FileUpload({this.path, this.file, this.key, this.size, this.userEmail});
 }
 
 class FileDownload extends FileEvent {
@@ -19,7 +20,8 @@ class FileDownload extends FileEvent {
 class CreateFolder extends FileEvent {
   final String? folderName;
   final String? path;
-  CreateFolder({this.folderName, this.path});
+  final String? userEmail;
+  CreateFolder({this.folderName, this.path,this.userEmail});
 }
 
 class LoadFiles extends FileEvent {
