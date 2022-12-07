@@ -99,7 +99,7 @@ class FileRepository {
             "is_folder": isFolder,
             "modified": modified,
             "file_name": key,
-            "file_extension": key!.split(".").last,
+            "file_extension": !isFolder ? key!.split(".").last : "folder",
             "file_size": size,
             "file_path": "/$path/$key",
             "user": {"email": userEmail}
