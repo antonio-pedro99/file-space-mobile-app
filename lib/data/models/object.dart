@@ -1,7 +1,7 @@
 import 'package:space_client_app/views/page/home/enums.dart';
 
 class PathObject {
-  int? version;
+  int? objectId;
   bool? isFolder;
   String? modified;
   String? fileName;
@@ -10,7 +10,7 @@ class PathObject {
   String? filePath;
 
   PathObject(
-      {this.version,
+      {this.objectId,
       this.isFolder,
       this.modified,
       this.fileName,
@@ -19,7 +19,7 @@ class PathObject {
       this.filePath});
 
   PathObject.fromJson(Map<String, dynamic> json) {
-    version = json['version'];
+    objectId = json['object_id'];
     isFolder = json['is_folder'];
     modified = json['modified'];
     fileName = json['file_name'];
@@ -30,7 +30,7 @@ class PathObject {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['version'] = version;
+    data['object_id'] = objectId;
     data['is_folder'] = isFolder;
     data['modified'] = modified;
     data['file_name'] = fileName;
