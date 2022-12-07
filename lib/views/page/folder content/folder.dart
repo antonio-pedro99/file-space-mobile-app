@@ -80,7 +80,6 @@ class _MyHomePageState extends State<FolderContentPage> {
                         child: BlocConsumer<FileBloc, FileState>(
                       listener: (context, state) {
                         if (state is FileLoaded) {
-                          print("files = ${state.files}");
                           _files = state.files;
                         }
                       },

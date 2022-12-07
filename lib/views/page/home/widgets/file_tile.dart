@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -62,7 +63,8 @@ class FileTile extends StatelessWidget with FileTileType {
               .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         subtitle: object.getType() != FileType.folder
-            ? Text("${object.fileSize! / 1024} MB")
+            ? Text(
+                "${object.fileSize!.toDouble().getSizeFormat().toStringAsFixed(2)} MB")
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
           onPressed: () => showOptions(context, getIcon(object.getType()),
