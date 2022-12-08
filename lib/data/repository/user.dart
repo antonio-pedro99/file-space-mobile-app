@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
@@ -66,6 +67,18 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       print(e.message);
+    }
+  }
+
+  Future<String> fetchCognitoUserId() async {
+    try {
+      final result = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      String identityId = (result as CognitoAuthSession).identityId!;
+      return identityId;
+    } on AuthException catch (e) {
+      return e.message;
     }
   }
 

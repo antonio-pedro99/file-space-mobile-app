@@ -27,15 +27,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+  
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var userDetails = context.read<UserBloc>().user;
 
-    BlocProvider.of<FileBloc>(context)
-        .add(LoadFiles(context.read<UserBloc>().user.email!));
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
