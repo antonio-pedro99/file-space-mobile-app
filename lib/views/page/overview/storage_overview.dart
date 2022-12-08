@@ -1,6 +1,8 @@
 import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/overview/widgets/static_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -14,11 +16,16 @@ class StorageOverviewPage extends StatefulWidget {
 }
 
 class _StorageOverviewPageState extends State<StorageOverviewPage> {
+  List<PathObject> _files = [];
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
     var userDetails = context.read<UserBloc>().user;
+
+    BlocProvider.of<FileBloc>(context)
+        .add(LoadFiles(context.read<UserBloc>().user.email!));
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -138,37 +145,70 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                   height: 24,
                 ),
                 Flexible(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: false,
-                    children: const [
-                      StatTile(
-                        fileTypeName: "Documents",
-                        icon: Icons.insert_drive_file,
-                        totalFiles: "0",
-                        color: pink,
-                      ),
-                      StatTile(
-                        fileTypeName: "Videos",
-                        icon: Icons.play_arrow,
-                        totalFiles: "0",
-                        color: deepPurple,
-                      ),
-                      StatTile(
-                          fileTypeName: "Images",
-                          icon: Icons.image,
-                          color: green,
-                          totalFiles: "0"),
-                      StatTile(
-                          fileTypeName: "Musics",
-                          icon: Icons.music_note,
-                          totalFiles: "0"),
-                      StatTile(
-                          fileTypeName: "Others",
-                          icon: Icons.insert_drive_file,
-                          color: blueOcean,
-                          totalFiles: "0"),
-                    ],
+                  child: BlocConsumer<FileBloc, FileState>(
+                    listener: (context, state) {
+                      if (state is FileLoaded) {
+                        _files = state.files;
+                      }
+                    },
+                    builder: (context, state) {
+                      return ListView(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: false,
+                        children: [
+                          StatTile(
+                            fileTypeName: "Documents",
+                            icon: Icons.insert_drive_file,
+                            totalFiles: _files
+                                .where((object) => ["pdf", "docs", "csv"]
+                                    .contains(object.fileExtension))
+                                .length,
+                            color: pink,
+                          ),
+                          StatTile(
+                            fileTypeName: "Videos",
+                            icon: Icons.play_arrow,
+                            totalFiles: _files
+                                .where((object) => ["mp4", "mov", "avi"]
+                                    .contains(object.fileExtension))
+                                .length,
+                            color: deepPurple,
+                          ),
+                          StatTile(
+                              fileTypeName: "Images",
+                              icon: Icons.image,
+                              color: green,
+                              totalFiles: _files
+                                  .where((object) => ["png", "jpeg", "svg"]
+                                      .contains(object.fileExtension))
+                                  .length),
+                          StatTile(
+                              fileTypeName: "Musics",
+                              icon: Icons.music_note,
+                              totalFiles: _files
+                                  .where((object) => ["mp3", "mp2"]
+                                      .contains(object.fileExtension))
+                                  .length),
+                          StatTile(
+                              fileTypeName: "Others",
+                              icon: Icons.insert_drive_file,
+                              color: blueOcean,
+                              totalFiles: _files
+                                  .where((object) => ![
+                                        "pdf",
+                                        "docs",
+                                        "csv",
+                                        "mp3",
+                                        "mp2",
+                                        "mp4",
+                                        "mov",
+                                        "avi",
+                                        "folder"
+                                      ].contains(object.fileExtension))
+                                  .length),
+                        ],
+                      );
+                    },
                   ),
                 )
               ],

@@ -11,7 +11,7 @@ class StatTile extends StatelessWidget {
       : super(key: key);
 
   final String fileTypeName;
-  final String totalFiles;
+  final int totalFiles;
   final IconData icon;
   final Color? color;
 

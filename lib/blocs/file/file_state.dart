@@ -7,6 +7,8 @@ class FileInitial extends FileState {}
 
 class FileIsUploading extends FileState {}
 
+class FileIsLoading extends FileState {}
+
 class FileIsDownloading extends FileState {}
 
 class FileDownloaded extends FileState {}
@@ -19,9 +21,7 @@ class FileDownUploadError extends FileState {
   FileDownUploadError({this.message});
 }
 
-class FileIsLoading extends FileState {}
-
 class FileLoaded extends FileState {
-  final List<StorageItem> items;
-  FileLoaded(this.items);
+  final List<PathObject> files;
+  FileLoaded(this.files);
 }

@@ -57,39 +57,7 @@ class _MyHomePageState extends State<SharedPage> {
                       leading: Icons.search,
                     ),
                     const SizedBox(height: 24),
-                    Flexible(
-                        child: FutureBuilder<List<StorageItem>>(
-                            future: _loadFiles(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text(snapshot.error.toString()));
-                              }
-                              var files = snapshot.data;
-                              return ListView.builder(
-                                itemCount: files!.length,
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  bool isFolder = files[index].key.isFolder();
-                                  return ListTile(
-                                      title: isFolder
-                                          ? Text(
-                                              files[index].key.getFolderName())
-                                          : Text(files[index].key),
-                                      subtitle: isFolder
-                                          ? Text(files[index]
-                                              .size!
-                                              .toDouble()
-                                              .getSizeFormat()
-                                              .toStringAsFixed(1))
-                                          : Text(
-                                              "${(files[index].size! / 1024).toStringAsFixed(2)} KB"));
-                                },
-                              );
-                            }))
+                    Flexible(child: Container())
                   ],
                 ),
               ))),

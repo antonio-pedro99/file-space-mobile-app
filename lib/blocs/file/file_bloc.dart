@@ -3,6 +3,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
@@ -21,7 +22,8 @@ class FileBloc extends Bloc<FileEvent, FileState> {
             file: event.file,
             path: event.path,
             key: event.key,
-            user: event.user);
+            size: event.size,
+            userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
@@ -31,16 +33,17 @@ class FileBloc extends Bloc<FileEvent, FileState> {
       } else if (event is CreateFolder) {
         emit(FileIsUploading());
         var result = await fileOperations.createFolder(
-            folderName: event.folderName!, path: event.path);
+            key: event.folderName!, path: event.path, userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
-      } else if (event is LoadFile) {
+      } else if (event is LoadFiles) {
         emit(FileIsLoading());
-        var result = await fileOperations.loadFiles();
+        var result = await fileOperations.loadUserFiles(event.userEmail);
+
         emit(FileLoaded(result));
       }
     });
