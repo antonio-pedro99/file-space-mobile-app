@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
 
 class FileRepository {
@@ -127,12 +128,12 @@ class FileRepository {
 
   Future<Map<String, dynamic>> downloadFile(PathObject file) async {
     final tempDir = await getTemporaryDirectory();
-    final tmpFile = File("/storage/emulated/0/Download/${file.fileName}")
-      ..createSync();
+    final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
 
     var result = const TransferProgress(0, 0);
 
     try {
+      await Permission.manageExternalStorage.request();
       var downloadResult = await Amplify.Storage.downloadFile(
           key: "${file.filePath!.substring(1)}${file.fileName}",
           local: tmpFile,
@@ -140,7 +141,8 @@ class FileRepository {
           onProgress: (progress) {
             result = progress;
           });
-      print("Path ${downloadResult.file.path}");
+
+      tmpFile.copy("/storage/emulated/0/Download/${file.fileName}");
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }
