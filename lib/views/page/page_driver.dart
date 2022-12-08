@@ -192,7 +192,9 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => uploadFile(context, _path),
+                                  onTap: () {
+                                    uploadFile(context, _path);
+                                  },
                                 ),
                                 ListTile(
                                   leading:

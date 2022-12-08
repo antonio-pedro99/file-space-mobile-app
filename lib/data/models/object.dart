@@ -7,6 +7,7 @@ class PathObject {
   String? fileName;
   String? fileExtension;
   int? fileSize;
+  bool? isStarred;
   String? filePath;
 
   PathObject(
@@ -23,6 +24,7 @@ class PathObject {
     isFolder = json['is_folder'];
     modified = json['modified'];
     fileName = json['file_name'];
+    isStarred = json['is_starred'];
     fileExtension = json['file_extension'];
     fileSize = json['file_size'];
     filePath = json['file_path'];
@@ -37,6 +39,7 @@ class PathObject {
     data['file_extension'] = fileExtension;
     data['file_size'] = fileSize;
     data['file_path'] = filePath;
+    data['is_starred'] = isStarred;
     return data;
   }
 }

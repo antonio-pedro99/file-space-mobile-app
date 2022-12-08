@@ -55,13 +55,23 @@ void uploadFile(BuildContext context, String path) {
       }
       await user.userAttr
           .increaseQuotaUsed(user.user, platformFile.size.toDouble().toMB());
+      
     } else {
       print("Cant");
     }
+    
   });
 }
 
 void deleteFile(BuildContext context, PathObject file) async {
+  var user = context.read<UserBloc>();
+
+  BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
+  Navigator.of(context).pop();
+  await user.userAttr.decreaseQuotaUsed(user.user, file);
+}
+
+void starFile(BuildContext context, PathObject file) async {
   var user = context.read<UserBloc>();
 
   BlocProvider.of<FileBloc>(context).add(DeleteFile(file));

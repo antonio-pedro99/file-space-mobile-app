@@ -105,6 +105,7 @@ class FileRepository {
             "file_extension": !isFolder ? key!.split(".").last : "folder",
             "file_size": size,
             "file_path": "/$path/",
+            "is_starred": false,
             "user": {"email": userEmail}
           }));
 
