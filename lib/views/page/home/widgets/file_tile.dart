@@ -77,12 +77,12 @@ class FileTile extends StatelessWidget with FileTileType {
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
           onPressed: () => showOptions(context, getIcon(object.getType()),
-              object.fileName!, color, object.getType()),
+              object, color, object.getType()),
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
 
-  void showOptions(BuildContext context, IconData iconData, String fileName,
+  void showOptions(BuildContext context, IconData iconData, PathObject file,
       color, FileType type) {
     showModalBottomSheet(
         context: context,
@@ -107,16 +107,27 @@ class FileTile extends StatelessWidget with FileTileType {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Column(
                       children: [
-                        Icon(
-                          iconData,
-                          color: color,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              iconData,
+                              color: color,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(file.fileName!)
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        Text(fileName)
+                        const SizedBox(height: 8),
+                        Text(
+                          !object.isFolder!
+                              ? " ${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}, ${file.modified!}"
+                              : file.modified!,
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -164,10 +175,6 @@ class FileTile extends StatelessWidget with FileTileType {
                           )
                         : Container(),
                     const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.info_outline),
-                      title: Text("Details"),
-                    ),
                     const ListTile(
                       leading: Icon(Icons.drive_file_move_outlined),
                       title: Text("Move"),

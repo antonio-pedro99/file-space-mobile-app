@@ -113,4 +113,20 @@ class FileRepository {
       throw e.message;
     }
   }
+
+  //share
+
+  //copy link
+
+  //add to workspace
+
+  //add to starred
+
+  //download
+
+  //details
+
+  //move
+
+  //delete
 }
