@@ -108,9 +108,7 @@ class FileRepository {
             "user": {"email": userEmail}
           }));
 
-      if (response.statusCode == 200) {
-        print("Update!");
-      }
+      if (response.statusCode == 200) {}
     } on DioError catch (e) {
       throw e.message;
     }
@@ -153,9 +151,32 @@ class FileRepository {
     };
   }
 
-  //details
-
   //move
 
   //delete
+  Future<Map<String, dynamic>> deleteFile(PathObject file) async {
+    try {
+      print("Delete called");
+      final result = await Amplify.Storage.remove(
+          key: "${file.filePath!.substring(1)}${file.fileName}");
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return {"status": true, "response": await _deleteFile(file.objectId!)};
+  }
+
+  Future<Map<String, dynamic>> _deleteFile(String objectId) async {
+    String url = "http://192.168.150.17:8000/user/delete_item";
+    var result = <String, dynamic>{};
+    try {
+      var response = await _dio.delete("$url/$objectId");
+
+      if (response.statusCode == 200) {
+        result = response.data as Map<String, dynamic>;
+      }
+    } on DioError catch (e) {
+      throw e.message;
+    }
+    return result;
+  }
 }

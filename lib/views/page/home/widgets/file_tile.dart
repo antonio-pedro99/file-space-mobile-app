@@ -82,123 +82,127 @@ class FileTile extends StatelessWidget with FileTileType {
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
+}
 
-  void showOptions(BuildContext context, IconData iconData, PathObject file,
-      color, FileType type) {
-    showModalBottomSheet(
-        context: context,
-        enableDrag: true,
-        isScrollControlled: true,
-        elevation: 3,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-        builder: (context) {
-          return DraggableScrollableSheet(
-              initialChildSize: .5,
-              minChildSize: .1,
-              maxChildSize: .8,
-              expand: false,
-              builder: (context, scrollController) {
-                return ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(12),
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              iconData,
-                              color: color,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(file.fileName!)
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          !object.isFolder!
-                              ? " ${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}, ${file.modified!}"
-                              : file.modified!,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    const ListTile(
-                      leading: Icon(Icons.share_outlined),
-                      title: Text("Share"),
-                    ),
-                    const ListTile(
-                      leading: Icon(Icons.link_outlined),
-                      title: Text("Copy link"),
-                    ),
-                    type != FileType.folder
-                        ? const ListTile(
-                            leading: Icon(Icons.workspaces_outlined),
-                            title: Text("Add to workspace"),
-                          )
-                        : const ListTile(
-                            leading: Icon(Icons.people_outline),
-                            title: Text("Manage access"),
+void showOptions(BuildContext context, IconData iconData, PathObject file,
+    color, FileType type) {
+  showModalBottomSheet(
+      context: context,
+      enableDrag: true,
+      isScrollControlled: true,
+      elevation: 3,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+      builder: (context) {
+        return DraggableScrollableSheet(
+            initialChildSize: .5,
+            minChildSize: .1,
+            maxChildSize: .8,
+            expand: false,
+            builder: (context, scrollController) {
+              return ListView(
+                controller: scrollController,
+                padding: const EdgeInsets.all(12),
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            iconData,
+                            color: color,
                           ),
-                    const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.drive_file_rename_outline_outlined),
-                      title: Text("Rename"),
-                    ),
-                    const ListTile(
-                      leading: Icon(Icons.star_outline_outlined),
-                      title: Text("Add to starred"),
-                    ),
-                    type != FileType.folder
-                        ? const ListTile(
-                            leading: Icon(Icons.copy),
-                            title: Text("Make a copy"),
-                          )
-                        : const ListTile(
-                            leading: Icon(Icons.color_lens),
-                            title: Text("Change Color"),
-                          ),
-                    type != FileType.folder
-                        ? ListTile(
-                            leading: const Icon(Icons.file_download_outlined),
-                            title: const Text("Download"),
-                            onTap: (() {
-                              BlocProvider.of<FileBloc>(context)
-                                  .add(FileDownload(file: file));
-                              Navigator.of(context).pop();
-                            }),
-                          )
-                        : Container(),
-                    const Divider(),
-                    const ListTile(
-                      leading: Icon(Icons.drive_file_move_outlined),
-                      title: Text("Move"),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.delete, color: Colors.red),
-                      title: Text(
-                        "Delete",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: Colors.red),
+                          const SizedBox(width: 10),
+                          Text(file.fileName!)
+                        ],
                       ),
-                    )
-                  ],
-                );
-              });
-        });
-  }
+                      const SizedBox(height: 8),
+                      Text(
+                        !file.isFolder!
+                            ? " ${file.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${file.fileSize!.toDouble().getSizeFormat().values.first}, ${file.modified!}"
+                            : file.modified!,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  const ListTile(
+                    leading: Icon(Icons.share_outlined),
+                    title: Text("Share"),
+                  ),
+                  const ListTile(
+                    leading: Icon(Icons.link_outlined),
+                    title: Text("Copy link"),
+                  ),
+                  type != FileType.folder
+                      ? const ListTile(
+                          leading: Icon(Icons.workspaces_outlined),
+                          title: Text("Add to workspace"),
+                        )
+                      : const ListTile(
+                          leading: Icon(Icons.people_outline),
+                          title: Text("Manage access"),
+                        ),
+                  const Divider(),
+                  const ListTile(
+                    leading: Icon(Icons.drive_file_rename_outline_outlined),
+                    title: Text("Rename"),
+                  ),
+                  const ListTile(
+                    leading: Icon(Icons.star_outline_outlined),
+                    title: Text("Add to starred"),
+                  ),
+                  type != FileType.folder
+                      ? const ListTile(
+                          leading: Icon(Icons.copy),
+                          title: Text("Make a copy"),
+                        )
+                      : const ListTile(
+                          leading: Icon(Icons.color_lens),
+                          title: Text("Change Color"),
+                        ),
+                  type != FileType.folder
+                      ? ListTile(
+                          leading: const Icon(Icons.file_download_outlined),
+                          title: const Text("Download"),
+                          onTap: (() {
+                            BlocProvider.of<FileBloc>(context)
+                                .add(FileDownload(file: file));
+                            Navigator.of(context).pop();
+                          }),
+                        )
+                      : Container(),
+                  const Divider(),
+                  const ListTile(
+                    leading: Icon(Icons.drive_file_move_outlined),
+                    title: Text("Move"),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.delete, color: Colors.red),
+                    title: Text(
+                      "Delete",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.red),
+                    ),
+                    onTap: () {
+                      print("Deleting File");
+                      BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
+                    },
+                  )
+                ],
+              );
+            });
+      });
 }

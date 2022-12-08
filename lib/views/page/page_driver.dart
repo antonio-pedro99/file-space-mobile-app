@@ -105,9 +105,26 @@ class _PageDriverState extends State<PageDriver> {
                     title: const Text("Downloading file"),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15))));
-          } else if (state is FileUploaded) {
-          } else if (state is FileDownload) {
-            Navigator.of(context).pop();
+          } else if (state is FileDeleted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+              state.message!,
+            )));
+          } else if (state is FileIsDeleting) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    content: SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: const [
+                          LinearProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    title: const Text("Deleting file"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))));
           }
         },
         builder: (context, state) {
