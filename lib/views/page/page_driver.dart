@@ -61,12 +61,12 @@ class _PageDriverState extends State<PageDriver> {
     var showFloatingActionButton =
         MediaQuery.of(context).viewInsets.bottom != 0;
     var user = context.read<UserBloc>();
+
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(),
       body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is UserLoaded) {
             BlocProvider.of<FileBloc>(context).add(LoadFiles(user.user.email!));
           }
@@ -94,8 +94,10 @@ class _PageDriverState extends State<PageDriver> {
                         title: const Text("Uploading your file"),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))));
-              } else if (state is FileUploaded || state is FileDownloaded) {
+              } else if (state is FileUploaded) {
                 Navigator.of(context).pop();
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
               } else if (state is FileDownUploadError) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Colors.red,
@@ -118,7 +120,11 @@ class _PageDriverState extends State<PageDriver> {
                         title: const Text("Downloading file"),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))));
+              } else if (state is FileDownloaded) {
+                Navigator.of(context).pop();
               } else if (state is FileDeleted) {
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
@@ -266,6 +272,10 @@ class _PageDriverState extends State<PageDriver> {
           activeIndex: currentPage,
           onTap: (v) {
             setState(() {
+              if (v == 0) {
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
+              }
               controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
                   curve: Curves.easeIn);
