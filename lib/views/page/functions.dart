@@ -27,6 +27,7 @@ void openModalBottomSheet(BuildContext context, Widget content) {
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
   var user = context.read<UserBloc>();
+  
   BlocProvider.of<FileBloc>(context).add(CreateFolder(
       path: path, folderName: folderName, userEmail: user.user.email));
   Navigator.of(context).pop();

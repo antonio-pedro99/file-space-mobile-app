@@ -197,8 +197,8 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                           .copyWith(color: Colors.red),
                     ),
                     onTap: () {
-                      print("Deleting File");
                       BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
+                      Navigator.of(context).pop();
                     },
                   )
                 ],

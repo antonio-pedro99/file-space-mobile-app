@@ -156,9 +156,10 @@ class FileRepository {
   //delete
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {
     try {
-      print("Delete called");
-      final result = await Amplify.Storage.remove(
-          key: "${file.filePath!.substring(1)}${file.fileName}");
+      var key = "${file.filePath!.substring(1)}${file.fileName}";
+      final result =
+          await Amplify.Storage.remove(key: file.isFolder! ? "$key/" : key);
+      print(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }

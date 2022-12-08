@@ -106,6 +106,7 @@ class _PageDriverState extends State<PageDriver> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15))));
           } else if (state is FileDeleted) {
+            Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(
               state.message!,
