@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/file.dart';
+import 'package:space_client_app/extensions.dart';
 
 import '../models/user.dart';
 
@@ -20,9 +22,26 @@ class UserRepository {
     }
   }
 
-  Future<void> updateQuotaUsed(UserAuthDetails user, double val) async {
+  Future<void> increaseQuotaUsed(UserAuthDetails user, double val) async {
     try {
       user.quotaUsed = user.quotaUsed! + val;
+      final result = await Amplify.Auth.updateUserAttribute(
+        userAttributeKey: const CognitoUserAttributeKey.custom('quota_used'),
+        value: user.quotaUsed.toString(),
+      );
+      if (result.isUpdated) {
+        print("Updated\n");
+      } else {
+        print('Update completed');
+      }
+    } on AmplifyException catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> decreaseQuotaUsed(UserAuthDetails user, PathObject file) async {
+    try {
+      user.quotaUsed = user.quotaUsed! - file.fileSize!.toDouble().toMB();
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('quota_used'),
         value: user.quotaUsed.toString(),
