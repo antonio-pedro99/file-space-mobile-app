@@ -4,6 +4,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
 
 class FileRepository {
@@ -21,10 +22,12 @@ class FileRepository {
           local: file!,
           key: "$path/$key",
           options: UploadFileOptions(
-              accessLevel: StorageAccessLevel.private, metadata: {}),
+            accessLevel: StorageAccessLevel.private,
+          ),
           onProgress: (progress) {
             result = progress;
           });
+
       _updateMetadata(
           DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
               .format(await file.lastModified()),
@@ -105,11 +108,76 @@ class FileRepository {
             "user": {"email": userEmail}
           }));
 
+      if (response.statusCode == 200) {}
+    } on DioError catch (e) {
+      throw e.message;
+    }
+  }
+
+  //share
+
+  //copy link
+
+  //add to workspace
+
+  //add to starred
+
+  //download
+
+  Future<Map<String, dynamic>> downloadFile(PathObject file) async {
+    final tempDir = await getTemporaryDirectory();
+    final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
+
+    var result = const TransferProgress(0, 0);
+
+    try {
+      await Permission.manageExternalStorage.request();
+      var downloadResult = await Amplify.Storage.downloadFile(
+          key: "${file.filePath!.substring(1)}${file.fileName}",
+          local: tmpFile,
+          options: DownloadFileOptions(accessLevel: StorageAccessLevel.private),
+          onProgress: (progress) {
+            result = progress;
+          });
+
+      tmpFile.copy("/storage/emulated/0/Download/${file.fileName}");
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return {
+      "currentBytes": result.currentBytes,
+      "total": result.totalBytes,
+      "status": true
+    };
+  }
+
+  //move
+
+  //delete
+  Future<Map<String, dynamic>> deleteFile(PathObject file) async {
+    try {
+      var key = "${file.filePath!.substring(1)}${file.fileName}";
+      final result =
+          await Amplify.Storage.remove(key: file.isFolder! ? "$key/" : key);
+      print(result.key);
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return {"status": true, "response": await _deleteFile(file.objectId!)};
+  }
+
+  Future<Map<String, dynamic>> _deleteFile(String objectId) async {
+    String url = "http://192.168.150.17:8000/user/delete_item";
+    var result = <String, dynamic>{};
+    try {
+      var response = await _dio.delete("$url/$objectId");
+
       if (response.statusCode == 200) {
-        print("Update!");
+        result = response.data as Map<String, dynamic>;
       }
     } on DioError catch (e) {
       throw e.message;
     }
+    return result;
   }
 }

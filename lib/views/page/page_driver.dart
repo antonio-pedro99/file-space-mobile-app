@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/functions.dart';
@@ -33,6 +34,7 @@ class _PageDriverState extends State<PageDriver> {
   @override
   void initState() {
     super.initState();
+    checkFileWriteReadPermission();
     controller = PageController(initialPage: currentPage);
     folderNameTextController.text = "New Folder";
     //load user data!
@@ -43,6 +45,14 @@ class _PageDriverState extends State<PageDriver> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  Future<void> checkFileWriteReadPermission() async {
+    var status = await Permission.storage.status;
+
+    if (!status.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
   }
 
   @override
@@ -71,7 +81,7 @@ class _PageDriverState extends State<PageDriver> {
                     title: const Text("Uploading your file"),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15))));
-          } else if (state is FileUploaded) {
+          } else if (state is FileUploaded || state is FileDownloaded) {
             Navigator.of(context).pop();
           } else if (state is FileDownUploadError) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -80,6 +90,42 @@ class _PageDriverState extends State<PageDriver> {
                   state.message!,
                   style: const TextStyle(color: Colors.white),
                 )));
+          } else if (state is FileIsDownloading) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    content: SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: const [
+                          LinearProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    title: const Text("Downloading file"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))));
+          } else if (state is FileDeleted) {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+              state.message!,
+            )));
+          } else if (state is FileIsDeleting) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    content: SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: const [
+                          LinearProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    title: const Text("Deleting file"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))));
           }
         },
         builder: (context, state) {
@@ -125,7 +171,7 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => uploadTest(context, _path),
+                                  onTap: () => uploadFile(context, _path),
                                 ),
                                 ListTile(
                                   leading:

@@ -24,6 +24,7 @@ class AuthenticationUser {
         CognitoUserAttributeKey.email: userDetails.email,
         CognitoUserAttributeKey.name: userDetails.name,
         const CognitoUserAttributeKey.custom('limit_quota'): "1024",
+        const CognitoUserAttributeKey.custom('profile_photo'): "photo",
         const CognitoUserAttributeKey.custom('quota_used'): "0",
       };
 

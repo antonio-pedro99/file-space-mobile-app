@@ -145,7 +145,7 @@ class _MyHomePageState extends State<FolderContentPage> {
                             ListTile(
                               leading: const Icon(Icons.note_add_outlined),
                               title: const Text("Upload a File"),
-                              onTap: () => uploadTest(
+                              onTap: () => uploadFile(
                                   context, "${widget.parent}/${widget.title}"),
                             ),
                             ListTile(

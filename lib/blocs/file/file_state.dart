@@ -25,3 +25,12 @@ class FileLoaded extends FileState {
   final List<PathObject> files;
   FileLoaded(this.files);
 }
+
+class FileDeleted extends FileState {
+  final String? message;
+  FileDeleted(this.message);
+}
+
+class FileShared extends FileState {}
+
+class FileIsDeleting extends FileState {}

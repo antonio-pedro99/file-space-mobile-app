@@ -1,7 +1,9 @@
 import 'dart:io';
-
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
@@ -29,10 +31,21 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
+      } else if (event is FileDownload) {
+        emit(FileIsDownloading());
+
+        var result = await fileOperations.downloadFile(event.file!);
+        if (result["status"]) {
+          emit(FileDownloaded());
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
       } else if (event is CreateFolder) {
         emit(FileIsUploading());
         var result = await fileOperations.createFolder(
-            key: event.folderName!, path: event.path, userEmail: event.userEmail);
+            key: event.folderName!,
+            path: event.path,
+            userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
@@ -44,6 +57,17 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         var result = await fileOperations.loadUserFiles(event.userEmail);
 
         emit(FileLoaded(result));
+        
+      } else if (event is DeleteFile) {
+        print("Delete file called");
+        emit(FileIsDeleting());
+        var result = await fileOperations.deleteFile(event.file);
+
+        if (result["status"]) {
+          emit(FileDeleted(result["response"]["message"]));
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
       }
     });
   }

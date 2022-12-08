@@ -179,8 +179,12 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                               icon: Icons.image,
                               color: green,
                               totalFiles: _files
-                                  .where((object) => ["png", "jpeg", "svg"]
-                                      .contains(object.fileExtension))
+                                  .where((object) => [
+                                        "png",
+                                        "jpeg",
+                                        "svg",
+                                        "jpg"
+                                      ].contains(object.fileExtension))
                                   .length),
                           StatTile(
                               fileTypeName: "Musics",
@@ -201,6 +205,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                                         "mp3",
                                         "mp2",
                                         "mp4",
+                                        "jpg",
                                         "mov",
                                         "avi",
                                         "folder"
