@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:space_client_app/data/repository/mock_data.dart';
-import 'package:space_client_app/views/page/home/enums.dart';
-import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
 class StarredPage extends StatefulWidget {
@@ -41,13 +38,9 @@ class _MyHomePageState extends State<StarredPage> {
                     ),
                     const SizedBox(height: 24),
                     Flexible(
-                        child: ListView.builder(
-                      itemCount: MockRepository.getAllFiles().length,
+                        child: ListView(
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FileTile(
-                            object: MockRepository.getAllFiles()[index]);
-                      },
+                      children: [],
                     ))
                   ],
                 ),
