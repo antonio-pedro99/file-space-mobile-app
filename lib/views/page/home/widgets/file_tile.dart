@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/extensions.dart';
@@ -169,9 +170,11 @@ class FileTile extends StatelessWidget with FileTileType {
                             title: Text("Change Color"),
                           ),
                     type != FileType.folder
-                        ? const ListTile(
-                            leading: Icon(Icons.file_download_outlined),
-                            title: Text("Download"),
+                        ? ListTile(
+                            leading: const Icon(Icons.file_download_outlined),
+                            title: const Text("Download"),
+                            onTap: (() => BlocProvider.of<FileBloc>(context)
+                                .add(FileDownload(file: file))),
                           )
                         : Container(),
                     const Divider(),

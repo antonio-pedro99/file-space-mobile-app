@@ -26,6 +26,7 @@ class FileRepository {
           onProgress: (progress) {
             result = progress;
           });
+
       _updateMetadata(
           DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
               .format(await file.lastModified()),
@@ -123,6 +124,32 @@ class FileRepository {
   //add to starred
 
   //download
+
+  Future<Map<String, dynamic>> downloadFile(PathObject file) async {
+    final tempDir = await getTemporaryDirectory();
+    final tmpFile = File("/storage/emulated/0/Download/${file.fileName}")
+      ..createSync();
+
+    var result = const TransferProgress(0, 0);
+
+    try {
+      var downloadResult = await Amplify.Storage.downloadFile(
+          key: "${file.filePath!.substring(1)}${file.fileName}",
+          local: tmpFile,
+          options: DownloadFileOptions(accessLevel: StorageAccessLevel.private),
+          onProgress: (progress) {
+            result = progress;
+          });
+      print("Path ${downloadResult.file.path}");
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return {
+      "currentBytes": result.currentBytes,
+      "total": result.totalBytes,
+      "status": true
+    };
+  }
 
   //details
 

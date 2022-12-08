@@ -80,6 +80,24 @@ class _PageDriverState extends State<PageDriver> {
                   state.message!,
                   style: const TextStyle(color: Colors.white),
                 )));
+          } else if (state is FileIsDownloading) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    content: SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: const [
+                          LinearProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                    title: const Text("Downloading file"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))));
+          } else if (state is FileUploaded) {
+          } else if (state is FileDownload) {
+            Navigator.of(context).pop();
           }
         },
         builder: (context, state) {

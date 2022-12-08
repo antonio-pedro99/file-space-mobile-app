@@ -13,15 +13,15 @@ class FileUpload extends FileEvent {
 }
 
 class FileDownload extends FileEvent {
-  final String? key;
-  FileDownload({this.key});
+  final PathObject? file;
+  FileDownload({this.file});
 }
 
 class CreateFolder extends FileEvent {
   final String? folderName;
   final String? path;
   final String? userEmail;
-  CreateFolder({this.folderName, this.path,this.userEmail});
+  CreateFolder({this.folderName, this.path, this.userEmail});
 }
 
 class LoadFiles extends FileEvent {
@@ -29,6 +29,4 @@ class LoadFiles extends FileEvent {
   LoadFiles(this.userEmail);
 }
 
-class LoadFile extends FileEvent {
-
-}
+class LoadFile extends FileEvent {}

@@ -30,10 +30,21 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
+      } else if (event is FileDownload) {
+        emit(FileIsDownloading());
+
+        var result = await fileOperations.downloadFile(event.file!);
+        if (result["status"]) {
+          emit(FileDownloaded());
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
       } else if (event is CreateFolder) {
         emit(FileIsUploading());
         var result = await fileOperations.createFolder(
-            key: event.folderName!, path: event.path, userEmail: event.userEmail);
+            key: event.folderName!,
+            path: event.path,
+            userEmail: event.userEmail);
 
         if (result["status"]) {
           emit(FileUploaded());
