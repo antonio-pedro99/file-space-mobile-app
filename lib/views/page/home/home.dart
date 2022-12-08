@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
-import 'package:space_client_app/data/repository/mock_data.dart';
 import 'package:space_client_app/views/page/category%20content/content.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';

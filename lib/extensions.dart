@@ -30,18 +30,15 @@ extension MBConverter on double {
     return this / 1024;
   }
 
-  Map<double,String> getSizeFormat() {
+  Map<double, String> getSizeFormat() {
     if (this > 0 && this <= math.pow(10, 6)) {
-      print("Is KB");
       return {toKB(): "KB"};
     } else if (this > math.pow(10, 6) && this <= math.pow(10, 9)) {
-      print("is MB");
-     return {toMB(): "MB"};
+      return {toMB(): "MB"};
     } else if (this > math.pow(10, 9) && this < math.pow(10, 12)) {
-      print("is GB");
-       return {toGB(): "GB"};
+      return {toGB(): "GB"};
     }
-     return {0: ""};
+    return {0: ""};
   }
 }
 
