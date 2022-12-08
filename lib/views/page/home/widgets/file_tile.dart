@@ -173,8 +173,11 @@ class FileTile extends StatelessWidget with FileTileType {
                         ? ListTile(
                             leading: const Icon(Icons.file_download_outlined),
                             title: const Text("Download"),
-                            onTap: (() => BlocProvider.of<FileBloc>(context)
-                                .add(FileDownload(file: file))),
+                            onTap: (() {
+                              BlocProvider.of<FileBloc>(context)
+                                  .add(FileDownload(file: file));
+                              Navigator.of(context).pop();
+                            }),
                           )
                         : Container(),
                     const Divider(),
