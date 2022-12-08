@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 
@@ -27,7 +28,7 @@ void openModalBottomSheet(BuildContext context, Widget content) {
 Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
   var user = context.read<UserBloc>();
-  
+
   BlocProvider.of<FileBloc>(context).add(CreateFolder(
       path: path, folderName: folderName, userEmail: user.user.email));
   Navigator.of(context).pop();
@@ -53,11 +54,29 @@ void uploadFile(BuildContext context, String path) {
             userEmail: user.user.email));
       }
       await user.userAttr
-          .updateQuotaUsed(user.user, platformFile.size.toDouble().toMB());
+          .increaseQuotaUsed(user.user, platformFile.size.toDouble().toMB());
+      
     } else {
       print("Cant");
     }
+    
   });
+}
+
+void deleteFile(BuildContext context, PathObject file) async {
+  var user = context.read<UserBloc>();
+
+  BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
+  Navigator.of(context).pop();
+  await user.userAttr.decreaseQuotaUsed(user.user, file);
+}
+
+void starFile(BuildContext context, PathObject file) async {
+  var user = context.read<UserBloc>();
+
+  BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
+  Navigator.of(context).pop();
+  await user.userAttr.decreaseQuotaUsed(user.user, file);
 }
 
 String getParentPath(String path) =>

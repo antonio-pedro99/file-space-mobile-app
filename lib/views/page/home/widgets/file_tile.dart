@@ -196,10 +196,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                           .titleLarge!
                           .copyWith(color: Colors.red),
                     ),
-                    onTap: () {
-                      BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
-                      Navigator.of(context).pop();
-                    },
+                    onTap: () => deleteFile(context, file),
                   )
                 ],
               );

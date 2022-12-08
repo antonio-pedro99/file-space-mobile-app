@@ -65,6 +65,7 @@ class FileBloc extends Bloc<FileEvent, FileState> {
 
         if (result["status"]) {
           emit(FileDeleted(result["response"]["message"]));
+          
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }

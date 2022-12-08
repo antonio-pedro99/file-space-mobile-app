@@ -61,80 +61,101 @@ class _PageDriverState extends State<PageDriver> {
     var showFloatingActionButton =
         MediaQuery.of(context).viewInsets.bottom != 0;
     var user = context.read<UserBloc>();
+
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(),
-      body: BlocConsumer<FileBloc, FileState>(
+      body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
-          if (state is FileIsUploading) {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    content: SizedBox(
-                      height: 50,
-                      child: Column(
-                        children: const [
-                          LinearProgressIndicator(),
-                        ],
-                      ),
-                    ),
-                    title: const Text("Uploading your file"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))));
-          } else if (state is FileUploaded || state is FileDownloaded) {
-            Navigator.of(context).pop();
-          } else if (state is FileDownUploadError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(
-                  state.message!,
-                  style: const TextStyle(color: Colors.white),
-                )));
-          } else if (state is FileIsDownloading) {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    content: SizedBox(
-                      height: 50,
-                      child: Column(
-                        children: const [
-                          LinearProgressIndicator(),
-                        ],
-                      ),
-                    ),
-                    title: const Text("Downloading file"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))));
-          } else if (state is FileDeleted) {
-            Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-              state.message!,
-            )));
-          } else if (state is FileIsDeleting) {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    content: SizedBox(
-                      height: 50,
-                      child: Column(
-                        children: const [
-                          LinearProgressIndicator(),
-                        ],
-                      ),
-                    ),
-                    title: const Text("Deleting file"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))));
+          if (state is UserLoaded) {
+            BlocProvider.of<FileBloc>(context).add(LoadFiles(user.user.email!));
           }
         },
         builder: (context, state) {
-          return PageView(
-            controller: controller,
-            physics: const NeverScrollableScrollPhysics(),
-            children: AppPages.pages,
-            onPageChanged: (v) {
-              setState(() => currentPage = v);
+          if (state is UserLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is UserLoadingError) {
+            return Container(color: Colors.red);
+          }
+          return BlocConsumer<FileBloc, FileState>(
+            listener: (context, state) {
+              if (state is FileIsUploading) {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                        content: SizedBox(
+                          height: 50,
+                          child: Column(
+                            children: const [
+                              LinearProgressIndicator(),
+                            ],
+                          ),
+                        ),
+                        title: const Text("Uploading your file"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15))));
+              } else if (state is FileUploaded) {
+                Navigator.of(context).pop();
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
+              } else if (state is FileDownUploadError) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      state.message!,
+                      style: const TextStyle(color: Colors.white),
+                    )));
+              } else if (state is FileIsDownloading) {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                        content: SizedBox(
+                          height: 50,
+                          child: Column(
+                            children: const [
+                              LinearProgressIndicator(),
+                            ],
+                          ),
+                        ),
+                        title: const Text("Downloading file"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15))));
+              } else if (state is FileDownloaded) {
+                Navigator.of(context).pop();
+              } else if (state is FileDeleted) {
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                  state.message!,
+                )));
+              } else if (state is FileIsDeleting) {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                        content: SizedBox(
+                          height: 50,
+                          child: Column(
+                            children: const [
+                              LinearProgressIndicator(),
+                            ],
+                          ),
+                        ),
+                        title: const Text("Deleting file"),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15))));
+              }
+            },
+            builder: (context, state) {
+              return PageView(
+                controller: controller,
+                physics: const NeverScrollableScrollPhysics(),
+                children: AppPages.pages,
+                onPageChanged: (v) {
+                  setState(() => currentPage = v);
+                },
+              );
             },
           );
         },
@@ -171,7 +192,9 @@ class _PageDriverState extends State<PageDriver> {
                                 ListTile(
                                   leading: const Icon(Icons.note_add_outlined),
                                   title: const Text("Upload a File"),
-                                  onTap: () => uploadFile(context, _path),
+                                  onTap: () {
+                                    uploadFile(context, _path);
+                                  },
                                 ),
                                 ListTile(
                                   leading:
@@ -251,6 +274,10 @@ class _PageDriverState extends State<PageDriver> {
           activeIndex: currentPage,
           onTap: (v) {
             setState(() {
+              if (v == 0) {
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
+              }
               controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
                   curve: Curves.easeIn);

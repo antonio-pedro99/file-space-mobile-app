@@ -22,7 +22,7 @@ class FileRepository {
           local: file!,
           key: "$path/$key",
           options: UploadFileOptions(
-            accessLevel: StorageAccessLevel.private,
+            accessLevel: StorageAccessLevel.protected,
           ),
           onProgress: (progress) {
             result = progress;
@@ -57,7 +57,7 @@ class FileRepository {
           local: tmpFile,
           key: "$path/$key/",
           options: UploadFileOptions(
-              accessLevel: StorageAccessLevel.private, metadata: {}));
+              accessLevel: StorageAccessLevel.protected, metadata: {}));
       _updateMetadata(
           DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
               .format(await tmpFile.lastModified()),
@@ -87,7 +87,7 @@ class FileRepository {
         }).toList();
       }
     } on DioError catch (e) {
-      result = jsonDecode(e.error);
+      result = e.error;
     }
     return result;
   }
@@ -105,6 +105,7 @@ class FileRepository {
             "file_extension": !isFolder ? key!.split(".").last : "folder",
             "file_size": size,
             "file_path": "/$path/",
+            "is_starred": false,
             "user": {"email": userEmail}
           }));
 
@@ -135,7 +136,8 @@ class FileRepository {
       var downloadResult = await Amplify.Storage.downloadFile(
           key: "${file.filePath!.substring(1)}${file.fileName}",
           local: tmpFile,
-          options: DownloadFileOptions(accessLevel: StorageAccessLevel.private),
+          options:
+              DownloadFileOptions(accessLevel: StorageAccessLevel.protected),
           onProgress: (progress) {
             result = progress;
           });
