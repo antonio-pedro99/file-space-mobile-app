@@ -73,7 +73,7 @@ class FileRepository {
   }
 
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
-    String loadUrl = "http://192.168.150.17:8000/user/$userEmail/files/all";
+    String loadUrl = "http://192.168.6.74:8000/user/$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
@@ -94,7 +94,7 @@ class FileRepository {
 
   Future<void> _updateMetadata(String? modified, String? key, String? path,
       int? size, String? userEmail, bool isFolder) async {
-    String url = "http://192.168.150.17:8000/user/update_item";
+    String url = "http://192.168.6.74:8000/user/update_item";
 
     try {
       var response = await _dio.post(url,
@@ -159,8 +159,9 @@ class FileRepository {
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {
     try {
       var key = "${file.filePath!.substring(1)}${file.fileName}";
-      final result =
-          await Amplify.Storage.remove(key: file.isFolder! ? "$key/" : key);
+      final result = await Amplify.Storage.remove(
+          key: file.isFolder! ? "$key/" : key,
+          options: RemoveOptions(accessLevel: StorageAccessLevel.protected));
       print(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
@@ -169,7 +170,7 @@ class FileRepository {
   }
 
   Future<Map<String, dynamic>> _deleteFile(String objectId) async {
-    String url = "http://192.168.150.17:8000/user/delete_item";
+    String url = "http://192.168.6.74:8000/user/delete_item";
     var result = <String, dynamic>{};
     try {
       var response = await _dio.delete("$url/$objectId");
