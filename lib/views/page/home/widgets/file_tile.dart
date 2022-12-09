@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/functions.dart';
@@ -78,15 +79,15 @@ class FileTile extends StatelessWidget with FileTileType {
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
           onPressed: () => showOptions(context, getIcon(object.getType()),
-              object, color, object.getType()),
+              object, color, object.getType(), user),
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
 }
 
 void showOptions(BuildContext context, IconData iconData, PathObject file,
-    color, FileType type) {
-  String _starStatus = "";
+    color, FileType type, UserAuthDetails user) {
+  bool isUpdating = false;
   showModalBottomSheet(
       context: context,
       enableDrag: true,
@@ -98,7 +99,16 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
               topLeft: Radius.circular(24), topRight: Radius.circular(24))),
       builder: (context) {
         return BlocConsumer<FileBloc, FileState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is FileIsUpdating) {
+              isUpdating = true;
+            } else if (state is FileUpdated) {
+              isUpdating = false;
+              Navigator.of(context).pop();
+               BlocProvider.of<FileBloc>(context)
+                                    .add(LoadFiles(user.email!));
+            } else if (state is FileDownUploadError) {}
+          },
           builder: (context, state) {
             return DraggableScrollableSheet(
                 initialChildSize: .5,
@@ -171,7 +181,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                             ? "Remove from starred"
                             : "Add to starred"),
                         trailing: Visibility(
-                            visible: state is FileIsUploading,
+                            visible: isUpdating,
                             child: const SizedBox(
                               height: 10,
                               width: 10,
