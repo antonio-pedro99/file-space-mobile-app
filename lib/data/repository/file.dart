@@ -76,7 +76,7 @@ class FileRepository {
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
     String _id = await UserRepository.fetchCognitoUserId();
     String loadUrl =
-        "http://192.168.150.17:8000/user/$_id-$userEmail/files/all";
+        "http://192.168.150.17:8000/user/$_id&$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
