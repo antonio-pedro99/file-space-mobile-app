@@ -89,7 +89,7 @@ class UserRepository {
     }
   }
 
-  Future<String> fetchCognitoUserId() async {
+  static Future<String> fetchCognitoUserId() async {
     try {
       final result = await Amplify.Auth.fetchAuthSession(
         options: CognitoSessionOptions(getAWSCredentials: true),

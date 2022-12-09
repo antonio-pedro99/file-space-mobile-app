@@ -78,7 +78,8 @@ class GridFileTile extends StatelessWidget with FileTileType {
                       getIcon(object.getType()),
                       object,
                       color,
-                      object.getType()),
+                      object.getType(),
+                      user),
                   icon: const Icon(Icons.more_vert),
                 )
               ],

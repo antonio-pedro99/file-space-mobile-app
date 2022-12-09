@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/data/repository/user.dart';
 
 class FileRepository {
   final Dio _dio = Dio();
@@ -73,7 +74,9 @@ class FileRepository {
   }
 
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
-    String loadUrl = "http://192.168.150.17:8000/user/$userEmail/files/all";
+    String _id = await UserRepository.fetchCognitoUserId();
+    String loadUrl =
+        "http://192.168.150.17:8000/user/$_id&$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
@@ -106,7 +109,16 @@ class FileRepository {
             "file_size": size,
             "file_path": "/$path/",
             "is_starred": false,
-            "user": {"email": userEmail}
+            "access_list": [
+              {
+                "email": userEmail,
+                "id": await UserRepository.fetchCognitoUserId()
+              }
+            ],
+            "user": {
+              "email": userEmail,
+              "id": await UserRepository.fetchCognitoUserId()
+            }
           }));
 
       if (response.statusCode == 200) {}
@@ -122,6 +134,23 @@ class FileRepository {
   //add to workspace
 
   //add to starred
+  Future<Map<String, dynamic>> addToStarred(PathObject file) async {
+    String url = "http://192.168.150.17:8000/star_file";
+    var result = <String, dynamic>{};
+    try {
+      var response = await _dio.put(url,
+          data: {"object_id": file.objectId, "is_starred": !file.isStarred!});
+
+      if (response.statusCode == 200) {
+        result = response.data as Map<String, dynamic>;
+        result["status"] = true;
+      }
+    } on DioError catch (e) {
+      result["message"] = e.message;
+    }
+
+    return result;
+  }
 
   //download
 
@@ -159,8 +188,9 @@ class FileRepository {
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {
     try {
       var key = "${file.filePath!.substring(1)}${file.fileName}";
-      final result =
-          await Amplify.Storage.remove(key: file.isFolder! ? "$key/" : key);
+      final result = await Amplify.Storage.remove(
+          key: file.isFolder! ? "$key/" : key,
+          options: RemoveOptions(accessLevel: StorageAccessLevel.protected));
       print(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};

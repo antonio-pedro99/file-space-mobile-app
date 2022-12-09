@@ -34,3 +34,9 @@ class FileDeleted extends FileState {
 class FileShared extends FileState {}
 
 class FileIsDeleting extends FileState {}
+
+class FileIsUpdating extends FileState {}
+
+class FileUpdated extends FileState {
+  FileUpdated();
+}
