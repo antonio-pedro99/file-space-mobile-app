@@ -45,3 +45,8 @@ class CopyLinkFile extends FileEvent {
   final PathObject? file;
   CopyLinkFile(this.file);
 }
+
+class UpdateFile extends FileEvent {
+  final PathObject file;
+  UpdateFile(this.file);
+}

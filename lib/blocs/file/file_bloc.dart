@@ -57,7 +57,6 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         var result = await fileOperations.loadUserFiles(event.userEmail);
 
         emit(FileLoaded(result));
-        
       } else if (event is DeleteFile) {
         print("Delete file called");
         emit(FileIsDeleting());
@@ -65,7 +64,15 @@ class FileBloc extends Bloc<FileEvent, FileState> {
 
         if (result["status"]) {
           emit(FileDeleted(result["response"]["message"]));
-          
+        } else {
+          emit(FileDownUploadError(message: result["message"]));
+        }
+      } else if (event is UpdateFile) {
+        emit(FileIsUpdating());
+
+        var result = await fileOperations.addToStarred(event.file);
+        if (result["status"]) {
+          emit(FileUpdated());
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }

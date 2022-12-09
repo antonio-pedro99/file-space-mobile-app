@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/data/repository/user.dart';
 
 class FileRepository {
   final Dio _dio = Dio();
@@ -73,7 +74,9 @@ class FileRepository {
   }
 
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
-    String loadUrl = "http://192.168.6.74:8000/user/$userEmail/files/all";
+    String _id = await UserRepository.fetchCognitoUserId();
+    String loadUrl =
+        "http://192.168.150.17:8000/user/$_id-$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
@@ -94,7 +97,7 @@ class FileRepository {
 
   Future<void> _updateMetadata(String? modified, String? key, String? path,
       int? size, String? userEmail, bool isFolder) async {
-    String url = "http://192.168.6.74:8000/user/update_item";
+    String url = "http://192.168.150.17:8000/user/update_item";
 
     try {
       var response = await _dio.post(url,
@@ -106,7 +109,16 @@ class FileRepository {
             "file_size": size,
             "file_path": "/$path/",
             "is_starred": false,
-            "user": {"email": userEmail}
+            "access_list": [
+              {
+                "email": userEmail,
+                "id": await UserRepository.fetchCognitoUserId()
+              }
+            ],
+            "user": {
+              "email": userEmail,
+              "id": await UserRepository.fetchCognitoUserId()
+            }
           }));
 
       if (response.statusCode == 200) {}
@@ -122,6 +134,23 @@ class FileRepository {
   //add to workspace
 
   //add to starred
+  Future<Map<String, dynamic>> addToStarred(PathObject file) async {
+    String url = "http://192.168.150.17:8000/star_file";
+    var result = <String, dynamic>{};
+    try {
+      var response = await _dio.put(url,
+          data: {"object_id": file.objectId, "is_starred": !file.isStarred!});
+
+      if (response.statusCode == 200) {
+        result = response.data as Map<String, dynamic>;
+        result["status"] = true;
+      }
+    } on DioError catch (e) {
+      result["message"] = e.message;
+    }
+
+    return result;
+  }
 
   //download
 
@@ -170,7 +199,7 @@ class FileRepository {
   }
 
   Future<Map<String, dynamic>> _deleteFile(String objectId) async {
-    String url = "http://192.168.6.74:8000/user/delete_item";
+    String url = "http://192.168.150.17:8000/user/delete_item";
     var result = <String, dynamic>{};
     try {
       var response = await _dio.delete("$url/$objectId");

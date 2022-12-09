@@ -277,6 +277,9 @@ class _PageDriverState extends State<PageDriver> {
               if (v == 0) {
                 BlocProvider.of<FileBloc>(context)
                     .add(LoadFiles(user.user.email!));
+              } else if (v == 1) {
+                BlocProvider.of<FileBloc>(context)
+                    .add(LoadFiles(user.user.email!));
               }
               controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
