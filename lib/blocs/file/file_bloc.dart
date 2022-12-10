@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'package:amplify_flutter/amplify_flutter.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
-import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
 part 'file_event.dart';
@@ -58,7 +56,6 @@ class FileBloc extends Bloc<FileEvent, FileState> {
 
         emit(FileLoaded(result));
       } else if (event is DeleteFile) {
-        print("Delete file called");
         emit(FileIsDeleting());
         var result = await fileOperations.deleteFile(event.file);
 
@@ -69,10 +66,25 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         }
       } else if (event is UpdateFile) {
         emit(FileIsUpdating());
-
-        var result = await fileOperations.addToStarred(event.file);
+        var result = {};
+        AttributeUpdate atr = AttributeUpdate.none;
+        switch (event.attributeUpdate) {
+          case AttributeUpdate.link:
+            result = await fileOperations.getLink(event.file);
+            atr = AttributeUpdate.link;
+            break;
+          case AttributeUpdate.share:
+            break;
+          case AttributeUpdate.star:
+            result = await fileOperations.addToStarred(event.file);
+            atr = AttributeUpdate.star;
+            break;
+          case AttributeUpdate.none:
+            result = await fileOperations.sendCopy(event.file);
+            break;
+        }
         if (result["status"]) {
-          emit(FileUpdated());
+          emit(FileUpdated(message: result["message"], attributeUpdate: atr));
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }

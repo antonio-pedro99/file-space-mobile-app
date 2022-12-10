@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "33CC10EC2044A3C60003C045"
+               BluesafePrintIdentifier = "33CC10EC2044A3C60003C045"
                BuildableName = "space_client_app.app"
-               BlueprintName = "Runner"
+               BluesafePrintName = "Runner"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,9 +30,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "33CC10EC2044A3C60003C045"
+            BluesafePrintIdentifier = "33CC10EC2044A3C60003C045"
             BuildableName = "space_client_app.app"
-            BlueprintName = "Runner"
+            BluesafePrintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -53,9 +53,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "33CC10EC2044A3C60003C045"
+            BluesafePrintIdentifier = "33CC10EC2044A3C60003C045"
             BuildableName = "space_client_app.app"
-            BlueprintName = "Runner"
+            BluesafePrintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,9 +70,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "33CC10EC2044A3C60003C045"
+            BluesafePrintIdentifier = "33CC10EC2044A3C60003C045"
             BuildableName = "space_client_app.app"
-            BlueprintName = "Runner"
+            BluesafePrintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

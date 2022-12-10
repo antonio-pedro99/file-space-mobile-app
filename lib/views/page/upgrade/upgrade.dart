@@ -40,7 +40,7 @@ class _MyHomePageState extends State<UpgradeAccountPage> {
   int current = 0;
   @override
   Widget build(BuildContext context) {
-    var user = context.read<UserBloc>();
+    //var user = context.read<UserBloc>();
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),

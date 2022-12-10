@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:space_client_app/extensions.dart';
+
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
 import 'package:space_client_app/data/repository/auth.dart';
+import 'package:space_client_app/extensions.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

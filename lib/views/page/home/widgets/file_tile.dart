@@ -1,7 +1,8 @@
-import 'dart:math' as math;
-
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
@@ -56,7 +57,8 @@ class FileTile extends StatelessWidget with FileTileType {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
-    var color = magicColors[math.Random().nextInt(magicColors.length)];
+    var color = Colors.pink;
+    //var color = magicColors[math.Random().nextInt(magicColors.length)];
     var user = context.read<UserBloc>().user;
     return ListTile(
         onTap: () => openMenu(object.getType(), context, object.fileName,
@@ -103,10 +105,32 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
             if (state is FileIsUpdating) {
               isUpdating = true;
             } else if (state is FileUpdated) {
-              isUpdating = false;
+              switch (state.attributeUpdate) {
+                case AttributeUpdate.star:
+                  isUpdating = false;
+
+                  BlocProvider.of<FileBloc>(context)
+                      .add(LoadFiles(user.email!));
+                  break;
+
+                case AttributeUpdate.link:
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: const Duration(milliseconds: 1000),
+                      dismissDirection: DismissDirection.endToStart,
+                      content: Text(
+                        state.message!,
+                      )));
+                  break;
+                case AttributeUpdate.share:
+                  break;
+                case AttributeUpdate.none:
+                  print(state.message);
+                  Share.shareXFiles([XFile(state.message!)],
+                      subject: file.fileName);
+                  break;
+                default:
+              }
               Navigator.of(context).pop();
-               BlocProvider.of<FileBloc>(context)
-                                    .add(LoadFiles(user.email!));
             } else if (state is FileDownUploadError) {}
           },
           builder: (context, state) {
@@ -125,16 +149,18 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                       ),
                       Column(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Icon(
                                 iconData,
                                 color: color,
                               ),
                               const SizedBox(width: 10),
-                              Text(file.fileName!)
+                              Text(
+                                file.fileName!,
+                                softWrap: true,
+                              )
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -146,6 +172,12 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      Visibility(
+                          visible: isUpdating,
+                          child: const LinearProgressIndicator(
+                            minHeight: 1,
+                          )),
                       const SizedBox(
                         height: 24,
                       ),
@@ -153,9 +185,11 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                         leading: Icon(Icons.share_outlined),
                         title: Text("Share"),
                       ),
-                      const ListTile(
-                        leading: Icon(Icons.link_outlined),
-                        title: Text("Copy link"),
+                      ListTile(
+                        leading: const Icon(Icons.link_outlined),
+                        title: const Text("Copy link"),
+                        onTap: () => BlocProvider.of<FileBloc>(context)
+                            .add(UpdateFile(file, AttributeUpdate.link)),
                       ),
                       type != FileType.folder
                           ? const ListTile(
@@ -166,6 +200,16 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                               leading: Icon(Icons.people_outline),
                               title: Text("Manage access"),
                             ),
+                      type == FileType.folder
+                          ? const SizedBox()
+                          : ListTile(
+                              onTap: () {
+                                BlocProvider.of<FileBloc>(context).add(
+                                    UpdateFile(file, AttributeUpdate.none));
+                              },
+                              leading: const Icon(Icons.turn_slight_right),
+                              title: const Text("Send a copy"),
+                            ),
                       const Divider(),
                       const ListTile(
                         leading: Icon(Icons.drive_file_rename_outline_outlined),
@@ -173,22 +217,13 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                       ),
                       ListTile(
                         onTap: () => BlocProvider.of<FileBloc>(context)
-                            .add(UpdateFile(file)),
+                            .add(UpdateFile(file, AttributeUpdate.star)),
                         leading: Icon(file.isStarred!
                             ? Icons.star_sharp
                             : Icons.star_outline_outlined),
                         title: Text(file.isStarred!
                             ? "Remove from starred"
                             : "Add to starred"),
-                        trailing: Visibility(
-                            visible: isUpdating,
-                            child: const SizedBox(
-                              height: 10,
-                              width: 10,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                              ),
-                            )),
                       ),
                       type != FileType.folder
                           ? const ListTile(

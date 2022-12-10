@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:space_client_app/data/models/object.dart';
@@ -30,12 +28,12 @@ class UserRepository {
         value: user.quotaUsed.toString(),
       );
       if (result.isUpdated) {
-        print("Updated\n");
+        safePrint("Updated\n");
       } else {
-        print('Update completed');
+        safePrint('Update completed');
       }
     } on AmplifyException catch (e) {
-      print(e.message);
+      safePrint(e.message);
     }
   }
 
@@ -47,12 +45,12 @@ class UserRepository {
         value: user.quotaUsed.toString(),
       );
       if (result.isUpdated) {
-        print("Updated\n");
+        safePrint("Updated\n");
       } else {
-        print('Update completed');
+        safePrint('Update completed');
       }
     } on AmplifyException catch (e) {
-      print(e.message);
+      safePrint(e.message);
     }
   }
 
@@ -64,12 +62,12 @@ class UserRepository {
         value: user.quotaLimit.toString(),
       );
       if (result.isUpdated) {
-        print("Updated\n");
+        safePrint("Updated\n");
       } else {
-        print('Update completed');
+        safePrint('Update completed');
       }
     } on AmplifyException catch (e) {
-      print(e.message);
+      safePrint(e.message);
     }
   }
 
@@ -80,12 +78,12 @@ class UserRepository {
         value: photoUrl,
       );
       if (result.isUpdated) {
-        print("Updated\n");
+        safePrint("Updated\n");
       } else {
-        print('Update completed');
+        safePrint('Update completed');
       }
     } on AmplifyException catch (e) {
-      print(e.message);
+      safePrint(e.message);
     }
   }
 

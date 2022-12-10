@@ -17,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _MyHomePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    //var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
     var userDetails = context.read<UserBloc>().user;
 

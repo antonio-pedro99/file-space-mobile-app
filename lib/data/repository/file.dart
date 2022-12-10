@@ -1,7 +1,10 @@
+library clipboard;
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,7 +22,7 @@ class FileRepository {
       String? userEmail}) async {
     var result = const TransferProgress(0, 0);
     try {
-      var response = await Amplify.Storage.uploadFile(
+      await Amplify.Storage.uploadFile(
           local: file!,
           key: "$path/$key",
           options: UploadFileOptions(
@@ -129,7 +132,23 @@ class FileRepository {
 
   //share
 
-  //copy link
+  //get link
+  Future<Map<String, dynamic>> getLink(PathObject file) async {
+    var result = <String, dynamic>{};
+    try {
+      var key = "${file.filePath!.substring(1)}${file.fileName}";
+      final response = await Amplify.Storage.getUrl(
+          key: file.isFolder! ? "$key/" : key,
+          options: GetUrlOptions(accessLevel: StorageAccessLevel.protected));
+
+      _copyToClipBoard(response.url);
+      result["message"] = "Link Copied to clipboard";
+      result["status"] = true;
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return result;
+  }
 
   //add to workspace
 
@@ -162,7 +181,7 @@ class FileRepository {
 
     try {
       await Permission.manageExternalStorage.request();
-      var downloadResult = await Amplify.Storage.downloadFile(
+      await Amplify.Storage.downloadFile(
           key: "${file.filePath!.substring(1)}${file.fileName}",
           local: tmpFile,
           options:
@@ -182,7 +201,24 @@ class FileRepository {
     };
   }
 
-  //move
+  //send a copy
+  Future<Map<String, dynamic>> sendCopy(PathObject file) async {
+    final tempDir = await getTemporaryDirectory();
+    final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
+
+    try {
+      await Permission.manageExternalStorage.request();
+      await Amplify.Storage.downloadFile(
+        key: "${file.filePath!.substring(1)}${file.fileName}",
+        local: tmpFile,
+        options: DownloadFileOptions(accessLevel: StorageAccessLevel.protected),
+      );
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+
+    return {"message": tmpFile.path, "status": true};
+  }
 
   //delete
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {
@@ -191,7 +227,7 @@ class FileRepository {
       final result = await Amplify.Storage.remove(
           key: file.isFolder! ? "$key/" : key,
           options: RemoveOptions(accessLevel: StorageAccessLevel.protected));
-      print(result.key);
+      safePrint(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }
@@ -211,5 +247,11 @@ class FileRepository {
       throw e.message;
     }
     return result;
+  }
+}
+
+Future<void> _copyToClipBoard(String text) async {
+  if (text.isNotEmpty) {
+    await Clipboard.setData(ClipboardData(text: text));
   }
 }

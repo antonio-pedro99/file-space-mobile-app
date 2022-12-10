@@ -17,7 +17,7 @@ class StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    //var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
     return Container(
         margin: const EdgeInsets.only(bottom: 16),
