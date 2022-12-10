@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'package:amplify_flutter/amplify_flutter.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
-import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/file.dart';
 
 part 'file_event.dart';

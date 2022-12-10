@@ -1,6 +1,5 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
 class SharedPage extends StatefulWidget {
@@ -15,17 +14,6 @@ class _MyHomePageState extends State<SharedPage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<List<StorageItem>> _loadFiles() async {
-    try {
-      final result = await Amplify.Storage.list(
-          options: ListOptions(accessLevel: StorageAccessLevel.private));
-
-      return result.items;
-    } on StorageException catch (e) {
-      rethrow;
-    }
   }
 
   @override

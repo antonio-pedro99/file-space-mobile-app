@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
-import 'package:space_client_app/extensions.dart';
 import 'package:space_client_app/views/page/overview/widgets/static_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 

@@ -22,7 +22,7 @@ class FileRepository {
       String? userEmail}) async {
     var result = const TransferProgress(0, 0);
     try {
-      var response = await Amplify.Storage.uploadFile(
+      await Amplify.Storage.uploadFile(
           local: file!,
           key: "$path/$key",
           options: UploadFileOptions(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_client_app/app.dart';
-import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/notifications/notifications.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';

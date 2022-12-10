@@ -1,16 +1,13 @@
-import 'dart:ffi';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
-
 import 'package:space_client_app/data/repository/auth.dart';
 import 'package:space_client_app/views/page/auth/onboarding.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/theme.dart';
-import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -18,9 +15,9 @@ class MyApp extends StatelessWidget {
   final Future<SharedPreferences> authPrefs = SharedPreferences.getInstance();
 
   Future<bool?> isLogged() async {
-    final _prefs = await authPrefs;
+    final prefs = await authPrefs;
 
-    return _prefs.getBool("status");
+    return prefs.getBool("status");
   }
 
   @override
