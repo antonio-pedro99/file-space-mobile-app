@@ -56,7 +56,6 @@ class FileBloc extends Bloc<FileEvent, FileState> {
 
         emit(FileLoaded(result));
       } else if (event is DeleteFile) {
-
         emit(FileIsDeleting());
         var result = await fileOperations.deleteFile(event.file);
 
@@ -81,9 +80,9 @@ class FileBloc extends Bloc<FileEvent, FileState> {
             atr = AttributeUpdate.star;
             break;
           case AttributeUpdate.none:
+            result = await fileOperations.sendCopy(event.file);
             break;
         }
-
         if (result["status"]) {
           emit(FileUpdated(message: result["message"], attributeUpdate: atr));
         } else {

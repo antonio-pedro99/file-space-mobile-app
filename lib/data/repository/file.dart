@@ -201,7 +201,24 @@ class FileRepository {
     };
   }
 
-  //move
+  //send a copy
+  Future<Map<String, dynamic>> sendCopy(PathObject file) async {
+    final tempDir = await getTemporaryDirectory();
+    final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
+
+    try {
+      await Permission.manageExternalStorage.request();
+      await Amplify.Storage.downloadFile(
+        key: "${file.filePath!.substring(1)}${file.fileName}",
+        local: tmpFile,
+        options: DownloadFileOptions(accessLevel: StorageAccessLevel.protected),
+      );
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+
+    return {"message": tmpFile.path, "status": true};
+  }
 
   //delete
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {

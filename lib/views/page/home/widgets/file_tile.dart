@@ -1,5 +1,8 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
@@ -121,6 +124,9 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                 case AttributeUpdate.share:
                   break;
                 case AttributeUpdate.none:
+                  print(state.message);
+                  Share.shareXFiles([XFile(state.message!)],
+                      subject: file.fileName);
                   break;
                 default:
               }
@@ -143,16 +149,18 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                       ),
                       Column(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Icon(
                                 iconData,
                                 color: color,
                               ),
                               const SizedBox(width: 10),
-                              Text(file.fileName!)
+                              Text(
+                                file.fileName!,
+                                softWrap: true,
+                              )
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -164,6 +172,12 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      Visibility(
+                          visible: isUpdating,
+                          child: const LinearProgressIndicator(
+                            minHeight: 1,
+                          )),
                       const SizedBox(
                         height: 24,
                       ),
@@ -186,6 +200,16 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                               leading: Icon(Icons.people_outline),
                               title: Text("Manage access"),
                             ),
+                      type == FileType.folder
+                          ? const SizedBox()
+                          : ListTile(
+                              onTap: () {
+                                BlocProvider.of<FileBloc>(context).add(
+                                    UpdateFile(file, AttributeUpdate.none));
+                              },
+                              leading: const Icon(Icons.turn_slight_right),
+                              title: const Text("Send a copy"),
+                            ),
                       const Divider(),
                       const ListTile(
                         leading: Icon(Icons.drive_file_rename_outline_outlined),
@@ -200,15 +224,6 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                         title: Text(file.isStarred!
                             ? "Remove from starred"
                             : "Add to starred"),
-                        trailing: Visibility(
-                            visible: isUpdating,
-                            child: const SizedBox(
-                              height: 10,
-                              width: 10,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                              ),
-                            )),
                       ),
                       type != FileType.folder
                           ? const ListTile(
