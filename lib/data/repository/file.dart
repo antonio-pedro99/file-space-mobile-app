@@ -210,7 +210,7 @@ class FileRepository {
       final result = await Amplify.Storage.remove(
           key: file.isFolder! ? "$key/" : key,
           options: RemoveOptions(accessLevel: StorageAccessLevel.protected));
-      print(result.key);
+      safePrint(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
     }

@@ -23,18 +23,18 @@ class AmplifyController {
             
             break;
           case 'SIGNED_OUT':
-            print('USER IS SIGNED OUT');
+            safePrint('USER IS SIGNED OUT');
             break;
           case 'SESSION_EXPIRED':
-            print('SESSION HAS EXPIRED');
+            safePrint('SESSION HAS EXPIRED');
             break;
           case 'USER_DELETED':
-            print('USER HAS BEEN DELETED');
+            safePrint('USER HAS BEEN DELETED');
             break;
         } */
       });
     } catch (e) {
-      print(e);
+      safePrint(e);
     }
   }
 

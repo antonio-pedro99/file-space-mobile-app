@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
@@ -26,7 +27,7 @@ class _MyHomePageState extends State<FolderContentPage> {
     super.initState();
     folderNameTextController.text = "New Folder";
     BlocProvider.of<FileBloc>(context).add(LoadFiles(widget.userEmail!));
-    print(widget.parent);
+    safePrint(widget.parent);
   }
 
   List<PathObject> _files = [];

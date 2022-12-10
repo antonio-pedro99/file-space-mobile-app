@@ -56,7 +56,7 @@ class FileBloc extends Bloc<FileEvent, FileState> {
 
         emit(FileLoaded(result));
       } else if (event is DeleteFile) {
-        print("Delete file called");
+
         emit(FileIsDeleting());
         var result = await fileOperations.deleteFile(event.file);
 
