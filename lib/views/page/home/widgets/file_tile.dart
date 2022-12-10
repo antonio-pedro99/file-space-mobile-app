@@ -56,7 +56,8 @@ class FileTile extends StatelessWidget with FileTileType {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
-    var color = magicColors[math.Random().nextInt(magicColors.length)];
+    var color = Colors.pink;
+    //var color = magicColors[math.Random().nextInt(magicColors.length)];
     var user = context.read<UserBloc>().user;
     return ListTile(
         onTap: () => openMenu(object.getType(), context, object.fileName,
@@ -103,13 +104,29 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
             if (state is FileIsUpdating) {
               isUpdating = true;
             } else if (state is FileUpdated) {
-              isUpdating = false;
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                state.message!,
-              )));
+              switch (state.attributeUpdate) {
+                case AttributeUpdate.star:
+                  isUpdating = false;
+
+                  BlocProvider.of<FileBloc>(context)
+                      .add(LoadFiles(user.email!));
+                  break;
+
+                case AttributeUpdate.link:
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: const Duration(milliseconds: 1000),
+                      dismissDirection: DismissDirection.endToStart,
+                      content: Text(
+                        state.message!,
+                      )));
+                  break;
+                case AttributeUpdate.share:
+                  break;
+                case AttributeUpdate.none:
+                  break;
+                default:
+              }
               Navigator.of(context).pop();
-              BlocProvider.of<FileBloc>(context).add(LoadFiles(user.email!));
             } else if (state is FileDownUploadError) {}
           },
           builder: (context, state) {

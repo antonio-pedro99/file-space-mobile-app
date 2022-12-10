@@ -52,4 +52,4 @@ class UpdateFile extends FileEvent {
   UpdateFile(this.file,this.attributeUpdate);
 }
 
-enum AttributeUpdate { link, share, star }
+enum AttributeUpdate { link, share, star , none}

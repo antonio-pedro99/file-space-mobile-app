@@ -39,5 +39,6 @@ class FileIsUpdating extends FileState {}
 
 class FileUpdated extends FileState {
   final String? message;
-  FileUpdated({this.message});
+    final AttributeUpdate? attributeUpdate;
+  FileUpdated({this.message, this.attributeUpdate});
 }
