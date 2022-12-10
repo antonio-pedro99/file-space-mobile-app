@@ -48,5 +48,8 @@ class CopyLinkFile extends FileEvent {
 
 class UpdateFile extends FileEvent {
   final PathObject file;
-  UpdateFile(this.file);
+  final AttributeUpdate attributeUpdate;
+  UpdateFile(this.file,this.attributeUpdate);
 }
+
+enum AttributeUpdate { link, share, star }

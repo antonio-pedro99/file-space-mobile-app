@@ -104,9 +104,12 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
               isUpdating = true;
             } else if (state is FileUpdated) {
               isUpdating = false;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                state.message!,
+              )));
               Navigator.of(context).pop();
-               BlocProvider.of<FileBloc>(context)
-                                    .add(LoadFiles(user.email!));
+              BlocProvider.of<FileBloc>(context).add(LoadFiles(user.email!));
             } else if (state is FileDownUploadError) {}
           },
           builder: (context, state) {
@@ -153,9 +156,11 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                         leading: Icon(Icons.share_outlined),
                         title: Text("Share"),
                       ),
-                      const ListTile(
-                        leading: Icon(Icons.link_outlined),
-                        title: Text("Copy link"),
+                      ListTile(
+                        leading: const Icon(Icons.link_outlined),
+                        title: const Text("Copy link"),
+                        onTap: () => BlocProvider.of<FileBloc>(context)
+                            .add(UpdateFile(file, AttributeUpdate.link)),
                       ),
                       type != FileType.folder
                           ? const ListTile(
@@ -173,7 +178,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                       ),
                       ListTile(
                         onTap: () => BlocProvider.of<FileBloc>(context)
-                            .add(UpdateFile(file)),
+                            .add(UpdateFile(file, AttributeUpdate.star)),
                         leading: Icon(file.isStarred!
                             ? Icons.star_sharp
                             : Icons.star_outline_outlined),

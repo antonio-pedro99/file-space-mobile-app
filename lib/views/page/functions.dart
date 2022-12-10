@@ -1,10 +1,15 @@
+library clipboard;
+
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/extensions.dart';
-import 'package:space_client_app/blocs/file/file_bloc.dart';
 
 import '../../blocs/user/user_bloc.dart';
 
@@ -55,11 +60,9 @@ void uploadFile(BuildContext context, String path) {
       }
       await user.userAttr
           .increaseQuotaUsed(user.user, platformFile.size.toDouble().toMB());
-      
     } else {
       print("Cant");
     }
-    
   });
 }
 

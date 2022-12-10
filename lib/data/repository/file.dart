@@ -1,7 +1,10 @@
+library clipboard;
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -129,7 +132,23 @@ class FileRepository {
 
   //share
 
-  //copy link
+  //get link
+  Future<Map<String, dynamic>> getLink(PathObject file) async {
+    var result = <String, dynamic>{};
+    try {
+      var key = "${file.filePath!.substring(1)}${file.fileName}";
+      final response = await Amplify.Storage.getUrl(
+          key: file.isFolder! ? "$key/" : key,
+          options: GetUrlOptions(accessLevel: StorageAccessLevel.protected));
+
+      _copyToClipBoard(response.url);
+      result["message"] = "Link Copied to clipboard";
+      result["status"] = true;
+    } on StorageException catch (e) {
+      return {"message": e.message, "status": false};
+    }
+    return result;
+  }
 
   //add to workspace
 
@@ -162,7 +181,7 @@ class FileRepository {
 
     try {
       await Permission.manageExternalStorage.request();
-      var downloadResult = await Amplify.Storage.downloadFile(
+      await Amplify.Storage.downloadFile(
           key: "${file.filePath!.substring(1)}${file.fileName}",
           local: tmpFile,
           options:
@@ -211,5 +230,11 @@ class FileRepository {
       throw e.message;
     }
     return result;
+  }
+}
+
+Future<void> _copyToClipBoard(String text) async {
+  if (text.isNotEmpty) {
+    await Clipboard.setData(ClipboardData(text: text));
   }
 }

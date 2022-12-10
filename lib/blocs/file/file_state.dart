@@ -38,5 +38,6 @@ class FileIsDeleting extends FileState {}
 class FileIsUpdating extends FileState {}
 
 class FileUpdated extends FileState {
-  FileUpdated();
+  final String? message;
+  FileUpdated({this.message});
 }

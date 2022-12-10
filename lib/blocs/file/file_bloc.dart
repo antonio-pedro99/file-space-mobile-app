@@ -69,10 +69,21 @@ class FileBloc extends Bloc<FileEvent, FileState> {
         }
       } else if (event is UpdateFile) {
         emit(FileIsUpdating());
+        var result = {};
+        switch (event.attributeUpdate) {
+          case AttributeUpdate.link:
+            result = await fileOperations.getLink(event.file);
+            break;
+          case AttributeUpdate.share:
+            break;
+          case AttributeUpdate.star:
+            result = await fileOperations.addToStarred(event.file);
+            break;
+        }
 
-        var result = await fileOperations.addToStarred(event.file);
         if (result["status"]) {
-          emit(FileUpdated());
+          
+          emit(FileUpdated(message: result["message"]));
         } else {
           emit(FileDownUploadError(message: result["message"]));
         }
