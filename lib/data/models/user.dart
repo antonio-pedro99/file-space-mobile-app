@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
@@ -9,6 +11,7 @@ class UserAuthDetails {
   bool? hasSubscription;
   double? quotaUsed;
   double? quotaLimit;
+  List<dynamic>? computers;
   UserAuthDetails({this.email, this.name, this.quotaLimit, this.quotaUsed});
 
   UserAuthDetails.fromAttr(List<AuthUserAttribute> attrs) {
@@ -25,6 +28,10 @@ class UserAuthDetails {
           break;
         case "custom:limit_quota":
           quotaLimit = double.parse(attr.value);
+          break;
+        case "custom:desktop":
+          computers = json.decode(attr.value) as List<dynamic>;
+          break;
       }
     }
   }
@@ -39,6 +46,7 @@ class UserAuthDetails {
       "name": name,
       "quota_used": quotaUsed,
       "limit_quota": quotaLimit,
+      "desktop": json.encode(computers)
     };
   }
 }

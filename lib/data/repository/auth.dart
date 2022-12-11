@@ -26,6 +26,7 @@ class AuthenticationUser {
         const CognitoUserAttributeKey.custom('limit_quota'): "1024",
         const CognitoUserAttributeKey.custom('profile_photo'): "photo",
         const CognitoUserAttributeKey.custom('quota_used'): "0",
+        const CognitoUserAttributeKey.custom('desktop'): "[]"
       };
 
       await Amplify.Auth.signUp(
