@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/views/page/desktop/device_tile.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<DesktopFilesPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var userDetails = context.read<UserBloc>().user;
+
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -53,65 +55,17 @@ class _MyHomePageState extends State<DesktopFilesPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: userDetails.computers!.isNotEmpty
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextButton.icon(
-                                  onPressed: () {
-                                    openModalBottomSheet(
-                                        context,
-                                        const SortNavigator(
-                                          title: "Sort by",
-                                        ));
-                                  },
-                                  icon: const Icon(Icons.keyboard_arrow_down,
-                                      color: lightGrey),
-                                  label: Text(
-                                    "Recent Files",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(fontSize: 15),
-                                  ),
-                                ),
-                              ),
-                              const Icon(Icons.list),
-                            ],
-                          ),
-                          Flexible(
-                              child: BlocConsumer<FileBloc, FileState>(
-                            listener: (context, state) {
-                              if (state is FileLoaded) {
-                                /* _files = state.files
-                              .where((element) => element.filePath!.startsWith(
-                                  "/${widget.parent}/${widget.title}"))
-                              .toList(); */
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is FileDownUploadError) {
-                                return Container(color: Colors.red);
-                              } else if (state is FileIsLoading) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              return ListView.builder(
-                                itemCount: _files.length,
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return FileTile(object: _files[index]);
-                                },
-                              );
-                            },
-                          ))
-                        ],
-                      )
+                    ? GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 180,
+                          childAspectRatio: 3 / 4,
+                        ),
+                        itemCount: userDetails.computers!.length,
+                        itemBuilder: (context, index) {
+                          return DeviceTile(
+                              device: userDetails.computers![index]);
+                        })
                     : Center(
                         child: Text(
                           "You do not have any sync folder. Install our desktop app on your laptop",
