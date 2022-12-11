@@ -4,6 +4,7 @@ import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/views/page/category%20content/content.dart';
+import 'package:space_client_app/views/page/desktop/deskotps.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
@@ -27,10 +28,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-  
   }
 
- 
   @override
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
@@ -76,10 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CategoryTile(
-                                category: "All",
-                                icon: Icons.apps_rounded,
+                                CategoryTile(
+                                category: "Computer",
+                                icon: Icons.computer,
                                 color: deepPurple,
+                                onTap: ()=> Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>   DesktopFilesPage(title: "Desktop Files")
+                                             ))
                               ),
                               CategoryTile(
                                   category: "Folders",
