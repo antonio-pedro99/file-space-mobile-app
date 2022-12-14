@@ -79,7 +79,7 @@ class FileRepository {
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
     String _id = await UserRepository.fetchCognitoUserId();
     String loadUrl =
-        "http://192.168.150.17:8000/user/$_id&$userEmail/files/all";
+        "http://192.168.158.17:8000/user/$_id&$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
@@ -100,7 +100,7 @@ class FileRepository {
 
   Future<void> _updateMetadata(String? modified, String? key, String? path,
       int? size, String? userEmail, bool isFolder) async {
-    String url = "http://192.168.150.17:8000/user/update_item";
+    String url = "http://192.168.158.17:8000/user/update_item";
 
     try {
       var response = await _dio.post(url,
@@ -154,7 +154,7 @@ class FileRepository {
 
   //add to starred
   Future<Map<String, dynamic>> addToStarred(PathObject file) async {
-    String url = "http://192.168.150.17:8000/star_file";
+    String url = "http://192.168.158.17:8000/star_file";
     var result = <String, dynamic>{};
     try {
       var response = await _dio.put(url,
@@ -235,7 +235,7 @@ class FileRepository {
   }
 
   Future<Map<String, dynamic>> _deleteFile(String objectId) async {
-    String url = "http://192.168.150.17:8000/user/delete_item";
+    String url = "http://192.168.158.17:8000/user/delete_item";
     var result = <String, dynamic>{};
     try {
       var response = await _dio.delete("$url/$objectId");

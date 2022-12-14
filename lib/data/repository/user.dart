@@ -99,5 +99,19 @@ class UserRepository {
     }
   }
 
-  Future<void> updatePhoto() async {}
+  Future<String> promptDesktop() async {
+    try {
+      final result = await Amplify.Auth.updateUserAttribute(
+        userAttributeKey: const CognitoUserAttributeKey.custom('cog_id'),
+        value: await fetchCognitoUserId(),
+      );
+      if (result.isUpdated) {
+        return "You have created an secret Key to access your laptop. The First Device logged will be added";
+      } else {
+        return "We were unable to make that";
+      }
+    } on AmplifyException catch (e) {
+      return e.message;
+    }
+  }
 }

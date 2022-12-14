@@ -32,13 +32,16 @@ class UserAuthDetails {
           break;
         case "custom:desktop":
           List<DesktopDevice> devices = [];
-          String results = json.decode(json.encode(attr.value));
-          var parts = results.substring(2, results.length - 2).split(": ");
-          var result =
-              parts.map((e) => e.trim().replaceAll(RegExp("'"), '"')).join(":");
+          if (attr.value.length != 2 || attr.value.isEmpty) {
+            String results = json.decode(json.encode(attr.value));
+            var parts = results.substring(2, results.length - 2).split(": ");
+            var result = parts
+                .map((e) => e.trim().replaceAll(RegExp("'"), '"'))
+                .join(":");
 
-          devices.add(DesktopDevice.fromJson(
-              json.decode("{$result}") as Map<String, dynamic>));
+            devices.add(DesktopDevice.fromJson(
+                json.decode("{$result}") as Map<String, dynamic>));
+          }
           computers = devices;
           break;
       }
