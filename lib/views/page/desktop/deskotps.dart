@@ -83,79 +83,33 @@ class _MyHomePageState extends State<DesktopFilesPage> {
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24))),
               builder: (context) {
-                return Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text("Add to SpaceFile"),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Flexible(
-                            child: ListView(
-                          children: [
-                            ListTile(
-                              leading: const Icon(Icons.note_add_outlined),
-                              title: const Text("Upload a File"),
-                              onTap: () => {},
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.folder_open_outlined),
-                              title: const Text("Create New Folder"),
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          title:
-                                              const Text("Create new folder"),
-                                          content: SizedBox(
-                                              child: TextField(
-                                            controller:
-                                                folderNameTextController,
-                                            autofocus: true,
-                                            decoration: const InputDecoration(
-                                                hintText: "Folder Name",
-                                                prefixIcon: Icon(Icons.folder),
-                                                filled: false,
-                                                border: OutlineInputBorder()),
-                                          )),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          actions: [
-                                            TextButton(
-                                                onPressed:
-                                                    Navigator.of(context).pop,
-                                                child: Text("Cancel",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                            color: lightGrey))),
-                                            TextButton(
-                                                onPressed: () {
-                                                  /*  createFolder(
-                                                      context,
-                                                      "${widget.parent}/${widget.title}",
-                                                      folderNameTextController
-                                                          .text); */
-                                                },
-                                                child: const Text("Create"))
-                                          ],
-                                        ));
-                              },
-                            ),
-                            ListTile(
-                                leading: const Icon(Icons.upload_file),
-                                title: const Text("Upload from Computer"),
-                                onTap: () {})
-                          ],
-                        ))
-                      ],
-                    ));
+                return FutureBuilder<String>(
+                    future: context.read<UserBloc>().userAttr.promptDesktop(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return Center(child: Text(snapshot.error as String));
+                        }
+                        return Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Text("Add Desktop"),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                Center(child: Text(snapshot.data as String))
+                              ],
+                            ));
+                      }
+                      return Container();
+                    });
               });
         },
         tooltip: 'Open Add',
