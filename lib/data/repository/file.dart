@@ -180,6 +180,7 @@ class FileRepository {
 
     try {
       await Permission.manageExternalStorage.request();
+      
       await Amplify.Storage.downloadFile(
           key: "${file.filePath!.substring(1)}${file.fileName}",
           local: tmpFile,
