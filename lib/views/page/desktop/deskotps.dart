@@ -19,6 +19,7 @@ class _MyHomePageState extends State<DesktopFilesPage> {
   var folderNameTextController = TextEditingController();
 
   List<PathObject> _files = [];
+
   @override
   void initState() {
     super.initState();
@@ -65,7 +66,8 @@ class _MyHomePageState extends State<DesktopFilesPage> {
                                                 "Computer ${userDetails.computers![index].deviceName}",
                                             userEmail: userDetails.email,
                                             test: (PathObject o) => o.filePath!
-                                                .startsWith("/My Space"),
+                                                .startsWith(
+                                                    "/sync_folders/${userDetails.computers![index].deviceName}/"),
                                           ))),
                               device: userDetails.computers![index]);
                         })

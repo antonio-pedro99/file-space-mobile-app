@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   onTap: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              DesktopFilesPage(
+                                              const DesktopFilesPage(
                                                   title: "Desktop Files")))),
                               CategoryTile(
                                   category: "Folders",
