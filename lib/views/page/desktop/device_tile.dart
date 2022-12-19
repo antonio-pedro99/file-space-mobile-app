@@ -4,8 +4,9 @@ import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/device.dart';
 
 class DeviceTile extends StatelessWidget {
-  const DeviceTile({super.key, this.device});
+  const DeviceTile({super.key, this.device, this.onTap});
   final DesktopDevice? device;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -13,7 +14,7 @@ class DeviceTile extends StatelessWidget {
     var user = context.read<UserBloc>().user;
 
     return InkWell(
-      onTap: () => {},
+      onTap: onTap,
       child: Container(
         width: 100,
         padding: const EdgeInsets.all(8),
@@ -40,7 +41,9 @@ class DeviceTile extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    print(device!.syncFolderName);
+                  },
                   icon: const Icon(Icons.more_vert),
                 )
               ],

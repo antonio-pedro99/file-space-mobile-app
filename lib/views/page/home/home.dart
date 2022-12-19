@@ -50,7 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
           body: BlocConsumer<FileBloc, FileState>(
             listener: (context, state) {
               if (state is FileLoaded) {
-                _files = state.files;
+                _files = state.files
+                    .where((element) => element.filePath!.startsWith("/files/"))
+                    .toList();
               }
             },
             builder: (context, state) {
@@ -75,15 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                CategoryTile(
-                                category: "Computer",
-                                icon: Icons.computer,
-                                color: deepPurple,
-                                onTap: ()=> Navigator.of(context).push(
+                              CategoryTile(
+                                  category: "Computer",
+                                  icon: Icons.computer,
+                                  color: deepPurple,
+                                  onTap: () => Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (context) =>   DesktopFilesPage(title: "Desktop Files")
-                                             ))
-                              ),
+                                          builder: (context) =>
+                                              DesktopFilesPage(
+                                                  title: "Desktop Files")))),
                               CategoryTile(
                                   category: "Folders",
                                   icon: Icons.folder_rounded,

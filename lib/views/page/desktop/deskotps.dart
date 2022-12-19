@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/models/object.dart';
+import 'package:space_client_app/views/page/category%20content/content.dart';
 import 'package:space_client_app/views/page/desktop/device_tile.dart';
-import 'package:space_client_app/views/theme/colors.dart';
 
 class DesktopFilesPage extends StatefulWidget {
   const DesktopFilesPage({Key? key, required this.title, this.userEmail})
@@ -17,14 +17,13 @@ class DesktopFilesPage extends StatefulWidget {
 
 class _MyHomePageState extends State<DesktopFilesPage> {
   var folderNameTextController = TextEditingController();
+
+  List<PathObject> _files = [];
   @override
   void initState() {
     super.initState();
     folderNameTextController.text = "New Folder";
-    //BlocProvider.of<FileBloc>(context).add(LoadFiles(widget.userEmail!));
   }
-
-  List<PathObject> _files = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +58,15 @@ class _MyHomePageState extends State<DesktopFilesPage> {
                         itemCount: userDetails.computers!.length,
                         itemBuilder: (context, index) {
                           return DeviceTile(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => CategoryContentPage(
+                                            title:
+                                                "Computer ${userDetails.computers![index].deviceName}",
+                                            userEmail: userDetails.email,
+                                            test: (PathObject o) => o.filePath!
+                                                .startsWith("/My Space"),
+                                          ))),
                               device: userDetails.computers![index]);
                         })
                     : Center(
