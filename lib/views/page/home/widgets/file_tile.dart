@@ -211,7 +211,10 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                               title: const Text("Send a copy"),
                             ),
                       const Divider(),
-                      const ListTile(
+                      ListTile(
+                        onTap: () {
+                          print(file.filePath);
+                        },
                         leading: Icon(Icons.drive_file_rename_outline_outlined),
                         title: Text("Rename"),
                       ),
