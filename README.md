@@ -8,7 +8,7 @@ coming soon
 
 ## System Architecture
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Starage API](https://user-images.githubusercontent.com/42675180/208769751-006941f7-8449-4a42-929a-bdf1f637203c.jpg)
 
 ## Features
 
