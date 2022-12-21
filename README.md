@@ -18,3 +18,4 @@ coming soon
 - Share files to externals
 - Storage usage overview
 - Storage Upgrade(up to 2 GB only)
+- Copy file's link
