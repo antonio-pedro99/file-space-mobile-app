@@ -13,7 +13,6 @@ A DropBox like personal File Storage Application built with Flutter, AWS Amplify
   <img src="https://user-images.githubusercontent.com/42675180/209074830-67632ea3-e81b-4464-965c-98c24c38636d.jpeg" width="200" />
   <img src="https://user-images.githubusercontent.com/42675180/209074857-73c233dd-8379-452f-9b3e-4f8212ae848a.jpeg" width="200"/>
   <img src="https://user-images.githubusercontent.com/42675180/209074917-00d98dd1-d677-4b16-b8cb-e45e634b57be.jpeg" width="200"/>
-  <img src="https://user-images.githubusercontent.com/42675180/209075746-d2c2e084-356f-4bd7-875e-fc940316556a.jpeg" width="200"/>
 </p>
 
 
