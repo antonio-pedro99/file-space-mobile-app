@@ -28,7 +28,7 @@ With AWS Free Tier, I have only 5GB of Amazon S3 storage, please do not flood th
 - Upload files and Create folder
 - Download files
 - Syncronization Folder(linux and MAC only-not tested)
-- Share files to externals
+- Share files to externals (social Medias, and others)
 - Storage usage overview
 - Storage Upgrade(up to 2 GB only)
 - Copy file's link
