@@ -41,6 +41,8 @@ A DropBox like personal File Storage Application built with Flutter, AWS Amplify
 - Move files to another folder
 - Rename a file
 - Upload files from Computer
+- Integration with Google Docs(to create and read word, excel and slides documents inside the app)
+- File Encryption
 
 ## How to contribute
 Upcoming
