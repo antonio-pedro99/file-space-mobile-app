@@ -3,6 +3,10 @@
 
 A DropBox like personal File Storage Application built with Flutter, AWS Amplify, and FastAPI as a part of my Cloud Computing subject's final project at IIITD
 
+## Disclaimer
+
+With AWS Free Tier, I have only 5GB of Amazon S3 storage, please do not flood the storage with Big files. If you want to have more space, create an account on AWS to avail your Free Tier and setup AWS CLI accordingly. 
+
 ## Screenshots
 <p float="right">
   <img src="https://user-images.githubusercontent.com/42675180/209075774-ca61bdeb-0238-4d67-9eb2-cae23653a0fe.jpeg" width="200"/>
@@ -14,8 +18,6 @@ A DropBox like personal File Storage Application built with Flutter, AWS Amplify
   <img src="https://user-images.githubusercontent.com/42675180/209074857-73c233dd-8379-452f-9b3e-4f8212ae848a.jpeg" width="200"/>
   <img src="https://user-images.githubusercontent.com/42675180/209074830-67632ea3-e81b-4464-965c-98c24c38636d.jpeg" width="200" />
 </p>
-
-
 
 ## System Architecture
 
