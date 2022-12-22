@@ -21,7 +21,7 @@ With AWS Free Tier, I have only 5GB of Amazon S3 storage, please do not flood th
 
 ## System Architecture
 
-<img src="https://user-images.githubusercontent.com/42675180/208769751-006941f7-8449-4a42-929a-bdf1f637203c.jpg" height = "400" width="800"/>
+<img src="https://user-images.githubusercontent.com/42675180/208769751-006941f7-8449-4a42-929a-bdf1f637203c.jpg" height = "600" width="1080"/>
 
 ## Features
 
