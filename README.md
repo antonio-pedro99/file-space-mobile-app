@@ -25,8 +25,22 @@ A DropBox like personal File Storage Application built with Flutter, AWS Amplify
 
 - Upload files and Create folder
 - Download files
-- Syncronization Folder(linux only)
+- Syncronization Folder(linux and MAC only-not tested)
 - Share files to externals
 - Storage usage overview
 - Storage Upgrade(up to 2 GB only)
 - Copy file's link
+
+## Upcoming Features
+
+- Share files within the app
+- Syncronization folder(Windows)
+- Workspace
+- Notifications
+- Light Mode UI
+- Move files to another folder
+- Rename a file
+- Upload files from Computer
+
+## How to contribute
+Upcoming
