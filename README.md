@@ -46,5 +46,10 @@ With AWS Free Tier, I have only 5GB of Amazon S3 storage, please do not flood th
 - Integration with Google Docs(to create and read word, excel and slides documents inside the app)
 - File Encryption
 
-## How to contribute
-Upcoming
+## Contributing
+
+Contributions are always welcome!
+
+See `contributing.md` for ways to get started.
+
+Please adhere to this project's `code of conduct`.
