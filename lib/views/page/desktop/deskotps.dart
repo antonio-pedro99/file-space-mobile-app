@@ -18,8 +18,6 @@ class DesktopFilesPage extends StatefulWidget {
 class _MyHomePageState extends State<DesktopFilesPage> {
   var folderNameTextController = TextEditingController();
 
-  List<PathObject> _files = [];
-
   @override
   void initState() {
     super.initState();

@@ -38,9 +38,9 @@ class AmplifyController {
     }
   }
 
-  Future<bool> _isSignedIn() async {
+  /* Future<bool> _isSignedIn() async {
     final _s = await Amplify.Auth.fetchAuthSession();
 
     return _s.isSignedIn;
-  }
+  } */
 }

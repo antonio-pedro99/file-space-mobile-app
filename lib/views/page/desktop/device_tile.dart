@@ -41,9 +41,7 @@ class DeviceTile extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    print(device!.syncFolderName);
-                  },
+                  onPressed: () {},
                   icon: const Icon(Icons.more_vert),
                 )
               ],

@@ -18,9 +18,7 @@ class CustomDrawer extends StatelessWidget {
     var userDetails = context.read<UserBloc>().user;
     return Drawer(
       child: BlocConsumer<UserBloc, UserState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return ListView(
             children: [
@@ -56,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
                             builder: (context) => const StorageOverviewPage()),
                       ),
                       child: Text(
-                        "${userDetails .getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
+                        "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
                         style: textTheme.subtitle1!.copyWith(fontSize: 14),
                       ),
                     ),

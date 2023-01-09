@@ -45,9 +45,9 @@ void uploadFile(BuildContext context, String path) {
   FilePicker.platform.pickFiles().then((result) async {
     if (result != null) {
       final platformFile = result.files.single;
-      final _path = platformFile.path!;
+      final path = platformFile.path!;
       final key = platformFile.name;
-      final file = File(_path);
+      final file = File(path);
 
       if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
           user.user.quotaLimit!) {

@@ -1,6 +1,4 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
@@ -124,7 +122,6 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                 case AttributeUpdate.share:
                   break;
                 case AttributeUpdate.none:
-                  print(state.message);
                   Share.shareXFiles([XFile(state.message!)],
                       subject: file.fileName);
                   break;
@@ -212,11 +209,10 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                             ),
                       const Divider(),
                       ListTile(
-                        onTap: () {
-                          print(file.filePath);
-                        },
-                        leading: Icon(Icons.drive_file_rename_outline_outlined),
-                        title: Text("Rename"),
+                        onTap: () {},
+                        leading: const Icon(
+                            Icons.drive_file_rename_outline_outlined),
+                        title: const Text("Rename"),
                       ),
                       ListTile(
                         onTap: () => BlocProvider.of<FileBloc>(context)
