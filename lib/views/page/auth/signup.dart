@@ -124,10 +124,10 @@ class _SignupPageState extends State<SignupPage> {
                                     email: textEmailController.text,
                                     name: textNameController.text);
 
-                                BlocProvider.of<AuthBloc>(context).add(Signup(
+                             /*    BlocProvider.of<AuthBloc>(context).add(Signup(
                                     email: userRegister.email,
                                     name: userRegister.name,
-                                    password: userRegister.password));
+                                    password: userRegister.password)); */
                               }
                             },
                           ),

@@ -107,9 +107,9 @@ class _ConfirmRegistrationPageState extends State<ConfirmRegistrationPage> {
                             widget: size.width * .5,
                             onTap: () async {
                               if (keyForm.currentState!.validate()) {
-                                BlocProvider.of<AuthBloc>(context).add(
+                                /*   BlocProvider.of<AuthBloc>(context).add(
                                     ConfirmSignup(
-                                        textCodeController.text, widget.email));
+                                        textCodeController.text, widget.email)); */
                               }
                             },
                           ),
