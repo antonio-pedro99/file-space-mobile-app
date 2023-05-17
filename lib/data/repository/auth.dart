@@ -95,15 +95,25 @@ class AuthenticationUser {
     }
   }
 
-  Future<bool> signOut() async {
+  Future<FirebaseResponse> signOut() async {
+
+    var firebaseResponse =   FirebaseResponse(status: false);
+
     try {
-      await Firebase.initializeApp();
-      isSignedIn = false;
-      return isSignedIn;
-    } catch (e) {
-      print(e);
-      return isSignedIn;
+      await FirebaseAuth.instance.signOut();
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User signed out successfully';
+      firebaseResponse.statusCode = 200;
+      firebaseResponse.data = null;
+  
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      firebaseResponse.message = 'Error signing out';
+      firebaseResponse.statusCode = 400;
+      firebaseResponse.error = e;
     }
+
+    return firebaseResponse;
   }
 
   Future<bool> isUserSignedIn() async {

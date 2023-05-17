@@ -68,7 +68,7 @@ class _PageDriverState extends State<PageDriver> {
       body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
           if (state is UserLoaded) {
-            BlocProvider.of<FileBloc>(context).add(LoadFiles(user.user.email!));
+            //BlocProvider.of<FileBloc>(context).add(LoadFiles(user.user.email!));
           }
         },
         builder: (context, state) {
@@ -274,13 +274,13 @@ class _PageDriverState extends State<PageDriver> {
           activeIndex: currentPage,
           onTap: (v) {
             setState(() {
-              if (v == 0) {
+              /*  if (v == 0) {
                 BlocProvider.of<FileBloc>(context)
                     .add(LoadFiles(user.user.email!));
               } else if (v == 1) {
                 BlocProvider.of<FileBloc>(context)
                     .add(LoadFiles(user.user.email!));
-              }
+              } */
               controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
                   curve: Curves.easeIn);

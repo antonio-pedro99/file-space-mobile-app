@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(AuthError(result.message ?? "Failed with unknown error"));
           }
         }
-      } /* else if (event is ConfirmSignup) {
+        /* else if (event is ConfirmSignup) {
         emit(AuthLoading());
         var result = await authRepository.confirm(event.email, event.code);
 
@@ -54,17 +54,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthError(result["message"]));
         } else {
           emit(AuthLoaded(event.email));
-        }
+        } */
       } else if (event is Logout) {
         emit(AuthLoading());
         var result = await authRepository.signOut();
-        if (!result["status"]) {
-          emit(AuthError(result["message"]));
+        if (!result.status!) {
+          emit(AuthError(result.message ?? "Failed with unknown error"));
         } else {
           prefs.setBool("status", false);
           emit(AuthLoaded(""));
         }
-      } */
+      }
     });
   }
 }

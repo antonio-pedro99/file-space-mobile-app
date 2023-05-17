@@ -54,12 +54,12 @@ class _SignupPageState extends State<SignupPage> {
                   style: TextStyle(),
                 )));
               } else if (state is AuthLoaded) {
-               /*  Navigator.of(context).pushAndRemoveUntil(
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => ConfirmRegistrationPage(
+                        builder: (context) => LoginPage(
                               email: state.email,
                             )),
-                    (route) => false); */
+                    (route) => false);
               }
             },
             builder: (context, state) {

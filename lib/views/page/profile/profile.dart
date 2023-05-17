@@ -81,7 +81,8 @@ class _MyHomePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("${userDetails.name}",
+                                Text("Empty",
+                                    //"${userDetails.name}",
                                     style: textTheme.headline5),
                                 Text(
                                   "Basic Plan",
@@ -141,7 +142,8 @@ class _MyHomePageState extends State<ProfilePage> {
                                         const StorageOverviewPage()),
                               ),
                               child: Text(
-                                "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
+                                "Empty",
+                                //  "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
                                 style:
                                     textTheme.subtitle1!.copyWith(fontSize: 14),
                               ),
