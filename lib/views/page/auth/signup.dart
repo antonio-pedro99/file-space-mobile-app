@@ -54,12 +54,12 @@ class _SignupPageState extends State<SignupPage> {
                   style: TextStyle(),
                 )));
               } else if (state is AuthLoaded) {
-                Navigator.of(context).pushAndRemoveUntil(
+               /*  Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => ConfirmRegistrationPage(
                               email: state.email,
                             )),
-                    (route) => false);
+                    (route) => false); */
               }
             },
             builder: (context, state) {
@@ -124,10 +124,10 @@ class _SignupPageState extends State<SignupPage> {
                                     email: textEmailController.text,
                                     name: textNameController.text);
 
-                             /*    BlocProvider.of<AuthBloc>(context).add(Signup(
+                                BlocProvider.of<AuthBloc>(context).add(Signup(
                                     email: userRegister.email,
                                     name: userRegister.name,
-                                    password: userRegister.password)); */
+                                    password: userRegister.password));
                               }
                             },
                           ),

@@ -24,11 +24,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthLoading());
           var result = await authRepository.signIn(
               UserLoginModel(password: event.password, email: event.email));
-          if (result["status"]) {
-            prefs.setBool("status", result["status"]);
+          if (result.status!) {
+            prefs.setBool("status", result.status!);
             emit(AuthLoaded(event.email));
           } else {
-            emit(AuthError(result["message"]));
+            emit(AuthError(result.message ?? "Failed with unknown error"));
           }
         }
       } else if (event is Signup) {
@@ -40,13 +40,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthLoading());
           var result = await authRepository.signUp(UserSignUpModel(
               password: event.password, email: event.email, name: event.name));
-          if (result["status"]) {
+          if (result.status!) {
             emit(AuthLoaded(event.email));
           } else {
-            emit(AuthError(result["message"]));
+            emit(AuthError(result.message ?? "Failed with unknown error"));
           }
         }
-      } else if (event is ConfirmSignup) {
+      } /* else if (event is ConfirmSignup) {
         emit(AuthLoading());
         var result = await authRepository.confirm(event.email, event.code);
 
@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           prefs.setBool("status", false);
           emit(AuthLoaded(""));
         }
-      }
+      } */
     });
   }
 }

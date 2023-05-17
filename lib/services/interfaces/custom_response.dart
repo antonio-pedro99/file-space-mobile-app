@@ -1,9 +1,9 @@
 abstract class ResponseBase {
-  final String? message;
-  final bool? status;
-  final dynamic data;
-  final dynamic error;
-  final int? statusCode;
+  String? message;
+  bool? status;
+  dynamic data;
+  dynamic error;
+  int? statusCode;
 
   ResponseBase(
       {this.message, this.status, this.data, this.statusCode, this.error});
