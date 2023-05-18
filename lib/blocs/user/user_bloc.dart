@@ -14,7 +14,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (event is LoadUserSession) {
         if (event.isSigned) {
           emit(UserLoading());
-          await userAttr.fetchCurrentUserAttributes();
+          //  await userAttr.fetchCurrentUserAttributes();
           //user = UserAuthDetails.fromAttr(userAttr.user);
           emit(UserLoaded());
         } else {

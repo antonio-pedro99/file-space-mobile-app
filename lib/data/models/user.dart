@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:space_client_app/data/models/device.dart';
 
 import 'subscription.dart';
@@ -42,8 +43,8 @@ class UserAuthDetails {
           computers = devices;
           break;
       }
-*/  
-  
+*/
+
   String getTotalSpacePercentage() {
     var used = quotaUsed! / quotaLimit! * 100;
     return used.toStringAsFixed(2);
@@ -62,5 +63,36 @@ class UserAuthDetails {
 
 class UserDetails {
   Subscription? subscriptionPlan;
-  UserAuthDetails? authDetails;
+  User? user;
+  String? id;
+
+  double? quotaUsed;
+  double? quotaLimit;
+  List<DesktopDevice>? computers;
+
+  UserDetails(
+      {this.subscriptionPlan,
+      this.user,
+      this.id,
+      this.quotaLimit = 1024,
+      this.quotaUsed = 0.0});
+
+  factory UserDetails.fromMap(Map<String, dynamic> map) {
+    return UserDetails(
+        subscriptionPlan: Subscription.fromMap(map["subscription_plan"]),
+        user: FirebaseAuth.instance.currentUser,
+        quotaUsed: map["quota_used"],
+        quotaLimit: map["limit_quota"]);
+  }
+
+  toMap() {
+    return {
+      "id": id,
+      "name": user!.displayName!,
+      "email": user!.email,
+      "subscription_plan": subscriptionPlan!.toMap(),
+      "quota_used": quotaUsed,
+      "limit_quota": quotaLimit,
+    };
+  }
 }

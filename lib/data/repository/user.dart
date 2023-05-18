@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/file.dart';
 import 'package:space_client_app/extensions.dart';
@@ -7,6 +8,7 @@ import '../models/user.dart';
 class UserRepository {
   //final List<AuthUserAttribute> user = [];
   FileRepository fileRepository = FileRepository();
+  final db = FirebaseFirestore.instance;
 
   Future<void> fetchCurrentUserAttributes() async {
     /* try {
@@ -16,6 +18,15 @@ class UserRepository {
     } on AuthException catch (e) {
       throw e.message;
     } */
+  }
+
+  Future<void> updateUserDetails(UserDetails user) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      final result = await firestore.collection("users").add(user.toMap());
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> increaseQuotaUsed(UserAuthDetails user, double val) async {

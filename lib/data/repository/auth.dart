@@ -126,4 +126,26 @@ class AuthenticationUser {
       return isSignedIn;
     }
   }
-}
+
+
+  Future<FirebaseResponse> confirm() async {
+
+    var firebaseResponse =   FirebaseResponse(status: false);
+
+    try {
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'Email verification sent';
+      firebaseResponse.statusCode = 200;
+      firebaseResponse.data = null;
+  
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      firebaseResponse.message = 'Error sending email verification';
+      firebaseResponse.statusCode = 400;
+      firebaseResponse.error = e;
+    }
+
+    return firebaseResponse;
+  }
+  }

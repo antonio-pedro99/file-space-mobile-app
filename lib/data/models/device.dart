@@ -8,4 +8,8 @@ class DesktopDevice {
     deviceName = json["device"];
     syncFolderName = json["sync_folder"];
   }
+
+  toMap() {
+    return {"device": deviceName, "sync_folder": syncFolderName};
+  }
 }
