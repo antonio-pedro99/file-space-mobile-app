@@ -85,10 +85,10 @@ class UserDetails {
         quotaLimit: map["limit_quota"]);
   }
 
-  toMap() {
+  toMap(String? name) {
     return {
       "id": id,
-      "name": user!.displayName!,
+      "name": name,
       "email": user!.email,
       "subscription_plan": subscriptionPlan!.toMap(),
       "quota_used": quotaUsed,

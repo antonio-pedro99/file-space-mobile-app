@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/file.dart';
 import 'package:space_client_app/extensions.dart';
+import 'package:space_client_app/services/interfaces/firebase_reponse.dart';
 
 import '../models/user.dart';
 
@@ -20,12 +22,27 @@ class UserRepository {
     } */
   }
 
-  Future<void> updateUserDetails(UserDetails user) async {
+  Future<void> updateUserDetails(UserDetails user, String? additional) async {
     final firestore = FirebaseFirestore.instance;
     try {
-      final result = await firestore.collection("users").add(user.toMap());
+      await firestore.collection("users").add(user.toMap(additional));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  FirebaseResponse loadUserDetails() {
+    var firebaseResponse = FirebaseResponse(status: false);
+    try {
+      final result = FirebaseAuth.instance.currentUser;
+      firebaseResponse.data = result;
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User details loaded successfully';
+      firebaseResponse.statusCode = 200;
+      return firebaseResponse;
     } catch (e) {
       print(e);
+      return firebaseResponse;
     }
   }
 

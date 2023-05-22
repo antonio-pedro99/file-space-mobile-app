@@ -16,6 +16,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(UserLoading());
           //  await userAttr.fetchCurrentUserAttributes();
           //user = UserAuthDetails.fromAttr(userAttr.user);
+          final user = userAttr.loadUserDetails();
+          print("User: ${user.data!}");
           emit(UserLoaded());
         } else {
           emit(UserLoadingError());

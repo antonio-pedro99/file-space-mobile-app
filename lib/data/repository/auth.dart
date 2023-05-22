@@ -56,11 +56,13 @@ class AuthenticationUser {
     try {
       var response = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
+
+      await response.user!.updateDisplayName(user.name);
       firebaseResponse.data = response;
       firebaseResponse.status = true;
       firebaseResponse.message = 'User signed up successfully';
       firebaseResponse.statusCode = 200;
-
+    
       return firebaseResponse;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -96,8 +98,7 @@ class AuthenticationUser {
   }
 
   Future<FirebaseResponse> signOut() async {
-
-    var firebaseResponse =   FirebaseResponse(status: false);
+    var firebaseResponse = FirebaseResponse(status: false);
 
     try {
       await FirebaseAuth.instance.signOut();
@@ -105,7 +106,7 @@ class AuthenticationUser {
       firebaseResponse.message = 'User signed out successfully';
       firebaseResponse.statusCode = 200;
       firebaseResponse.data = null;
-  
+
       return firebaseResponse;
     } on FirebaseAuthException catch (e) {
       firebaseResponse.message = 'Error signing out';
@@ -127,10 +128,8 @@ class AuthenticationUser {
     }
   }
 
-
   Future<FirebaseResponse> confirm() async {
-
-    var firebaseResponse =   FirebaseResponse(status: false);
+    var firebaseResponse = FirebaseResponse(status: false);
 
     try {
       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
@@ -138,7 +137,7 @@ class AuthenticationUser {
       firebaseResponse.message = 'Email verification sent';
       firebaseResponse.statusCode = 200;
       firebaseResponse.data = null;
-  
+
       return firebaseResponse;
     } on FirebaseAuthException catch (e) {
       firebaseResponse.message = 'Error sending email verification';
@@ -148,4 +147,4 @@ class AuthenticationUser {
 
     return firebaseResponse;
   }
-  }
+}

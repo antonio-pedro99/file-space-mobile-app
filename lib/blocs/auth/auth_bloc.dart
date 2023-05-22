@@ -47,6 +47,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           var result = await authRepository.signUp(UserSignUpModel(
               password: event.password, email: event.email, name: event.name));
           if (result.status!) {
+           
+          final user = FirebaseAuth.instance.currentUser;
+            userAttr.updateUserDetails(UserDetails(
+              user: user,
+              id: user!.uid,
+              subscriptionPlan: Subscription(),
+            ), event.name);
             emit(AuthLoaded(event.email));
           } else {
             emit(AuthError(result.message ?? "Failed with unknown error"));
