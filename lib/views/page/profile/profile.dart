@@ -83,7 +83,7 @@ class _MyHomePageState extends State<ProfilePage> {
                               children: [
                                 Text("Empty",
                                     //"${userDetails.name}",
-                                    style: textTheme.headline5),
+                                    style: textTheme.headlineMedium),
                                 Text(
                                   "Basic Plan",
                                   style: textTheme.labelMedium!.copyWith(
@@ -145,7 +145,7 @@ class _MyHomePageState extends State<ProfilePage> {
                                 "Empty",
                                 //  "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
                                 style:
-                                    textTheme.subtitle1!.copyWith(fontSize: 14),
+                                    textTheme.labelLarge!.copyWith(fontSize: 14),
                               ),
                             ),
                           ],

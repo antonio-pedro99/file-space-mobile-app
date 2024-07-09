@@ -85,8 +85,8 @@ class FileRepository {
           return PathObject.fromJson(json);
         }).toList();
       }
-    } on DioError catch (e) {
-      result = e.error;
+    } on DioException catch (e) {
+      result = e.message as List<PathObject>;
     }
     return result;
   }
@@ -118,8 +118,8 @@ class FileRepository {
           }));
 
       if (response.statusCode == 200) {}
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.message as String;
     }
   }
 

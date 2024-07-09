@@ -49,31 +49,16 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                     height: size.height * .25,
                     child: Stack(
                       children: [
-                        DChartPie(
-                          showLabelLine: false,
+                        DChartPieO(
                           data: [
-                            {
-                              'domain': 'not_used',
-                              'measure': userDetails.quotaLimit! -
-                                  userDetails.quotaUsed!
-                            },
-                            {
-                              'domain': 'used',
-                              'measure': userDetails.quotaUsed!
-                            },
+                            OrdinalData(
+                                domain: 'not_used',
+                                measure: userDetails.quotaLimit! -
+                                    userDetails.quotaUsed!),
+                             OrdinalData(
+                                domain: 'used',
+                                measure: userDetails.quotaUsed!)
                           ],
-                          strokeWidth: 0,
-                          fillColor: (pieData, index) {
-                            switch (pieData["domain"]) {
-                              case 'used':
-                                return purple;
-                              case 'not_used':
-                                return blue;
-                            }
-                          },
-                          donutWidth: 25,
-                          labelColor: Colors.transparent,
-                          labelLineColor: Colors.transparent,
                         ),
                         Align(
                           alignment: Alignment.center,

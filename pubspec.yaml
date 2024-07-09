@@ -36,20 +36,20 @@ dependencies:
   cupertino_icons: ^1.0.5
   animated_bottom_navigation_bar: ^1.1.0
   file_picker: ^5.2.2
-  d_chart: ^0.1.0
+  d_chart: 2.6.9
   flutter_bloc: ^8.1.1
   bloc: ^8.1.0
   shared_preferences: ^2.0.15
   path_provider: ^2.0.11
-  dio: ^4.0.6
-  intl: ^0.17.0
-  permission_handler: ^10.2.0
-  share_plus: ^6.3.0
-  firebase_auth: ^4.6.1
-  firebase_core: ^2.12.0
-  firebase_storage: ^11.2.0
-  firebase_messaging: ^14.6.0
-  cloud_firestore: ^4.7.0
+  dio: ^5.5.0+1
+  intl: ^0.19.0
+  permission_handler: ^11.3.1
+  share_plus: ^9.0.0
+  firebase_auth: ^5.1.2
+  firebase_core: ^3.2.0
+  firebase_storage: ^12.1.1
+  firebase_messaging: ^15.0.3
+  cloud_firestore: ^5.1.0
   firebase_ui_firestore: ^1.5.0
 
 dev_dependencies:
