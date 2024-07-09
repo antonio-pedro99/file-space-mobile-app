@@ -46,28 +46,28 @@ class MyAppTheme {
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
       textTheme: const TextTheme(
-        headline4: TextStyle(
+        headlineLarge: TextStyle(
           fontSize: 36,
           color: white,
           fontWeight: FontWeight.w500,
         ),
-        headline5: TextStyle(
+        headlineMedium: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
-        headline6: TextStyle(
+        headlineSmall: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
-        bodyText1: TextStyle(
+        bodyLarge: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w500,
           color: lightGrey,
         ),
-        subtitle1: TextStyle(
+        labelLarge: TextStyle(
           fontSize: 11,
           color: white,
         ),
-        subtitle2: TextStyle(fontSize: 12, color: grey),
+        labelMedium: TextStyle(fontSize: 12, color: grey),
       ));
 }

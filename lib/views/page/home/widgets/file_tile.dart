@@ -168,7 +168,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                             !file.isFolder!
                                 ? " ${file.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${file.fileSize!.toDouble().getSizeFormat().values.first}, ${file.modified!}"
                                 : file.modified!,
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ],
                       ),

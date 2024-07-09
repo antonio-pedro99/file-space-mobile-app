@@ -49,7 +49,7 @@ class SubscriptionTile extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(e,
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300)),
                         ],
                       ))
@@ -58,7 +58,7 @@ class SubscriptionTile extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               "First month for free, Rs ${subscription.price!}/month after trials",
-              style: textTheme.subtitle2!
+              style: textTheme.labelMedium!
                   .copyWith(fontSize: 14, fontWeight: FontWeight.w300),
             ),
           ],

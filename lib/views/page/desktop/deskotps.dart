@@ -75,7 +75,7 @@ class _MyHomePageState extends State<DesktopFilesPage> {
                         child: Text(
                           "You do not have any sync folder. Install our desktop app on your laptop",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ),
               ))),

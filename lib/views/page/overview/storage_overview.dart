@@ -79,7 +79,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           alignment: Alignment.center,
                           child: Text(
                               "${userDetails.getTotalSpacePercentage()} %",
-                              style: textTheme.headline5!.copyWith(
+                              style: textTheme.headlineMedium!.copyWith(
                                   fontSize: 28, fontWeight: FontWeight.w400)),
                         )
                       ],
@@ -91,12 +91,12 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                       children: [
                         Text(
                           "Total",
-                          style: textTheme.subtitle2!.copyWith(
+                          style: textTheme.labelMedium!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
                         Text(
                             "${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB",
-                            style: textTheme.headline5!
+                            style: textTheme.headlineMedium!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],
                     ),
@@ -104,12 +104,12 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                       children: [
                         Text(
                           "Used",
-                          style: textTheme.subtitle2!.copyWith(
+                          style: textTheme.labelMedium!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
                         Text(
                             "${(userDetails.quotaUsed!.toDouble() / 1024).toStringAsFixed(2)} GB",
-                            style: textTheme.headline5!
+                            style: textTheme.headlineMedium!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],
                     )
@@ -136,7 +136,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                         ),
                         const SizedBox(height: 5),
                         Text("and get unlimited storage",
-                            style: textTheme.subtitle2!.copyWith(
+                            style: textTheme.labelMedium!.copyWith(
                                 fontSize: 16, fontWeight: FontWeight.w300))
                       ],
                     )),

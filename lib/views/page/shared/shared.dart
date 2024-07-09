@@ -1,4 +1,3 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 
@@ -9,8 +8,6 @@ class SharedPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<SharedPage> {
-  late final Future<ListResult> files;
-
   @override
   void initState() {
     super.initState();

@@ -82,10 +82,10 @@ class _MyHomePageState extends State<ProfilePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("${userDetails.name}",
-                                    style: textTheme.headline5),
+                                    style: textTheme.headlineMedium),
                                 Text(
                                   "Basic Plan",
-                                  style: textTheme.subtitle2!.copyWith(
+                                  style: textTheme.labelMedium!.copyWith(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
@@ -115,12 +115,12 @@ class _MyHomePageState extends State<ProfilePage> {
                           children: [
                             Text(
                               "Email",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
                               "${userDetails.email}",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
                           ],
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<ProfilePage> {
                           children: [
                             Text(
                               "Storage",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             InkWell(
@@ -142,8 +142,8 @@ class _MyHomePageState extends State<ProfilePage> {
                               ),
                               child: Text(
                                 "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
-                                style:
-                                    textTheme.subtitle1!.copyWith(fontSize: 14),
+                                style: textTheme.labelLarge!
+                                    .copyWith(fontSize: 14),
                               ),
                             ),
                           ],
@@ -154,12 +154,12 @@ class _MyHomePageState extends State<ProfilePage> {
                           children: [
                             Text(
                               "Devices",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
                               "1 of 2",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
                           ],
@@ -180,12 +180,12 @@ class _MyHomePageState extends State<ProfilePage> {
                           children: [
                             Text(
                               "Get free storage",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
                               "Invite Friends",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
                           ],
@@ -196,12 +196,12 @@ class _MyHomePageState extends State<ProfilePage> {
                           children: [
                             Text(
                               "My Earnings",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
                               "250 MB",
-                              style: textTheme.subtitle1!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
                           ],
@@ -222,7 +222,7 @@ class _MyHomePageState extends State<ProfilePage> {
                           },
                           child: Text(
                             "Sign out of SpaceFile",
-                            style: textTheme.subtitle1!.copyWith(
+                            style: textTheme.labelLarge!.copyWith(
                                 color: Colors.red,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w300),
