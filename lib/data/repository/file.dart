@@ -2,12 +2,10 @@ library clipboard;
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:amplify_flutter/amplify_flutter.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/user.dart';
 
@@ -20,7 +18,7 @@ class FileRepository {
       String? path,
       int? size,
       String? userEmail}) async {
-    var result = const TransferProgress(0, 0);
+    /*  var result = const TransferProgress(0, 0);
     try {
       await Amplify.Storage.uploadFile(
           local: file!,
@@ -42,17 +40,13 @@ class FileRepository {
           false);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
-    return {
-      "currentBytes": result.currentBytes,
-      "total": result.totalBytes,
-      "status": true
-    };
+    } */
+    return {"currentBytes": 0, "total": 0, "status": true};
   }
 
   Future<Map<String, dynamic>> createFolder(
       {String? key, String? path, String? userEmail}) async {
-    var result = UploadFileResult(key: "");
+    /*  var result = UploadFileResult(key: "");
     try {
       final tempDir = await getTemporaryDirectory();
       final tmpFile = File("${tempDir.path}/$key")..createSync();
@@ -72,8 +66,8 @@ class FileRepository {
           true);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
-    return {"key": result.key, "status": true};
+    } */
+    return {"key": "key", "status": true};
   }
 
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
@@ -134,7 +128,7 @@ class FileRepository {
   //get link
   Future<Map<String, dynamic>> getLink(PathObject file) async {
     var result = <String, dynamic>{};
-    try {
+    /*  try {
       var key = "${file.filePath!.substring(1)}${file.fileName}";
       final response = await Amplify.Storage.getUrl(
           key: file.isFolder! ? "$key/" : key,
@@ -145,7 +139,7 @@ class FileRepository {
       result["status"] = true;
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
+    } */
     return result;
   }
 
@@ -176,7 +170,7 @@ class FileRepository {
     final tempDir = await getTemporaryDirectory();
     final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
 
-    var result = const TransferProgress(0, 0);
+    /*  var result = const TransferProgress(0, 0);
 
     try {
       await Permission.manageExternalStorage.request();
@@ -193,12 +187,8 @@ class FileRepository {
       tmpFile.copy("/storage/emulated/0/Download/${file.fileName}");
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
-    return {
-      "currentBytes": result.currentBytes,
-      "total": result.totalBytes,
-      "status": true
-    };
+    } */
+    return {"currentBytes": 0, "total": 0, "status": true};
   }
 
   //send a copy
@@ -206,7 +196,7 @@ class FileRepository {
     final tempDir = await getTemporaryDirectory();
     final tmpFile = File("${tempDir.path}/${file.fileName}")..createSync();
 
-    try {
+    /* try {
       await Permission.manageExternalStorage.request();
       await Amplify.Storage.downloadFile(
         key: "${file.filePath!.substring(1)}${file.fileName}",
@@ -215,14 +205,14 @@ class FileRepository {
       );
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
+    } */
 
     return {"message": tmpFile.path, "status": true};
   }
 
   //delete
   Future<Map<String, dynamic>> deleteFile(PathObject file) async {
-    try {
+    /*   try {
       var key = "${file.filePath!.substring(1)}${file.fileName}";
       final result = await Amplify.Storage.remove(
           key: file.isFolder! ? "$key/" : key,
@@ -230,14 +220,14 @@ class FileRepository {
       safePrint(result.key);
     } on StorageException catch (e) {
       return {"message": e.message, "status": false};
-    }
+    } */
     return {"status": true, "response": await _deleteFile(file.objectId!)};
   }
 
   Future<Map<String, dynamic>> _deleteFile(String objectId) async {
     String url = "http://18.188.244.88/user/delete_item";
     var result = <String, dynamic>{};
-    try {
+    /* try {
       var response = await _dio.delete("$url/$objectId");
 
       if (response.statusCode == 200) {
@@ -245,7 +235,7 @@ class FileRepository {
       }
     } on DioError catch (e) {
       throw e.message;
-    }
+    } */
     return result;
   }
 }

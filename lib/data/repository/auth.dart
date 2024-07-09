@@ -1,60 +1,150 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
+import 'package:space_client_app/services/interfaces/firebase_reponse.dart';
 
 class AuthenticationUser {
   bool isSignedIn = false;
   bool isSignedUp = false;
 
-  Future<Map<String, dynamic>> signIn(UserLoginModel userDetails) async {
+  //firebase authentication methods
+  Future<FirebaseResponse> signIn(UserLoginModel user) async {
+    var firebaseResponse = FirebaseResponse(status: false);
+
     try {
-      await Amplify.Auth.signIn(
-          username: userDetails.email, password: userDetails.password);
-    } on AuthException catch (e) {
-      return {"status": false, "message": e.message};
+      var response = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: user.email, password: user.password);
+      firebaseResponse.data = response;
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User signed in successfully';
+      firebaseResponse.statusCode = 200;
+
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'user-not-found':
+          firebaseResponse.message = 'No user found for that email.';
+          firebaseResponse.statusCode = 404;
+          firebaseResponse.error = e;
+          break;
+        case 'wrong-password':
+          firebaseResponse.message = 'Wrong password provided for that user.';
+          firebaseResponse.statusCode = 401;
+          firebaseResponse.error = e;
+          break;
+        case 'invalid-email':
+          firebaseResponse.message = 'Invalid email provided.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+
+        case 'user-disabled':
+          firebaseResponse.message = 'User disabled.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+        default:
+      }
+
+      return firebaseResponse;
     }
-    return {"status": true, "message": "Success!"};
   }
 
-  //aws signup and save UserDetails on Metadata DB
-  Future<Map<String, dynamic>> signUp(UserSignUpModel userDetails) async {
+  Future<FirebaseResponse> signUp(UserSignUpModel user) async {
+    var firebaseResponse = FirebaseResponse(status: false);
     try {
-      final attr = <CognitoUserAttributeKey, String>{
-        CognitoUserAttributeKey.email: userDetails.email,
-        CognitoUserAttributeKey.name: userDetails.name,
-        const CognitoUserAttributeKey.custom('limit_quota'): "1024",
-        const CognitoUserAttributeKey.custom('profile_photo'): "photo",
-        const CognitoUserAttributeKey.custom('quota_used'): "0",
-        const CognitoUserAttributeKey.custom('desktop'): "[]"
-      };
+      var response = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: user.email, password: user.password);
 
-      await Amplify.Auth.signUp(
-          username: userDetails.email,
-          password: userDetails.password,
-          options: CognitoSignUpOptions(userAttributes: attr));
-    } on AuthException catch (e) {
-      return {"status": false, "message": e.message};
+      await response.user!.updateDisplayName(user.name);
+      firebaseResponse.data = response;
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User signed up successfully';
+      firebaseResponse.statusCode = 200;
+    
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'email-already-in-use':
+          firebaseResponse.message = 'Email already in use.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+
+        case 'invalid-email':
+          firebaseResponse.message = 'Invalid email provided.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+
+        case 'operation-not-allowed':
+          firebaseResponse.message = 'Operation not allowed.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+
+        case 'weak-password':
+          firebaseResponse.message = 'Weak password.';
+          firebaseResponse.statusCode = 400;
+          firebaseResponse.error = e;
+          break;
+
+        default:
+      }
+
+      return firebaseResponse;
     }
-
-    return {"status": true, "message": "Success!"};
   }
 
-  Future<Map<String, dynamic>> signOut() async {
+  Future<FirebaseResponse> signOut() async {
+    var firebaseResponse = FirebaseResponse(status: false);
+
     try {
-      await Amplify.Auth.signOut();
-    } on AuthException catch (e) {
-      return {"status": false, "message": e.message};
+      await FirebaseAuth.instance.signOut();
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User signed out successfully';
+      firebaseResponse.statusCode = 200;
+      firebaseResponse.data = null;
+
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      firebaseResponse.message = 'Error signing out';
+      firebaseResponse.statusCode = 400;
+      firebaseResponse.error = e;
     }
-    return {"status": true, "message": "logged out"};
+
+    return firebaseResponse;
   }
 
-  Future<Map<String, dynamic>> confirm(String email, String code) async {
+  Future<bool> isUserSignedIn() async {
     try {
-      await Amplify.Auth.confirmSignUp(username: email, confirmationCode: code);
-    } on AuthException catch (e) {
-      return {"status": false, "message": e.message};
+      await Firebase.initializeApp();
+      isSignedIn = true;
+      return isSignedIn;
+    } catch (e) {
+      print(e);
+      return isSignedIn;
     }
-    return {"status": true, "message": "Confirmed"};
+  }
+
+  Future<FirebaseResponse> confirm() async {
+    var firebaseResponse = FirebaseResponse(status: false);
+
+    try {
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'Email verification sent';
+      firebaseResponse.statusCode = 200;
+      firebaseResponse.data = null;
+
+      return firebaseResponse;
+    } on FirebaseAuthException catch (e) {
+      firebaseResponse.message = 'Error sending email verification';
+      firebaseResponse.statusCode = 400;
+      firebaseResponse.error = e;
+    }
+
+    return firebaseResponse;
   }
 }

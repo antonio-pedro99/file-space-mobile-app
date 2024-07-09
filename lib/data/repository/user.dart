@@ -1,27 +1,53 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:space_client_app/data/models/object.dart';
 import 'package:space_client_app/data/repository/file.dart';
 import 'package:space_client_app/extensions.dart';
+import 'package:space_client_app/services/interfaces/firebase_reponse.dart';
 
 import '../models/user.dart';
 
 class UserRepository {
-  final List<AuthUserAttribute> user = [];
+  //final List<AuthUserAttribute> user = [];
   FileRepository fileRepository = FileRepository();
+  final db = FirebaseFirestore.instance;
 
   Future<void> fetchCurrentUserAttributes() async {
-    try {
+    /* try {
       final result = await Amplify.Auth.fetchUserAttributes();
 
       user.addAll(result);
     } on AuthException catch (e) {
       throw e.message;
+    } */
+  }
+
+  Future<void> updateUserDetails(UserDetails user, String? additional) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      await firestore.collection("users").add(user.toMap(additional));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  FirebaseResponse loadUserDetails() {
+    var firebaseResponse = FirebaseResponse(status: false);
+    try {
+      final result = FirebaseAuth.instance.currentUser;
+      firebaseResponse.data = result;
+      firebaseResponse.status = true;
+      firebaseResponse.message = 'User details loaded successfully';
+      firebaseResponse.statusCode = 200;
+      return firebaseResponse;
+    } catch (e) {
+      print(e);
+      return firebaseResponse;
     }
   }
 
   Future<void> increaseQuotaUsed(UserAuthDetails user, double val) async {
-    try {
+    /* try {
       user.quotaUsed = user.quotaUsed! + val;
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('quota_used'),
@@ -34,11 +60,11 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       safePrint(e.message);
-    }
+    } */
   }
 
   Future<void> decreaseQuotaUsed(UserAuthDetails user, PathObject file) async {
-    try {
+    /* try {
       user.quotaUsed = user.quotaUsed! - file.fileSize!.toDouble().toMB();
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('quota_used'),
@@ -51,11 +77,11 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       safePrint(e.message);
-    }
+    } */
   }
 
   Future<void> upgradeQuota(UserAuthDetails user, double quota) async {
-    try {
+    /*  try {
       user.quotaLimit = user.quotaLimit! + quota;
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('limit_quota'),
@@ -68,11 +94,11 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       safePrint(e.message);
-    }
+    } */
   }
 
   Future<void> updateProfilePhoto(UserAuthDetails user, String photoUrl) async {
-    try {
+    /*  try {
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('profile_photo'),
         value: photoUrl,
@@ -84,11 +110,11 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       safePrint(e.message);
-    }
+    } */
   }
 
   static Future<String> fetchCognitoUserId() async {
-    try {
+    /*  try {
       final result = await Amplify.Auth.fetchAuthSession(
         options: CognitoSessionOptions(getAWSCredentials: true),
       );
@@ -96,11 +122,12 @@ class UserRepository {
       return identityId;
     } on AuthException catch (e) {
       return e.message;
-    }
+    } */
+    return "Ok";
   }
 
   Future<String> promptDesktop() async {
-    try {
+    /*  try {
       final result = await Amplify.Auth.updateUserAttribute(
         userAttributeKey: const CognitoUserAttributeKey.custom('cog_id'),
         value: await fetchCognitoUserId(),
@@ -112,6 +139,7 @@ class UserRepository {
       }
     } on AmplifyException catch (e) {
       return e.message;
-    }
+    } */
+    return "Ok";
   }
 }

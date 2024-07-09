@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
+import 'package:space_client_app/data/models/subscription.dart';
+import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/auth.dart';
+import 'package:space_client_app/data/repository/user.dart';
 import 'package:space_client_app/extensions.dart';
 
 part 'auth_event.dart';
@@ -12,6 +16,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthenticationUser authRepository;
+
+  final UserRepository userAttr = UserRepository();
 
   AuthBloc({required this.authRepository}) : super(LoginInitial()) {
     on<AuthEvent>((event, emit) async {
@@ -24,11 +30,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthLoading());
           var result = await authRepository.signIn(
               UserLoginModel(password: event.password, email: event.email));
-          if (result["status"]) {
-            prefs.setBool("status", result["status"]);
+          if (result.status!) {
+            prefs.setBool("status", result.status!);
             emit(AuthLoaded(event.email));
           } else {
-            emit(AuthError(result["message"]));
+            emit(AuthError(result.message ?? "Failed with unknown error"));
           }
         }
       } else if (event is Signup) {
@@ -40,26 +46,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthLoading());
           var result = await authRepository.signUp(UserSignUpModel(
               password: event.password, email: event.email, name: event.name));
-          if (result["status"]) {
+          if (result.status!) {
+           
+          final user = FirebaseAuth.instance.currentUser;
+            userAttr.updateUserDetails(UserDetails(
+              user: user,
+              id: user!.uid,
+              subscriptionPlan: Subscription(),
+            ), event.name);
             emit(AuthLoaded(event.email));
           } else {
-            emit(AuthError(result["message"]));
+            emit(AuthError(result.message ?? "Failed with unknown error"));
           }
         }
       } else if (event is ConfirmSignup) {
         emit(AuthLoading());
-        var result = await authRepository.confirm(event.email, event.code);
+        var result = await authRepository.confirm();
 
-        if (!result["status"]) {
-          emit(AuthError(result["message"]));
+        if (!result.status!) {
+          emit(AuthError(result.message!));
         } else {
           emit(AuthLoaded(event.email));
         }
       } else if (event is Logout) {
         emit(AuthLoading());
         var result = await authRepository.signOut();
-        if (!result["status"]) {
-          emit(AuthError(result["message"]));
+        if (!result.status!) {
+          emit(AuthError(result.message ?? "Failed with unknown error"));
         } else {
           prefs.setBool("status", false);
           emit(AuthLoaded(""));

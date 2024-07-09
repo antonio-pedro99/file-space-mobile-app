@@ -2,7 +2,6 @@ library clipboard;
 
 import 'dart:io';
 
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,8 +59,6 @@ void uploadFile(BuildContext context, String path) {
       }
       await user.userAttr
           .increaseQuotaUsed(user.user, platformFile.size.toDouble().toMB());
-    } else {
-      safePrint("Cant");
     }
   });
 }

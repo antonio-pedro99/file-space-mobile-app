@@ -56,7 +56,7 @@ class _SignupPageState extends State<SignupPage> {
               } else if (state is AuthLoaded) {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => ConfirmRegistrationPage(
+                        builder: (context) => LoginPage(
                               email: state.email,
                             )),
                     (route) => false);

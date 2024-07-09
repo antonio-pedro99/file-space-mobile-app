@@ -59,8 +59,6 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(),
                 )));
               } else if (state is AuthLoaded) {
-             
-
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const PageDriver()),
                     (route) => false);
