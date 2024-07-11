@@ -1,36 +1,32 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/user.dart';
+import 'package:space_client_app/services/user/firebase_user_service.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  final UserRepository userAttr = UserRepository();
-  UserAuthDetails user = UserAuthDetails();
+  final UserRepository userRepo = UserRepository(FirebaseUserService());
+  UserDetails uDetails = FirebaseUserDetails();
   UserBloc() : super(UserInitial()) {
     on<UserEvent>((event, emit) async {
       if (event is LoadUserSession) {
         if (event.isSigned) {
           emit(UserLoading());
-          //  await userAttr.fetchCurrentUserAttributes();
-          //user = UserAuthDetails.fromAttr(userAttr.user);
-          final user = userAttr.loadUserDetails();
-          print("User: ${user.data!}");
+          final fbUser =
+              await userRepo.getUser().then((value) => value.data) as User?;
+          uDetails = uDetails.fromUser(fbUser!);
           emit(UserLoaded());
         } else {
           emit(UserLoadingError());
         }
-      } else if (event is UpgradeQuotaUser) {
-        emit(UserLoading());
-
-        await userAttr.upgradeQuota(user, event.quota!);
-        emit(UserLoaded());
       } else if (event is UpdateProfilePhoto) {
         emit(UserLoading());
 
-        await userAttr.updateProfilePhoto(user, event.photoUrl!);
+        await userRepo.uploadProfilePicture("user", event.photoUrl!);
         emit(UserLoaded());
       }
     });

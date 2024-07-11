@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
@@ -13,7 +14,7 @@ import 'package:space_client_app/views/theme/colors.dart';
 
 const magicColors = [deepPurple, green, blueOcean, purple, pink];
 
-abstract class FileTileType {}
+mixin FileTileType {}
 
 extension BuildIcon on FileTileType {
   IconData getIcon(type) {
@@ -57,7 +58,7 @@ class FileTile extends StatelessWidget with FileTileType {
 
     var color = Colors.pink;
     //var color = magicColors[math.Random().nextInt(magicColors.length)];
-    var user = context.read<UserBloc>().user;
+    var user = context.read<UserBloc>().uDetails.user!;
     return ListTile(
         onTap: () => openMenu(object.getType(), context, object.fileName,
             getParentPath(object.filePath!), user.email),
@@ -78,15 +79,16 @@ class FileTile extends StatelessWidget with FileTileType {
                 "${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}")
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
-          onPressed: () => showOptions(context, getIcon(object.getType()),
-              object, color, object.getType(), user),
+          // onPressed: () => showOptions(context, getIcon(object.getType()),
+          //     object, color, object.getType(), user),
+          onPressed: () => {},
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
 }
 
 void showOptions(BuildContext context, IconData iconData, PathObject file,
-    color, FileType type, UserAuthDetails user) {
+    color, FileType type, UserDetails<User> user) {
   bool isUpdating = false;
   showModalBottomSheet(
       context: context,
@@ -108,7 +110,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                   isUpdating = false;
 
                   BlocProvider.of<FileBloc>(context)
-                      .add(LoadFiles(user.email!));
+                      .add(LoadFiles(user.user!.email!));
                   break;
 
                 case AttributeUpdate.link:

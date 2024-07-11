@@ -71,8 +71,8 @@ class FileRepository {
   }
 
   Future<List<PathObject>> loadUserFiles(String userEmail) async {
-    String _id = await UserRepository.fetchCognitoUserId();
-    String loadUrl = "http://18.188.244.88/user/$_id&$userEmail/files/all";
+    //String _id = await UserRepository.fetchCognitoUserId();
+    String loadUrl = "http://18.188.244.88/user/&$userEmail/files/all";
     var result = <PathObject>[];
     try {
       var response = await _dio.get(loadUrl);
@@ -105,16 +105,16 @@ class FileRepository {
             "file_size": size,
             "file_path": "/$path/",
             "is_starred": false,
-            "access_list": [
-              {
-                "email": userEmail,
-                "id": await UserRepository.fetchCognitoUserId()
-              }
-            ],
-            "user": {
-              "email": userEmail,
-              "id": await UserRepository.fetchCognitoUserId()
-            }
+            // "access_list": [
+            //   {
+            //     "email": userEmail,
+            //     "id": await UserRepository.fetchCognitoUserId()
+            //   }
+            // ],
+            // "user": {
+            //   "email": userEmail,
+            //   "id": await UserRepository.fetchCognitoUserId()
+            // }
           }));
 
       if (response.statusCode == 200) {}

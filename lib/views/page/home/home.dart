@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
-    var userDetails = context.read<UserBloc>().user;
+    var userDetails = context.read<UserBloc>().uDetails.user;
 
     return Scaffold(
       body: NestedScrollView(
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           builder: (context) =>
                                               CategoryContentPage(
                                                 title: "Folders",
-                                                userEmail: userDetails.email,
+                                                userEmail: userDetails!.email,
                                                 test: (PathObject o) =>
                                                     o.isFolder!,
                                               ))))),
@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           builder: (context) =>
                                               CategoryContentPage(
                                                 title: "Files",
-                                                userEmail: userDetails.email,
+                                                userEmail: userDetails!.email,
                                                 test: (PathObject o) =>
                                                     !o.isFolder!,
                                               ))))),

@@ -60,7 +60,7 @@ class _PageDriverState extends State<PageDriver> {
     var size = MediaQuery.of(context).size;
     var showFloatingActionButton =
         MediaQuery.of(context).viewInsets.bottom != 0;
-    var user = context.read<UserBloc>();
+    var user = context.read<UserBloc>().uDetails;
 
     return Scaffold(
       drawer: const CustomDrawer(),
@@ -97,7 +97,7 @@ class _PageDriverState extends State<PageDriver> {
               } else if (state is FileUploaded) {
                 Navigator.of(context).pop();
                 BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user.email!));
+                    .add(LoadFiles(user.user!.email!));
               } else if (state is FileDownUploadError) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Colors.red,
@@ -124,7 +124,7 @@ class _PageDriverState extends State<PageDriver> {
                 Navigator.of(context).pop();
               } else if (state is FileDeleted) {
                 BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user.email!));
+                    .add(LoadFiles(user.user!.email!));
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(

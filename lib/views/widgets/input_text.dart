@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomTextInput extends StatelessWidget {
   const CustomTextInput(
-      {Key? key,
+      {super.key,
       this.controller,
       this.border = 24,
       this.hint,
@@ -11,14 +11,13 @@ class CustomTextInput extends StatelessWidget {
       this.isPassword = false,
       this.type,
       this.validator,
-      this.trailing})
-      : super(key: key);
+      this.trailing});
 
   final String? hint;
   final double? border;
   final double? widget;
   final IconData? leading;
-  final IconData? trailing;
+  final Widget? trailing;
   final bool? isPassword;
   final TextEditingController? controller;
   final TextInputType? type;
@@ -48,6 +47,7 @@ class CustomTextInput extends StatelessWidget {
             floatingLabelBehavior: FloatingLabelBehavior.never,
             labelText: hint,
             prefixIcon: Icon(leading),
+            suffixIcon: trailing,
           ),
         ));
   }

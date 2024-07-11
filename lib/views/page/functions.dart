@@ -33,8 +33,8 @@ Future<void> createFolder(
     BuildContext context, String path, String folderName) async {
   var user = context.read<UserBloc>();
 
-  BlocProvider.of<FileBloc>(context).add(CreateFolder(
-      path: path, folderName: folderName, userEmail: user.user.email));
+  // BlocProvider.of<FileBloc>(context).add(CreateFolder(
+  //     path: path, folderName: folderName, userEmail: user.user.email));
   Navigator.of(context).pop();
 }
 
@@ -48,17 +48,16 @@ void uploadFile(BuildContext context, String path) {
       final key = platformFile.name;
       final file = File(_path);
 
-      if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
-          user.user.quotaLimit!) {
-        BlocProvider.of<FileBloc>(context).add(FileUpload(
-            file: file,
-            path: path,
-            key: key,
-            size: platformFile.size,
-            userEmail: user.user.email));
-      }
-      await user.userAttr
-          .increaseQuotaUsed(user.user, platformFile.size.toDouble().toMB());
+      // if (user.user.quotaUsed! + platformFile.size.toDouble().toMB() <
+      //     user.user.quotaLimit!) {
+      //   BlocProvider.of<FileBloc>(context).add(FileUpload(
+      //       file: file,
+      //       path: path,
+      //       key: key,
+      //       size: platformFile.size,
+      //       userEmail: user.user.email));
+      // }
+      await Future.delayed(const Duration(seconds: 2));
     }
   });
 }
@@ -68,7 +67,7 @@ void deleteFile(BuildContext context, PathObject file) async {
 
   BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
   Navigator.of(context).pop();
-  await user.userAttr.decreaseQuotaUsed(user.user, file);
+  await Future.delayed(const Duration(seconds: 2));
 }
 
 void starFile(BuildContext context, PathObject file) async {
@@ -76,7 +75,7 @@ void starFile(BuildContext context, PathObject file) async {
 
   BlocProvider.of<FileBloc>(context).add(DeleteFile(file));
   Navigator.of(context).pop();
-  await user.userAttr.decreaseQuotaUsed(user.user, file);
+  await Future.delayed(const Duration(seconds: 2));
 }
 
 String getParentPath(String path) =>

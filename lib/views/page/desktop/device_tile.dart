@@ -11,7 +11,7 @@ class DeviceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
-    var user = context.read<UserBloc>().user;
+    var user = context.read<UserBloc>().uDetails;
 
     return InkWell(
       onTap: onTap,

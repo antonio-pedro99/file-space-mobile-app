@@ -5,19 +5,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
-import 'package:space_client_app/data/models/subscription.dart';
 import 'package:space_client_app/data/models/user.dart';
 import 'package:space_client_app/data/repository/auth.dart';
 import 'package:space_client_app/data/repository/user.dart';
 import 'package:space_client_app/extensions.dart';
+import 'package:space_client_app/services/user/firebase_user_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthenticationUser authRepository;
-
-  final UserRepository userAttr = UserRepository();
+  final AuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(LoginInitial()) {
     on<AuthEvent>((event, emit) async {
@@ -47,13 +45,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           var result = await authRepository.signUp(UserSignUpModel(
               password: event.password, email: event.email, name: event.name));
           if (result.status!) {
-           
-          final user = FirebaseAuth.instance.currentUser;
-            userAttr.updateUserDetails(UserDetails(
-              user: user,
-              id: user!.uid,
-              subscriptionPlan: Subscription(),
-            ), event.name);
+            final user = FirebaseAuth.instance.currentUser;
+            final userRepo = UserRepository(FirebaseUserService());
+            await userRepo
+                .createUser(FirebaseUserDetails(
+                  user: user,
+                  id: user!.uid,
+                ))
+                .then((value) => print(value.message))
+                .onError((error, stackTrace) {
+              print("Error: $error\n$stackTrace");
+              emit(AuthError(error.toString()));
+            });
+            // prefs.setBool("status", result.status!);
             emit(AuthLoaded(event.email));
           } else {
             emit(AuthError(result.message ?? "Failed with unknown error"));

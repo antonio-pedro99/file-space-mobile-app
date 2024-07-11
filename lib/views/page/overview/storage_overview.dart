@@ -21,10 +21,10 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
-    var userDetails = context.read<UserBloc>().user;
+    var userDetails = context.read<UserBloc>().uDetails.user;
 
     BlocProvider.of<FileBloc>(context)
-        .add(LoadFiles(context.read<UserBloc>().user.email!));
+        .add(LoadFiles(context.read<UserBloc>().uDetails.user!.email!));
     return Scaffold(
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
@@ -51,19 +51,13 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                       children: [
                         DChartPieO(
                           data: [
-                            OrdinalData(
-                                domain: 'not_used',
-                                measure: userDetails.quotaLimit! -
-                                    userDetails.quotaUsed!),
-                             OrdinalData(
-                                domain: 'used',
-                                measure: userDetails.quotaUsed!)
+                            OrdinalData(domain: 'not_used', measure: 10),
+                            OrdinalData(domain: 'used', measure: 90)
                           ],
                         ),
                         Align(
                           alignment: Alignment.center,
-                          child: Text(
-                              "${userDetails.getTotalSpacePercentage()} %",
+                          child: Text("20 %",
                               style: textTheme.headlineMedium!.copyWith(
                                   fontSize: 28, fontWeight: FontWeight.w400)),
                         )
@@ -79,8 +73,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           style: textTheme.labelMedium!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        Text(
-                            "${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB",
+                        Text("20 GB",
                             style: textTheme.headlineMedium!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],
@@ -92,8 +85,7 @@ class _StorageOverviewPageState extends State<StorageOverviewPage> {
                           style: textTheme.labelMedium!.copyWith(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         ),
-                        Text(
-                            "${(userDetails.quotaUsed!.toDouble() / 1024).toStringAsFixed(2)} GB",
+                        Text("20 GB",
                             style: textTheme.headlineMedium!
                                 .copyWith(fontWeight: FontWeight.w400)),
                       ],

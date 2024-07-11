@@ -29,7 +29,7 @@ class _MyHomePageState extends State<DesktopFilesPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var userDetails = context.read<UserBloc>().user;
+    var userDetails = context.read<UserBloc>().uDetails;
 
     return Scaffold(
       body: NestedScrollView(
@@ -47,80 +47,89 @@ class _MyHomePageState extends State<DesktopFilesPage> {
               maintainBottomViewPadding: true,
               top: false,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: userDetails.computers!.isNotEmpty
-                    ? GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 180,
-                          childAspectRatio: 3 / 4,
-                        ),
-                        itemCount: userDetails.computers!.length,
-                        itemBuilder: (context, index) {
-                          return DeviceTile(
-                              onTap: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => CategoryContentPage(
-                                            title:
-                                                "Computer ${userDetails.computers![index].deviceName}",
-                                            userEmail: userDetails.email,
-                                            test: (PathObject o) => o.filePath!
-                                                .startsWith(
-                                                    "/sync_folders/${userDetails.computers![index].deviceName}/"),
-                                          ))),
-                              device: userDetails.computers![index]);
-                        })
-                    : Center(
-                        child: Text(
-                          "You do not have any sync folder. Install our desktop app on your laptop",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                      ),
-              ))),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Center(
+                    child: Text(
+                      "You do not have any sync folder. Install our desktop app on your laptop",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+
+                    //   child: [1, 3].length != 2
+                    //       ? GridView.builder(
+                    //           gridDelegate:
+                    //               const SliverGridDelegateWithMaxCrossAxisExtent(
+                    //             maxCrossAxisExtent: 180,
+                    //             childAspectRatio: 3 / 4,
+                    //           ),
+                    //           itemCount: userDetails.computers!.length,
+                    //           itemBuilder: (context, index) {
+                    //             return DeviceTile(
+                    //                 onTap: () =>
+                    //                     Navigator.of(context).push(MaterialPageRoute(
+                    //                         builder: (context) => CategoryContentPage(
+                    //                               title:
+                    //                                   "Computer ${userDetails.computers![index].deviceName}",
+                    //                               userEmail: userDetails.email,
+                    //                               test: (PathObject o) => o.filePath!
+                    //                                   .startsWith(
+                    //                                       "/sync_folders/${userDetails.computers![index].deviceName}/"),
+                    //                             ))),
+                    //                 device: userDetails.computers![index]);
+                    //           })
+                    //       : Center(
+                    //           child: Text(
+                    //             "You do not have any sync folder. Install our desktop app on your laptop",
+                    //             textAlign: TextAlign.center,
+                    //             style: Theme.of(context).textTheme.headlineMedium,
+                    //           ),
+                    //         ),
+                    // ))
+                  )))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          showModalBottomSheet(
-              context: context,
-              elevation: 3,
-              constraints: BoxConstraints(
-                  maxHeight: size.height * .25, minWidth: size.width),
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24))),
-              builder: (context) {
-                return FutureBuilder<String>(
-                    future: context.read<UserBloc>().userAttr.promptDesktop(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text(snapshot.error as String));
-                        }
-                        return Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Text("Add Desktop"),
-                                const SizedBox(
-                                  height: 24,
-                                ),
-                                Center(child: Text(snapshot.data as String))
-                              ],
-                            ));
-                      }
-                      return Container();
-                    });
-              });
+          print("Add Desktop");
+          // showModalBottomSheet(
+          //     context: context,
+          //     elevation: 3,
+          //     constraints: BoxConstraints(
+          //         maxHeight: size.height * .25, minWidth: size.width),
+          //     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          //     shape: const RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.only(
+          //             topLeft: Radius.circular(24),
+          //             topRight: Radius.circular(24))),
+          //     builder: (context) {
+          //       return FutureBuilder<String>(
+          //           future: context.read<UserBloc>().uDetailsAttr.promptDesktop(),
+          //           builder: (context, snapshot) {
+          //             if (snapshot.connectionState == ConnectionState.waiting) {
+          //               return const Center(child: CircularProgressIndicator());
+          //             } else if (snapshot.connectionState ==
+          //                 ConnectionState.done) {
+          //               if (snapshot.hasError) {
+          //                 return Center(child: Text(snapshot.error as String));
+          //               }
+          //               return Padding(
+          //                   padding: const EdgeInsets.all(12),
+          //                   child: Column(
+          //                     children: [
+          //                       const SizedBox(
+          //                         height: 10,
+          //                       ),
+          //                       const Text("Add Desktop"),
+          //                       const SizedBox(
+          //                         height: 24,
+          //                       ),
+          //                       Center(child: Text(snapshot.data as String))
+          //                     ],
+          //                   ));
+          //             }
+          //             return Container();
+          //           });
+          //     });
         },
         tooltip: 'Open Add',
         child: const Icon(Icons.add),

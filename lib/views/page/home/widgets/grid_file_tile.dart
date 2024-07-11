@@ -29,11 +29,11 @@ class GridFileTile extends StatelessWidget with FileTileType {
     var textTheme = Theme.of(context).textTheme;
 
     var color = magicColors[math.Random().nextInt(magicColors.length)];
-    var user = context.read<UserBloc>().user;
+    var user = context.read<UserBloc>().uDetails.user;
 
     return InkWell(
       onTap: () => openMenu(object.getType(), context, object.fileName,
-          getParentPath(object.filePath!), user.email),
+          getParentPath(object.filePath!), user!.email),
       child: Container(
         width: 100,
         padding: const EdgeInsets.all(8),
@@ -73,13 +73,13 @@ class GridFileTile extends StatelessWidget with FileTileType {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => showOptions(
-                      context,
-                      getIcon(object.getType()),
-                      object,
-                      color,
-                      object.getType(),
-                      user),
+                  // onPressed: () => showOptions(
+                  //     context,
+                  //     getIcon(object.getType()),
+                  //     object,
+                  //     color,
+                  //     object.getType()),
+                  onPressed: () {},
                   icon: const Icon(Icons.more_vert),
                 )
               ],

@@ -5,12 +5,13 @@ import 'package:space_client_app/blocs/auth/auth_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/data/repository/auth.dart';
+import 'package:space_client_app/services/auth/firebase_auth_service.dart';
 import 'package:space_client_app/views/page/auth/onboarding.dart';
 import 'package:space_client_app/views/page/page_driver.dart';
 import 'package:space_client_app/views/theme/theme.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  MyApp({super.key});
 
   final Future<SharedPreferences> authPrefs = SharedPreferences.getInstance();
 
@@ -25,7 +26,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
-              create: (_) => AuthBloc(authRepository: AuthenticationUser())),
+              create: (_) => AuthBloc(authRepository: AuthRepository(
+                FirebaseAuthService()
+              ))),
           BlocProvider<UserBloc>(create: (_) => UserBloc()),
           BlocProvider<FileBloc>(create: (_) => FileBloc())
         ],

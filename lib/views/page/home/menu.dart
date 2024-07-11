@@ -15,7 +15,7 @@ class CustomDrawer extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
 
-    var userDetails = context.read<UserBloc>().user;
+    var userDetails = context.read<UserBloc>().uDetails.user;
     return Drawer(
       child: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
@@ -39,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text("${userDetails.name}",
+                    Text("${userDetails!.displayName}",
                         style: textTheme.headlineMedium),
                     Text(
                       "${userDetails.email}",
@@ -47,20 +47,24 @@ class CustomDrawer extends StatelessWidget {
                           .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(height: 8),
-                    LinearProgressIndicator(
-                        value: userDetails.quotaUsed!.toDouble() /
-                            userDetails.quotaLimit!.toDouble()),
-                    const SizedBox(height: 2),
-                    InkWell(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const StorageOverviewPage()),
-                      ),
-                      child: Text(
-                        "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
-                        style: textTheme.labelLarge!.copyWith(fontSize: 14),
-                      ),
-                    ),
+                    // LinearProgressIndicator(
+                    //     value: userDetails.quotaUsed!.toDouble() /
+                    //         userDetails.quotaLimit!.toDouble()),
+                    // const LinearProgressIndicator(
+                    //   value: 100.0,
+                    // ),
+                    // const SizedBox(height: 2),
+                    // InkWell(
+                    //   onTap: () => Navigator.of(context).push(
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const StorageOverviewPage()),
+                    //   ),
+                    //   child: Text(
+                    //     "10 % of 10 GB used",
+                    //     // "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
+                    //     style: textTheme.labelLarge!.copyWith(fontSize: 14),
+                    //   ),
+                    // ),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);

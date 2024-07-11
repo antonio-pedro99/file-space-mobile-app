@@ -9,7 +9,7 @@ import 'package:space_client_app/views/page/upgrade/upgrade.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
   @override
   State<ProfilePage> createState() => _MyHomePageState();
 }
@@ -19,7 +19,7 @@ class _MyHomePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
-    var userDetails = context.read<UserBloc>().user;
+    var userDetails = context.read<UserBloc>().uDetails.user;
 
     return Scaffold(
       body: NestedScrollView(
@@ -142,10 +142,9 @@ class _MyHomePageState extends State<ProfilePage> {
                                         const StorageOverviewPage()),
                               ),
                               child: Text(
-                                "Empty",
-                                //  "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
-                                style:
-                                    textTheme.labelLarge!.copyWith(fontSize: 14),
+                                "Quota", // "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
+                                style: textTheme.labelLarge!
+                                    .copyWith(fontSize: 14),
                               ),
                             ),
                           ],

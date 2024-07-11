@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
             builder: (context, state) {
+              bool passwordIsHidden = true;
               return SafeArea(
                 maintainBottomViewPadding: true,
                 top: false,
@@ -82,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                           CustomTextInput(
                             hint: "Enter Email",
                             border: 16,
+                            type: TextInputType.emailAddress,
                             leading: Icons.email,
                             controller: textEmailController,
                           ),
@@ -89,12 +91,20 @@ class _LoginPageState extends State<LoginPage> {
                             height: 16,
                           ),
                           CustomTextInput(
-                            leading: Icons.lock,
-                            hint: "Enter Password",
-                            border: 16,
-                            isPassword: true,
-                            controller: textPasswordController,
-                          ),
+                              leading: Icons.lock,
+                              hint: "Enter Password",
+                              border: 16,
+                              type: TextInputType.visiblePassword,
+                              isPassword: passwordIsHidden,
+                              controller: textPasswordController,
+                              trailing: IconButton(
+                                icon: const Icon(Icons.remove_red_eye),
+                                onPressed: () {
+                                  setState(() {
+                                    passwordIsHidden = !passwordIsHidden;
+                                  });
+                                },
+                              )),
                           const SizedBox(height: 24),
                           CustomButton(
                               text: "Login",

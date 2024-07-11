@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=3.2.6 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,8 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
   animated_bottom_navigation_bar: ^1.1.0
-  file_picker: ^5.2.2
-  d_chart: 2.6.9
+  file_picker: ^8.0.6
+  d_chart: ^2.7.1
   flutter_bloc: ^8.1.1
   bloc: ^8.1.0
   shared_preferences: ^2.0.15

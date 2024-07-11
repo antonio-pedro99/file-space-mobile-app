@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: d_chart
-      sha256: ca46ca94058075591150bd6c4b93541112d58314bb843873f39e820ee7005d01
+      sha256: de9220411c279a06a8f8d370826c1166b4fe467b2046ad62e910318776232f9e
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.9"
+    version: "2.7.1"
   dio:
     dependency: "direct main"
     description:
@@ -181,10 +181,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: be325344c1f3070354a1d84a231a1ba75ea85d413774ec4bdf444c023342e030
+      sha256: "824f5b9f389bfc4dddac3dea76cd70c51092d9dff0b2ece7ef4f53db8547d258"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "8.0.6"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -803,5 +803,5 @@ packages:
     source: hosted
     version: "1.0.4"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.4.3 <4.0.0"
   flutter: ">=3.22.0"

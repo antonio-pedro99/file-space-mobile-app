@@ -80,6 +80,7 @@ class _SignupPageState extends State<SignupPage> {
                           CustomTextInput(
                             hint: "Complete Name",
                             border: 16,
+                            type: TextInputType.name,
                             leading: Icons.person,
                             controller: textNameController,
                           ),
@@ -89,6 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                           CustomTextInput(
                             hint: "Enter Email",
                             border: 16,
+                            type: TextInputType.emailAddress,
                             controller: textEmailController,
                             leading: Icons.email,
                             /*  validator: (email) {
@@ -104,6 +106,7 @@ class _SignupPageState extends State<SignupPage> {
                           CustomTextInput(
                             hint: "Password",
                             border: 16,
+                            type: TextInputType.visiblePassword,
                             leading: Icons.lock,
                             controller: textPasswordController,
                             isPassword: true,
