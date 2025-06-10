@@ -10,16 +10,20 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepo = UserRepository(FirebaseUserService());
-  UserDetails uDetails = FirebaseUserDetails();
+  UserDetails<User> uDetails = FirebaseUserDetails();
   UserBloc() : super(UserInitial()) {
     on<UserEvent>((event, emit) async {
       if (event is LoadUserSession) {
         if (event.isSigned) {
           emit(UserLoading());
-          final fbUser =
-              await userRepo.getUser().then((value) => value.data) as User?;
-          uDetails = uDetails.fromUser(fbUser!);
-          emit(UserLoaded());
+          var result = await userRepo.getUser();
+          if (result.status!) {
+            uDetails = result.data as UserDetails<User>;
+            emit(UserLoaded(uDetails));
+          } else {
+            emit(UserLoadingError());
+          }
+          //emit(UserLoaded(uDetails));
         } else {
           emit(UserLoadingError());
         }
@@ -27,7 +31,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserLoading());
 
         await userRepo.uploadProfilePicture("user", event.photoUrl!);
-        emit(UserLoaded());
+        emit(UserLoaded(uDetails));
       }
     });
   }

@@ -1,4 +1,4 @@
-import 'package:space_client_app/services/interfaces/custom_response.dart';
+import 'package:space_client_app/services/responses/custom_response.dart';
 import 'package:space_client_app/services/interfaces/user.dart';
 
 import '../models/user.dart';
@@ -23,5 +23,9 @@ class UserRepository {
   Future<ResponseBase> uploadProfilePicture(
       String userId, String filePath) async {
     return await firebaseUserService.uploadProfilePicture(userId, filePath);
+  }
+
+  Future<ResponseBase> updateStorages(String storageId) async {
+    return await firebaseUserService.updateStorages(storageId);
   }
 }

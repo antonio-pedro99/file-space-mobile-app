@@ -1,7 +1,7 @@
 import 'package:space_client_app/data/models/auth/user_login.dart';
 import 'package:space_client_app/data/models/auth/user_register.dart';
 import 'package:space_client_app/services/interfaces/auth.dart';
-import 'package:space_client_app/services/interfaces/custom_response.dart';
+import 'package:space_client_app/services/responses/custom_response.dart';
 
 class AuthRepository {
   bool isSignedIn = false;

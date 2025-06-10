@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/blocs/storage/storage_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
+import 'package:space_client_app/data/models/cloud_storage.dart';
 import 'package:space_client_app/data/models/object.dart';
-import 'package:space_client_app/views/page/category%20content/content.dart';
-import 'package:space_client_app/views/page/desktop/deskotps.dart';
 import 'package:space_client_app/views/page/functions.dart';
-import 'package:space_client_app/views/page/home/widgets/category_tile.dart';
+import 'package:space_client_app/views/page/home/widgets/cloud_storage_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/page/home/widgets/grid_file_tile.dart';
-import 'package:space_client_app/views/page/shared/shared.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/input_text.dart';
 import 'package:space_client_app/views/widgets/sort_navigator.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -24,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isList = true;
 
   var _files = [];
+  var storages = CloudStorage.items;
 
   @override
   void initState() {
@@ -32,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //var size = MediaQuery.of(context).size;
-    var userDetails = context.read<UserBloc>().uDetails.user;
+    var size = MediaQuery.of(context).size;
+    var userDetails = context.read<UserBloc>().uDetails;
 
     return Scaffold(
       body: NestedScrollView(
@@ -47,15 +48,32 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ];
           },
-          body: BlocConsumer<FileBloc, FileState>(
+          body: BlocConsumer<StorageBloc, StorageState>(
             listener: (context, state) {
-              if (state is FileLoaded) {
-                _files = state.files
-                    .where((element) => element.filePath!.startsWith("/files/"))
-                    .toList();
+              print(state);
+              switch (state) {
+                case StorageFilesLoaded():
+                  _files = state.files.map((file) {
+                    if (file is drive.File) {
+                      return PathObject.fromDriveFile(file);
+                    }
+                  }).toList();
+                  break;
+                case StorageError():
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Error loading files")));
+                  break;
+                default:
               }
             },
             builder: (context, state) {
+              var storages = CloudStorage.items.where(
+                  (storage) => userDetails.storages!.contains(storage.id));
+
+              if (state is StorageLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
               return SafeArea(
                   maintainBottomViewPadding: true,
                   top: false,
@@ -72,60 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         const SizedBox(height: 24),
                         SizedBox(
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CategoryTile(
-                                  category: "Computer",
-                                  icon: Icons.computer,
-                                  color: deepPurple,
-                                  onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const DesktopFilesPage(
-                                                  title: "Desktop Files")))),
-                              CategoryTile(
-                                  category: "Folders",
-                                  icon: Icons.folder_rounded,
-                                  color: green,
-                                  onTap: (() => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CategoryContentPage(
-                                                title: "Folders",
-                                                userEmail: userDetails!.email,
-                                                test: (PathObject o) =>
-                                                    o.isFolder!,
-                                              ))))),
-                              CategoryTile(
-                                  category: "Files",
-                                  icon: Icons.insert_drive_file_rounded,
-                                  color: blueOcean,
-                                  onTap: (() => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CategoryContentPage(
-                                                title: "Files",
-                                                userEmail: userDetails!.email,
-                                                test: (PathObject o) =>
-                                                    !o.isFolder!,
-                                              ))))),
-                              CategoryTile(
-                                category: "Shared",
-                                icon: Icons.folder_shared_rounded,
-                                color: purple,
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SharedPage()));
-                                },
-                              ),
-                            ],
+                          child: Wrap(
+                            children: storages
+                                .map((e) => HomeCloudStorageTile(e))
+                                .toList(),
                           ),
                         ),
-                        const SizedBox(height: 18),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

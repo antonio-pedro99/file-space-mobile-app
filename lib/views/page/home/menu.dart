@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/notifications/notifications.dart';
-import 'package:space_client_app/views/page/overview/storage_overview.dart';
 import 'package:space_client_app/views/page/settings/settings.dart';
-import 'package:space_client_app/views/page/upgrade/upgrade.dart';
+import 'package:space_client_app/views/page/storage/config_storage.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +63,6 @@ class CustomDrawer extends StatelessWidget {
                     //     // "${userDetails.getTotalSpacePercentage()} % of ${(userDetails.quotaLimit!.toDouble() / 1024).toStringAsFixed(2)} GB used",
                     //     style: textTheme.labelLarge!.copyWith(fontSize: 14),
                     //   ),
-                    // ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const UpgradeAccountPage()));
-                        },
-                        child: const Text("Upgrade Storage"))
                   ],
                 )),
               ),
@@ -82,10 +72,10 @@ class CustomDrawer extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const NotificationsPage()))),
               ListTile(
-                leading: const Icon(Icons.security_update, color: grey),
-                title: const Text("Upgrade Account"),
+                leading: const Icon(Icons.cloud, color: grey),
+                title: const Text("Configure Storage"),
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const UpgradeAccountPage())),
+                    builder: (context) => const ConfigStoragePage())),
               ),
               ListTile(
                   leading: const Icon(Icons.settings, color: grey),

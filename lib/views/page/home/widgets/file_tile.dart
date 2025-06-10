@@ -14,27 +14,9 @@ import 'package:space_client_app/views/theme/colors.dart';
 
 const magicColors = [deepPurple, green, blueOcean, purple, pink];
 
-mixin FileTileType {}
+mixin MenuActions {}
 
-extension BuildIcon on FileTileType {
-  IconData getIcon(type) {
-    switch (type) {
-      case FileType.music:
-        return Icons.music_note;
-      case FileType.image:
-        return Icons.image;
-      case FileType.video:
-        return Icons.play_arrow;
-      case FileType.document:
-        return Icons.insert_drive_file;
-      case FileType.other:
-        return Icons.insert_drive_file;
-      case FileType.folder:
-        return Icons.folder;
-    }
-    return Icons.abc;
-  }
-
+extension ActionExtensions on MenuActions {
   void openMenu(type, context, name, parent, userEmail) {
     if (type == FileType.folder) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -47,8 +29,8 @@ extension BuildIcon on FileTileType {
   }
 }
 
-class FileTile extends StatelessWidget with FileTileType {
-  const FileTile({Key? key, required this.object}) : super(key: key);
+class FileTile extends StatelessWidget with MenuActions {
+  const FileTile({super.key, required this.object});
 
   final PathObject object;
 
@@ -58,16 +40,16 @@ class FileTile extends StatelessWidget with FileTileType {
 
     var color = Colors.pink;
     //var color = magicColors[math.Random().nextInt(magicColors.length)];
-    var user = context.read<UserBloc>().uDetails.user!;
+    var userDetails = context.read<UserBloc>().uDetails;
     return ListTile(
         onTap: () => openMenu(object.getType(), context, object.fileName,
-            getParentPath(object.filePath!), user.email),
+            getParentPath(object.filePath!), userDetails.user!.email),
         leading: Container(
           height: 45,
           width: 45,
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(8)),
-          child: Icon(getIcon(object.getType())),
+          child: Icon(object.getIcon()),
         ),
         title: Text(
           object.fileName!,
@@ -75,13 +57,12 @@ class FileTile extends StatelessWidget with FileTileType {
               .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         subtitle: object.getType() != FileType.folder
-            ? Text(
-                "${object.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${object.fileSize!.toDouble().getSizeFormat().values.first}")
+            ? Text("Size :${object.isFolder}")
             : Text("Last Modified :${object.modified}"),
         trailing: IconButton(
-          // onPressed: () => showOptions(context, getIcon(object.getType()),
-          //     object, color, object.getType(), user),
-          onPressed: () => {},
+          onPressed: () => showOptions(context, object.getIcon(), object, color,
+              object.getType(), userDetails),
+          // onPressed: () => {},
           icon: const Icon(Icons.more_horiz_outlined),
         ));
   }
@@ -165,9 +146,7 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            !file.isFolder!
-                                ? " ${file.fileSize!.toDouble().getSizeFormat().keys.first.toStringAsFixed(2)} ${file.fileSize!.toDouble().getSizeFormat().values.first}, ${file.modified!}"
-                                : file.modified!,
+                            "Something",
                             style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ],
@@ -221,12 +200,8 @@ void showOptions(BuildContext context, IconData iconData, PathObject file,
                       ListTile(
                         onTap: () => BlocProvider.of<FileBloc>(context)
                             .add(UpdateFile(file, AttributeUpdate.star)),
-                        leading: Icon(file.isStarred!
-                            ? Icons.star_sharp
-                            : Icons.star_outline_outlined),
-                        title: Text(file.isStarred!
-                            ? "Remove from starred"
-                            : "Add to starred"),
+                        leading: Icon(Icons.star_outline_outlined),
+                        title: Text("Add to starred"),
                       ),
                       type != FileType.folder
                           ? const ListTile(

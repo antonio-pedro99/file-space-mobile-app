@@ -7,18 +7,18 @@ import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 import 'package:space_client_app/views/widgets/sort_navigator.dart';
 
-class FolderContentPage extends StatefulWidget {
-  const FolderContentPage(
+class DriveContentPage extends StatefulWidget {
+  const DriveContentPage(
       {super.key, required this.title, required this.parent, this.userEmail});
 
   final String title;
   final String parent;
   final String? userEmail;
   @override
-  State<FolderContentPage> createState() => _MyHomePageState();
+  State<DriveContentPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<FolderContentPage> {
+class _MyHomePageState extends State<DriveContentPage> {
   var folderNameTextController = TextEditingController();
   @override
   void initState() {

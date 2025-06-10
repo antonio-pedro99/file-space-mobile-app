@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
@@ -6,10 +8,9 @@ import 'package:space_client_app/views/page/folder%20content/folder.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
 import 'package:space_client_app/views/page/home/widgets/file_tile.dart';
-import 'dart:math' as math;
 
-class GridFileTile extends StatelessWidget with FileTileType {
-  const GridFileTile({Key? key, required this.object}) : super(key: key);
+class GridFileTile extends StatelessWidget {
+  const GridFileTile({super.key, required this.object});
 
   final PathObject object;
 
@@ -41,11 +42,18 @@ class GridFileTile extends StatelessWidget with FileTileType {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              getIcon(object.getType()),
-              size: 100,
-              color: color,
-            ),
+            (object.hasThumbnail != null && object.hasThumbnail!)
+                ? Image.network(
+                    object.thumbnailLink!,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  )
+                : Icon(
+                    object.getIcon(),
+                    size: 100,
+                    color: color,
+                  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -53,7 +61,7 @@ class GridFileTile extends StatelessWidget with FileTileType {
                     ? IconButton(
                         onPressed: () {},
                         icon: Icon(
-                          getIcon(object.getType()),
+                          object.getIcon(),
                           color: color,
                           size: 18,
                         ),

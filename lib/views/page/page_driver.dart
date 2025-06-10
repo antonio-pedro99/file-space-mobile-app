@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:space_client_app/blocs/file/file_bloc.dart';
+import 'package:space_client_app/blocs/storage/storage_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
 import 'package:space_client_app/views/page/functions.dart';
 import 'package:space_client_app/views/page/home/menu.dart';
 import 'package:space_client_app/views/page/pages.dart';
+import 'package:space_client_app/views/page/storage/config_storage.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class PageDriver extends StatefulWidget {
-  const PageDriver({Key? key}) : super(key: key);
+  const PageDriver({super.key});
 
   @override
   State<PageDriver> createState() => _PageDriverState();
@@ -69,6 +71,20 @@ class _PageDriverState extends State<PageDriver> {
         listener: (context, state) {
           if (state is UserLoaded) {
             //BlocProvider.of<FileBloc>(context).add(LoadFiles(user.user.email!));
+            print("User loaded with ${state.userDetails.storages}");
+            var storages = state.userDetails.storages;
+            if (storages != null && storages.isNotEmpty) {
+              print("Storages are not empty");
+            } else {
+              print("Storages are empty or does not exist");
+              // go to the storage page
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const ConfigStoragePage(
+                        message:
+                            "You have no storage.\nSetup your cloud storage before you proceed",
+                      )));
+            }
+            BlocProvider.of<StorageBloc>(context).add(StorageFilesEvent());
           }
         },
         builder: (context, state) {
@@ -83,10 +99,10 @@ class _PageDriverState extends State<PageDriver> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                        content: SizedBox(
+                        content: const SizedBox(
                           height: 50,
                           child: Column(
-                            children: const [
+                            children: [
                               LinearProgressIndicator(),
                             ],
                           ),
@@ -96,8 +112,9 @@ class _PageDriverState extends State<PageDriver> {
                             borderRadius: BorderRadius.circular(15))));
               } else if (state is FileUploaded) {
                 Navigator.of(context).pop();
-                BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user!.email!));
+                // BlocProvider.of<FileBloc>(context)
+                //     .add(LoadFiles(user.user!.email!));
+                BlocProvider.of<StorageBloc>(context).add(StorageFilesEvent());
               } else if (state is FileDownUploadError) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Colors.red,
@@ -109,10 +126,10 @@ class _PageDriverState extends State<PageDriver> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                        content: SizedBox(
+                        content: const SizedBox(
                           height: 50,
                           child: Column(
-                            children: const [
+                            children: [
                               LinearProgressIndicator(),
                             ],
                           ),
@@ -123,8 +140,9 @@ class _PageDriverState extends State<PageDriver> {
               } else if (state is FileDownloaded) {
                 Navigator.of(context).pop();
               } else if (state is FileDeleted) {
-                BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user!.email!));
+                // BlocProvider.of<FileBloc>(context)
+                //     .add(LoadFiles(user.user!.email!));
+                BlocProvider.of<StorageBloc>(context).add(StorageFilesEvent());
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
@@ -134,10 +152,10 @@ class _PageDriverState extends State<PageDriver> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                        content: SizedBox(
+                        content: const SizedBox(
                           height: 50,
                           child: Column(
-                            children: const [
+                            children: [
                               LinearProgressIndicator(),
                             ],
                           ),
@@ -274,13 +292,9 @@ class _PageDriverState extends State<PageDriver> {
           activeIndex: currentPage,
           onTap: (v) {
             setState(() {
-              /*  if (v == 0) {
-                BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user.email!));
-              } else if (v == 1) {
-                BlocProvider.of<FileBloc>(context)
-                    .add(LoadFiles(user.user.email!));
-              } */
+              if (v == 0 || v == 1) {
+                BlocProvider.of<StorageBloc>(context).add(StorageFilesEvent());
+              }
               controller.animateToPage(v,
                   duration: const Duration(microseconds: 800),
                   curve: Curves.easeIn);

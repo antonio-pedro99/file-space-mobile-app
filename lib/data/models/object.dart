@@ -1,4 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:space_client_app/views/page/home/enums.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
+
+enum GoogleDriveMimeType {
+  folder,
+  document,
+  audio,
+  photo,
+  file,
+  video,
+  spreadsheet,
+  presentation,
+  script,
+  form,
+  drawing
+}
 
 class PathObject {
   String? objectId;
@@ -6,9 +22,12 @@ class PathObject {
   String? modified;
   String? fileName;
   String? fileExtension;
-  int? fileSize;
+  dynamic fileSize;
   bool? isStarred;
   String? filePath;
+  bool? hasThumbnail;
+  String? thumbnailLink;
+  String? driveId;
 
   PathObject(
       {this.objectId,
@@ -17,7 +36,11 @@ class PathObject {
       this.fileName,
       this.fileExtension,
       this.fileSize,
-      this.filePath});
+      this.isStarred,
+      this.filePath,
+      this.hasThumbnail,
+      this.thumbnailLink,
+      this.driveId});
 
   PathObject.fromJson(Map<String, dynamic> json) {
     objectId = json['object_id'];
@@ -28,6 +51,20 @@ class PathObject {
     fileExtension = json['file_extension'];
     fileSize = json['file_size'];
     filePath = json['file_path'];
+  }
+
+  PathObject.fromDriveFile(drive.File file) {
+    objectId = file.id;
+    isFolder = file.mimeType == "application/vnd.google-apps.folder";
+    modified = file.modifiedTime.toString();
+    fileName = file.name;
+    fileExtension = file.fileExtension ?? file.mimeType;
+    fileSize = file.size;
+    filePath = file.id;
+    hasThumbnail = file.hasThumbnail;
+    thumbnailLink = file.thumbnailLink;
+    driveId = file.driveId;
+    isStarred = file.starred;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,23 +81,48 @@ class PathObject {
   }
 }
 
-extension GetPathType on PathObject {
+extension PathObjectExtension on PathObject {
   FileType getType() {
-    switch (fileExtension) {
-      case "mp3":
-        return FileType.music;
-      case "png":
-      case "jpeg":
-      case "jpg":
+    print("Extension: $fileExtension");
+    if (AppFileSupportedExtensions.media.contains(fileExtension)) {
+      if (fileExtension == 'application/vnd.google-apps.photo' ||
+          fileExtension == 'image/jpeg' ||
+          fileExtension == 'image/png') {
         return FileType.image;
-      case "mp4":
-      case "mov":
-      case "avi":
+      } else if (fileExtension == 'application/vnd.google-apps.video' ||
+          fileExtension == 'video./mp4') {
         return FileType.video;
-      case "folder":
-        return FileType.folder;
-      default:
-        return FileType.document;
+      } else if (fileExtension == 'application/vnd.google-apps.audio' ||
+          fileExtension == 'audio/mp3') {
+        return FileType.music;
+      } else {
+        return FileType.other;
+      }
+    } else if (AppFileSupportedExtensions.docs.contains(fileExtension)) {
+      return FileType.document;
+    } else if (AppFileSupportedExtensions.other.contains(fileExtension)) {
+      return FileType.other;
+    } else if (AppFileSupportedExtensions.folder.contains(fileExtension)) {
+      return FileType.folder;
+    } else {
+      return FileType.other;
+    }
+  }
+
+  IconData getIcon() {
+    switch (getType()) {
+      case FileType.music:
+        return Icons.music_note;
+      case FileType.image:
+        return Icons.image;
+      case FileType.video:
+        return Icons.play_arrow;
+      case FileType.document:
+        return Icons.insert_drive_file;
+      case FileType.other:
+        return Icons.insert_drive_file;
+      case FileType.folder:
+        return Icons.folder;
     }
   }
 }

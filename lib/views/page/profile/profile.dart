@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_client_app/blocs/auth/auth_bloc.dart';
 import 'package:space_client_app/blocs/user/user_bloc.dart';
+import 'package:space_client_app/data/models/cloud_storage.dart';
 
 import 'package:space_client_app/views/page/auth/login.dart';
 import 'package:space_client_app/views/page/overview/storage_overview.dart';
-import 'package:space_client_app/views/page/upgrade/upgrade.dart';
+import 'package:space_client_app/views/page/profile/widgets/storage_connection_tile.dart';
+import 'package:space_client_app/views/page/storage/config_storage.dart';
 import 'package:space_client_app/views/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,11 +17,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<ProfilePage> {
+  final cloudStorages = CloudStorage.items;
   @override
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
     var textTheme = Theme.of(context).textTheme;
-    var userDetails = context.read<UserBloc>().uDetails.user;
+    var userDetails = context.read<UserBloc>().uDetails;
 
     return Scaffold(
       body: NestedScrollView(
@@ -81,8 +84,7 @@ class _MyHomePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Empty",
-                                    //"${userDetails.name}",
+                                Text("${userDetails.user!.displayName}",
                                     style: textTheme.headlineMedium),
                                 Text(
                                   "Basic Plan",
@@ -97,8 +99,8 @@ class _MyHomePageState extends State<ProfilePage> {
                                 onPressed: () => Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const UpgradeAccountPage())),
-                                child: const Text("Upgrade"))
+                                            const ConfigStoragePage())),
+                                child: const Text("Add Storage"))
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -120,7 +122,7 @@ class _MyHomePageState extends State<ProfilePage> {
                                   fontSize: 16, fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              "${userDetails.email}",
+                              "${userDetails.user!.email}",
                               style: textTheme.labelLarge!.copyWith(
                                   fontSize: 14, fontWeight: FontWeight.w300),
                             ),
@@ -168,7 +170,7 @@ class _MyHomePageState extends State<ProfilePage> {
                         const Divider(),
                         const SizedBox(height: 24),
                         Text(
-                          "Rewards",
+                          "Connections",
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge!
@@ -176,36 +178,20 @@ class _MyHomePageState extends State<ProfilePage> {
                                   fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Get free storage",
-                              style: textTheme.labelLarge!.copyWith(
-                                  fontSize: 16, fontWeight: FontWeight.w300),
-                            ),
-                            Text(
-                              "Invite Friends",
-                              style: textTheme.labelLarge!.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.w300),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "My Earnings",
-                              style: textTheme.labelLarge!.copyWith(
-                                  fontSize: 16, fontWeight: FontWeight.w300),
-                            ),
-                            Text(
-                              "250 MB",
-                              style: textTheme.labelLarge!.copyWith(
-                                  fontSize: 14, fontWeight: FontWeight.w300),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 50,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: userDetails.storages!.length,
+                            itemBuilder: (context, index) {
+                              cloudStorages.where((element) =>
+                                  userDetails.storages!.contains(element.id));
+                              return CloudStorageConnectionTile(
+                                  cloudStorage: cloudStorages[index]);
+                            },
+                          ),
                         ),
                         const SizedBox(height: 24),
                         Text(

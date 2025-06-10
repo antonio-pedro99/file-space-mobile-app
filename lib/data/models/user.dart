@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class UserDetails<T> {
   T? user;
   String? id;
+  abstract List<dynamic>? storages;
 
-  UserDetails({this.user, this.id});
+  UserDetails({this.user, this.id, storages});
 
   UserDetails fromMap(Map<String, dynamic> map);
 
@@ -14,11 +15,19 @@ abstract class UserDetails<T> {
 }
 
 class FirebaseUserDetails extends UserDetails<User> {
-  FirebaseUserDetails({super.user, id});
+
+  @override
+  List<dynamic>? storages = [];
+
+  FirebaseUserDetails({super.user, id, this.storages});
 
   @override
   UserDetails fromMap(Map<String, dynamic> map) {
-    throw UnimplementedError();
+    var storages = map['storages'] as List<dynamic>;
+    return FirebaseUserDetails(
+        user: FirebaseAuth.instance.currentUser,
+        id: map['id'],
+        storages: storages);
   }
 
   @override
@@ -32,7 +41,8 @@ class FirebaseUserDetails extends UserDetails<User> {
       'id': user!.uid,
       'email': user!.email,
       'displayName': user!.displayName,
-      'photoUrl': user!.photoURL
+      'photoUrl': user!.photoURL,
+      'storages': storages
     };
   }
 }

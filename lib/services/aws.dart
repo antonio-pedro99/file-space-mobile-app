@@ -7,7 +7,7 @@ import 'package:space_client_app/amplifyconfiguration.dart';
 
 class AmplifyController {
   final amplify = Amplify;
-  late final StreamSubscription subscription;
+  late final StreamCloudStorage CloudStorage;
 
   Future<void> configureAmplify() async {
     final auth = AmplifyAuthCognito();
@@ -17,7 +17,7 @@ class AmplifyController {
       await amplify.addPlugins([auth, storage]);
       await amplify.configure(amplifyconfig);
 
-      subscription = Amplify.Hub.listen([HubChannel.Auth], (event) {
+      CloudStorage = Amplify.Hub.listen([HubChannel.Auth], (event) {
         /* switch (event.eventName) {
           case 'SIGNED_IN':
             

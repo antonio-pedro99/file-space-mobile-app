@@ -22,7 +22,7 @@ class WorkSpaceTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 180,
+        height: 200,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration:
             BoxDecoration(color: blue, borderRadius: BorderRadius.circular(16)),
@@ -98,7 +98,11 @@ class WorkSpaceTile extends StatelessWidget {
               const SizedBox(height: 12),
               Text(space),
               const SizedBox(height: 4),
-              const LinearProgressIndicator(),
+              const LinearProgressIndicator(
+                value: 0.5,
+                backgroundColor: lightGrey,
+                valueColor: AlwaysStoppedAnimation<Color>(purple),
+              ),
               const SizedBox(height: 12),
               Text(
                 joiningDate,
